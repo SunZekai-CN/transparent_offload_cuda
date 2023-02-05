@@ -172,6 +172,8 @@ private:
 
 /* CudnnHandler.cpp */
 CUDNN_ROUTINE_HANDLER(GetVersion);
+CUDNN_ROUTINE_HANDLERR(GetCudartVersion);
+CUDNN_ROUTINE_HANDLER(BackendExecute);
 CUDNN_ROUTINE_HANDLER(GetErrorString);
 CUDNN_ROUTINE_HANDLER(Create);
 CUDNN_ROUTINE_HANDLER(Destroy);
