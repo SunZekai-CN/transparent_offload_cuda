@@ -97,34 +97,32 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendExecute(cudnnHandle_t handle, c
     CudnnFrontend::Execute("cudnnBackendExecute");
     return CudnnFrontend::GetExitCode();
 }
-extern "C" cudnnStatus_t cudnnBackendCreateDescriptor(cudnnBackendDescriptorType_t descriptorType, cudnnBackendDescriptor_t *descriptor){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendCreateDescriptor(cudnnBackendDescriptorType_t descriptorType, cudnnBackendDescriptor_t *descriptor){
     CudnnFrontend::Prepare();
     CudnnFrontend::AddDevicePointerForArguments<cudnnBackendDescriptor_t>(descriptor);
     CudnnFrontend::AddHostPointerForArguments<cudnnBackendDescriptor_t>((cudnnBackendDescriptor_t *)descriptor);
     CudnnFrontend::Execute("cudnnBackendCreateDescriptor");
     return CudnnFrontend::GetExitCode();
 }
-extern "C" cudnnStatus_t cudnnBackendDestroyDescriptor(cudnnBackendDescriptor_t descriptor){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendDestroyDescriptor(cudnnBackendDescriptor_t descriptor){
     CudnnFrontend::Prepare();
     CudnnFrontend::AddDevicePointerForArguments<cudnnBackendDescriptor_t>(descriptor);
     CudnnFrontend::Execute("cudnnBackendDestroyDescriptor");
     return CudnnFrontend::GetExitCode();
 }
-extern "C" cudnnStatus_t cudnnbBackendFinalize(cudnnBackendDescriptor_t descriptor){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnbBackendFinalize(cudnnBackendDescriptor_t descriptor){
     CudnnFrontend::Prepare();
     CudnnFrontend::AddDevicePointerForArguments<cudnnBackendDescriptor_t>(descriptor);
     CudnnFrontend::Execute("cudnnbBackendFinalize");
     return CudnnFrontend::GetExitCode();
 }
-extern "C" cudnnStatus_t cudnnBackendInitialize(cudnnBackendDescriptor_t descriptor, cudnnBackendDescriptorType_t descriptorType, size_t sizeInBytes){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendInitialize(cudnnBackendDescriptor_t descriptor){
     CudnnFrontend::Prepare();
     CudnnFrontend::AddDevicePointerForArguments<cudnnBackendDescriptor_t>(descriptor);
-    CudnnFrontend::AddDevicePointerForArguments<cudnnBackendDescriptorType_t>(descriptorType);
-    CudnnFrontend::AddDevicePointerForArguments<size_t>(sizeInBytes);
     CudnnFrontend::Execute("cudnnBackendInitialize");
     return CudnnFrontend::GetExitCode();
 }
-extern "C" cudnnStatus_t cudnnBackendGetAttribute(
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendGetAttribute(
     cudnnBackendDescriptor_t descriptor,
     cudnnBackendAttributeName_t attributeName,
     cudnnBackendAttributeType_t attributeType,
@@ -143,7 +141,7 @@ extern "C" cudnnStatus_t cudnnBackendGetAttribute(
     }
     return CudnnFrontend::GetExitCode();
     }
-extern "C"  cudnnStatus_t cudnnBackendSetAttribute(
+extern "C"  cudnnStatus_t CUDNNWINAPI cudnnBackendSetAttribute(
     cudnnBackendDescriptor_t descriptor,
     cudnnBackendAttributeName_t attributeName,
     cudnnBackendAttributeType_t attributeType,

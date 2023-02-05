@@ -1293,7 +1293,7 @@ CUDNN_ROUTINE_HANDLER(BackendDestroyDescriptor){
 CUDNN_ROUTINE_HANDLER(BackendFinalize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendFinalize"));
     cudnnBackendDescriptor_t descriptor = (cudnnBackendDescriptor_t)in->Get<cudnnBackendDescriptor_t>();
-    cudnnStatus_t cs = cudnnbBackendFinalize(descriptor);
+    cudnnStatus_t cs = cudnnBackendFinalize(descriptor);
      LOG4CPLUS_DEBUG(logger," cudnnbBackendFinalize Executed");
    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
     return std::make_shared<Result>(cs);
@@ -1302,9 +1302,7 @@ CUDNN_ROUTINE_HANDLER(BackendFinalize){
 CUDNN_ROUTINE_HANDLER(BackendInitialize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendInitialize"));
     cudnnBackendDescriptor_t descriptor = (cudnnBackendDescriptor_t)in->Get<cudnnBackendDescriptor_t>();
-    cudnnBackendDescriptorType_t descriptorType = (cudnnBackendDescriptorType_t)in->Get<cudnnBackendDescriptorType_t>();
-    size_t sizeInBytes = (size_t)in->Get<size_t>();
-    cudnnStatus_t cs = cudnnBackendInitialize(descriptor, descriptorType, sizeInBytes);
+    cudnnStatus_t cs = cudnnBackendInitialize(descriptor);
     
      LOG4CPLUS_DEBUG(logger," cudnnBackendInitialize Executed");
    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
