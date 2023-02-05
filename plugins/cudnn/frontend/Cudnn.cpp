@@ -38,12 +38,12 @@ extern "C" size_t CUDNNWINAPI cudnnGetVersion(){
     return CudnnFrontend::GetExitCode();
 }
 
-extern "C" size_t CUDNNWINAPI cudnnGetCudartVersion(){
-    CudnnFrontend::Prepare();
+// extern "C" size_t CUDNNWINAPI cudnnGetCudartVersion(){
+//     CudnnFrontend::Prepare();
     
-    CudnnFrontend::Execute("cudnnGetCudartVersion"); 
-    return CudnnFrontend::GetExitCode();
-}
+//     CudnnFrontend::Execute("cudnnGetCudartVersion"); 
+//     return CudnnFrontend::GetExitCode();
+// }
 
 extern "C" const char * CUDNNWINAPI cudnnGetErrorString(cudnnStatus_t status){
     CudnnFrontend::Prepare();
