@@ -1187,6 +1187,14 @@ CUDNN_ROUTINE_HANDLER(GetVersion){
     return std::make_shared<Result>(version);
 }
 
+CUDNN_ROUTINE_HANDLER(GetCudartVersion){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetCudartVersion"));
+
+    size_t version = cudnnGetCudartVersion();
+    LOG4CPLUS_DEBUG(logger,"cudnnGetCudartVersion Executed");
+    return std::make_shared<Result>(version);
+}
+
 CUDNN_ROUTINE_HANDLER(GetErrorString){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("GetErrorString"));
     cudnnStatus_t cs = in->Get<cudnnStatus_t>();
