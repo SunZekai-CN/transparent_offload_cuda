@@ -89,6 +89,14 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetStream(cudnnHandle_t handle, cudaSt
     return CudnnFrontend::GetExitCode();
 }
 */
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendExecute(cudnnHandle_t handle, cudnnBackendDescriptor_t executionPlan, cudnnBackendDescriptor_t varianPack){
+    CudnnFrontend::Prepare();
+    CudnnFrontend::AddDevicePointerForArguments(handle);
+    CudnnFrontend::AddDevicePointerForArguments(executionPlan);
+    CudnnFrontend::AddDevicePointerForArguments(varianPack);
+    CudnnFrontend::Execute("cudnnBackendExecute");
+    return CudnnFrontend::GetExitCode();
+}
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreateTensorDescriptor(cudnnTensorDescriptor_t *tensorDesc){
     CudnnFrontend::Prepare();
 

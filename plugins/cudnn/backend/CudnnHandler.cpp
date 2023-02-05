@@ -90,6 +90,8 @@ void CudnnHandler::Initialize(){
 
     /* CublasHandler Query Platform Info */
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetVersion));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetCudartVersion));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendExecute));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetErrorString));   
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(Create));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(Destroy));
@@ -1244,6 +1246,18 @@ CUDNN_ROUTINE_HANDLER(SetStream){
     cudaStream_t streamId = (cudaStream_t) in->Get<long long int>();
 
     cudnnStatus_t cs = cudnnSetStream(handle,streamId);
+    
+     LOG4CPLUS_DEBUG(logger," cudnnSetStream Executed");
+   //cout << "DEBUG - cudnnSetStream Executed"<<endl;
+    return std::make_shared<Result>(cs);
+}
+
+CUDNN_ROUTINE_HANDLER(BackendExecute){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendExecute"));
+    cudnnHandle_t handle = (cudnnHandle_t)in->Get<long long int>();
+    cudnnBackendDescriptor_t executionPlan = (cudnnBackendDescriptor_t)in->Get<long long int>();
+    cudnnBackendDescriptor_t varianPack = (cudnnBackendDescriptor_t)in->Get<long long int>();
+    cudnnStatus_t cs = cudnnBackendExecute(handle, executionPlan, varianPack);
     
      LOG4CPLUS_DEBUG(logger," cudnnSetStream Executed");
    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
