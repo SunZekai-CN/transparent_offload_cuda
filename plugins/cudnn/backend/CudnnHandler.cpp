@@ -95,7 +95,7 @@ void CudnnHandler::Initialize(){
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendCreateDescriptor));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendDestroyDescriptor));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendFinalize));
-    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(ackendInitialize));
+    mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendInitialize));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendGetAttribute));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(BackendSetAttribute));
     mspHandlers->insert(CUDNN_ROUTINE_HANDLER_PAIR(GetErrorString));   
