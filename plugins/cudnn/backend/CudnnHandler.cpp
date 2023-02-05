@@ -1273,8 +1273,8 @@ CUDNN_ROUTINE_HANDLER(BackendExecute){
 CUDNN_ROUTINE_HANDLER(BackendCreateDescriptor){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendCreateDescriptor"));
     cudnnBackendDescriptorType_t descriptorType = (cudnnBackendDescriptorType_t)in->Get<cudnnBackendDescriptorType_t>();
-    cudnnBackendDescriptor_t *descriptor = in->Assign<icudnnBackendDescriptor_t>();
-    cudnnStatus_t cs = cudnnBackendCreateDescriptor(descriptorType, cudnnBackendDescriptor_t *descriptor);
+    cudnnBackendDescriptor_t *descriptor = in->Assign<cudnnBackendDescriptor_t>();
+    cudnnStatus_t cs = cudnnBackendCreateDescriptor(descriptorType, descriptor);
     
      LOG4CPLUS_DEBUG(logger," cudnnBackendCreateDescriptor Executed");
    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
@@ -1284,7 +1284,7 @@ CUDNN_ROUTINE_HANDLER(BackendCreateDescriptor){
 CUDNN_ROUTINE_HANDLER(BackendDestroyDescriptor){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendDestroyDescriptor"));
     cudnnBackendDescriptor_t descriptor = (cudnnBackendDescriptor_t)in->Get<cudnnBackendDescriptor_t>();
-    cudnnStatus_t cs = cudnnBackendDestroyDescriptor(descriptor)
+    cudnnStatus_t cs = cudnnBackendDestroyDescriptor(descriptor);
      LOG4CPLUS_DEBUG(logger," cudnnBackendDestroyDescriptor Executed");
    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
     return std::make_shared<Result>(cs);
@@ -1293,7 +1293,7 @@ CUDNN_ROUTINE_HANDLER(BackendDestroyDescriptor){
 CUDNN_ROUTINE_HANDLER(BackendFinalize){
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendFinalize"));
     cudnnBackendDescriptor_t descriptor = (cudnnBackendDescriptor_t)in->Get<cudnnBackendDescriptor_t>();
-    cudnnStatus_t cs = cudnnbBackendFinalize(descriptor)
+    cudnnStatus_t cs = cudnnbBackendFinalize(descriptor);
      LOG4CPLUS_DEBUG(logger," cudnnbBackendFinalize Executed");
    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
     return std::make_shared<Result>(cs);
@@ -1319,7 +1319,7 @@ CUDNN_ROUTINE_HANDLER(BackendGetAttribute){
     int64_t requestedElementCount = (int64_t)in->Get<int64_t>();
     int64_t *elementCount;
     void *arrayOfElements;
-    cudnnStatus_t cs = cudnnBackendGetAttribute(descriptor,attributeName,attributeType,requestedElementCount,elementCount,arrayOfElements)
+    cudnnStatus_t cs = cudnnBackendGetAttribute(descriptor,attributeName,attributeType,requestedElementCount,elementCount,arrayOfElements);
     
     std::shared_ptr<Buffer> out = std::make_shared<Buffer>();
     try{
