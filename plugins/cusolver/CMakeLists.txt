@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.10.2)
 project(gvirtus-plugin-cusolver)
 find_package(CUDA REQUIRED)
 
