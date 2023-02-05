@@ -91,7 +91,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetStream(cudnnHandle_t handle, cudaSt
 */
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendExecute(cudnnHandle_t handle, cudnnBackendDescriptor_t executionPlan, cudnnBackendDescriptor_t varianPack){
     CudnnFrontend::Prepare();
-    CudnnFrontend::AddVariableForArguments<cudnnHandle_t>(handle);
+    CudnnFrontend::AddDevicePointerForArguments(handle);
     CudnnFrontend::AddVariableForArguments<cudnnBackendDescriptor_t>(executionPlan);
     CudnnFrontend::AddVariableForArguments<cudnnBackendDescriptor_t>(varianPack);
     CudnnFrontend::Execute("cudnnBackendExecute");
