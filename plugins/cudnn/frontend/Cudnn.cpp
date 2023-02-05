@@ -136,7 +136,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendGetAttribute(
     CudnnFrontend::AddVariableForArguments<int64_t>(requestedElementCount);
     CudnnFrontend::Execute("cudnnBackendGetAttribute");
      if (CudnnFrontend::Success()){
-        elementCount = (int64_t *)CudnnFrontend::GetOutputDevicePointer<int64_t>();
+        elementCount = (int64_t *)CudnnFrontend::GetOutputDevicePointer();
         arrayOfElements = CudnnFrontend::GetOutputDevicePointer();
     }
     return CudnnFrontend::GetExitCode();
