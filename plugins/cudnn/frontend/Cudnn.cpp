@@ -146,14 +146,14 @@ extern "C"  cudnnStatus_t CUDNNWINAPI cudnnBackendSetAttribute(
     cudnnBackendAttributeName_t attributeName,
     cudnnBackendAttributeType_t attributeType,
     int64_t elementCount,
-    void *arrayOfElements){
+    const void *arrayOfElements){
     CudnnFrontend::Prepare();
 
     CudnnFrontend::AddVariableForArguments<cudnnBackendDescriptor_t>(descriptor);
     CudnnFrontend::AddVariableForArguments<cudnnBackendAttributeName_t>(attributeName);
     CudnnFrontend::AddVariableForArguments<cudnnBackendAttributeType_t>(attributeType);
     CudnnFrontend::AddVariableForArguments<int64_t>(elementCount);
-    CudnnFrontend::AddHostPointerForArguments(arrayOfElements);
+    CudnnFrontend::AddDevicePointerForArguments(arrayOfElements);
     
      CudnnFrontend::Execute("cudnnBackendSetAttribute");
    
