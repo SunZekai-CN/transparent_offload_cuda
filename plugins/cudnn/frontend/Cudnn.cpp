@@ -141,24 +141,24 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendGetAttribute(
     }
     return CudnnFrontend::GetExitCode();
     }
-// extern "C"  cudnnStatus_t CUDNNWINAPI cudnnBackendSetAttribute(
-//     cudnnBackendDescriptor_t descriptor,
-//     cudnnBackendAttributeName_t attributeName,
-//     cudnnBackendAttributeType_t attributeType,
-//     int64_t elementCount,
-//     void *arrayOfElements){
-//     CudnnFrontend::Prepare();
+extern "C"  cudnnStatus_t CUDNNWINAPI cudnnBackendSetAttribute(
+    cudnnBackendDescriptor_t descriptor,
+    cudnnBackendAttributeName_t attributeName,
+    cudnnBackendAttributeType_t attributeType,
+    int64_t elementCount,
+    void *arrayOfElements){
+    CudnnFrontend::Prepare();
 
-//     CudnnFrontend::AddVariableForArguments<cudnnBackendDescriptor_t>(descriptor);
-//     CudnnFrontend::AddVariableForArguments<cudnnBackendAttributeType_t>(attributeName);
-//     CudnnFrontend::AddVariableForArguments<cudnnBackendAttributeType_t>(attributeType);
-//     CudnnFrontend::AddVariableForArguments<int64_t>(elementCount);
-//     CudnnFrontend::AddHostPointerForArguments(arrayOfElements);
+    CudnnFrontend::AddVariableForArguments<cudnnBackendDescriptor_t>(descriptor);
+    CudnnFrontend::AddVariableForArguments<cudnnBackendAttributeType_t>(attributeName);
+    CudnnFrontend::AddVariableForArguments<cudnnBackendAttributeType_t>(attributeType);
+    CudnnFrontend::AddVariableForArguments<int64_t>(elementCount);
+    CudnnFrontend::AddHostPointerForArguments(arrayOfElements);
     
-//      CudnnFrontend::Execute("cudnnBackendSetAttribute");
+     CudnnFrontend::Execute("cudnnBackendSetAttribute");
    
-//      return CudnnFrontend::GetExitCode();
-//     }
+     return CudnnFrontend::GetExitCode();
+    }
 
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnCreateTensorDescriptor(cudnnTensorDescriptor_t *tensorDesc){
     CudnnFrontend::Prepare();

@@ -1333,19 +1333,19 @@ CUDNN_ROUTINE_HANDLER(BackendGetAttribute){
     return std::make_shared<Result>(cs,out);
 }
 
-// CUDNN_ROUTINE_HANDLER(BackendSetAttribute){
-//     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendSetAttribute"));
-//     cudnnBackendDescriptor_t descriptor = (cudnnBackendDescriptor_t)in->Get<long long int>();
-//     cudnnBackendAttributeName_t attributeName = (cudnnBackendAttributeName_t)in->Get<long long int>();
-//     cudnnBackendAttributeType_t attributeType = (cudnnBackendAttributeType_t)in->Get<long long int>();
-//     int64_t elementCount = (int64_t)in->Get<int64_t>();
-//     void *arrayOfElements = in->Assign<void>();
-//     cudnnStatus_t cs = cudnnBackendSetAttribute(descriptor,attributeName,attributeType,elementCount,arrayOfElements);
+CUDNN_ROUTINE_HANDLER(BackendSetAttribute){
+    Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("BackendSetAttribute"));
+    cudnnBackendDescriptor_t descriptor = (cudnnBackendDescriptor_t)in->Get<long long int>();
+    cudnnBackendAttributeName_t attributeName = (cudnnBackendAttributeName_t)in->Get<long long int>();
+    cudnnBackendAttributeType_t attributeType = (cudnnBackendAttributeType_t)in->Get<long long int>();
+    int64_t elementCount = (int64_t)in->Get<int64_t>();
+    void *arrayOfElements = in->Assign<void>();
+    cudnnStatus_t cs = cudnnBackendSetAttribute(descriptor,attributeName,attributeType,elementCount,arrayOfElements);
     
-//      LOG4CPLUS_DEBUG(logger," cudnnBackendSetAttribute Executed");
-//    //cout << "DEBUG - cudnnSetStream Executed"<<endl;
-//     return std::make_shared<Result>(cs);
-// }
+     LOG4CPLUS_DEBUG(logger," cudnnBackendSetAttribute Executed");
+   //cout << "DEBUG - cudnnSetStream Executed"<<endl;
+    return std::make_shared<Result>(cs);
+}
 
 
 CUDNN_ROUTINE_HANDLER(GetStream){
