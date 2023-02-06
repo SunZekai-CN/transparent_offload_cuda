@@ -110,7 +110,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendDestroyDescriptor(cudnnBackendD
     CudnnFrontend::Execute("cudnnBackendDestroyDescriptor");
     return CudnnFrontend::GetExitCode();
 }
-extern "C" cudnnStatus_t CUDNNWINAPI cudnnbBackendFinalize(cudnnBackendDescriptor_t descriptor){
+extern "C" cudnnStatus_t CUDNNWINAPI cudnnBackendFinalize(cudnnBackendDescriptor_t descriptor){
     CudnnFrontend::Prepare();
     CudnnFrontend::AddVariableForArguments<cudnnBackendDescriptor_t>(descriptor);
     CudnnFrontend::Execute("cudnnbBackendFinalize");
