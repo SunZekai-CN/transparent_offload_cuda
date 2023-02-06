@@ -5241,7 +5241,6 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnDestroyCTCLossDescriptor(cudnnCTCLossD
    return CudnnFrontend::GetExitCode();
 }
 
-#if CUDNN_VERSION < 8204
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnCTCLoss(cudnnHandle_t handle,
     						  const cudnnTensorDescriptor_t
         					  probsDesc,       
@@ -5279,7 +5278,6 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnCTCLoss(cudnnHandle_t handle,
      }
      return CudnnFrontend::GetExitCode();
 }
-#endif
 
 extern "C" cudnnStatus_t CUDNNWINAPI cudnnGetCTCLossWorkspaceSize(cudnnHandle_t handle,
     								  const cudnnTensorDescriptor_t probsDesc, 
