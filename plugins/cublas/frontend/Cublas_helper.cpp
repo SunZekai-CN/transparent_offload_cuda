@@ -485,7 +485,29 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSetMathMode(cublasHandle_
     printf("cublasSetMathMode undone\n");
     assert(0);
 }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGemmEx(cublasHandle_t handle,
+                           cublasOperation_t transa,
+                           cublasOperation_t transb,
+                           int m,
+                           int n,
+                           int k,
+                           const void    *alpha,
+                           const void     *A,
+                           cudaDataType_t Atype,
+                           int lda,
+                           const void     *B,
+                           cudaDataType_t Btype,
+                           int ldb,
+                           const void    *beta,
+                           void           *C,
+                           cudaDataType_t Ctype,
+                           int ldc,
+                           cublasComputeType_t computeType,
+                           cublasGemmAlgo_t algo){
+    printf("cublasGemmEx undone\n");
+    assert(0);
+}                        
+                           }
 
 
 
