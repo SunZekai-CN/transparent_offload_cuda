@@ -507,7 +507,6 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGemmEx(cublasHandle_t han
     printf("cublasGemmEx undone\n");
     assert(0);
 }                        
-                           }
 
 
 
