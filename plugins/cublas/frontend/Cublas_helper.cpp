@@ -231,7 +231,10 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgetrsBatched(cublasHandl
     printf("cublasZgetrsBatched undone\n");
     assert(0);
                                    }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGetMathMode(cublasHandle_t handle, cublasMath_t *mode){
+    printf("cublasGetMathMode undone\n");
+    assert(0);
+}
 
 
 
