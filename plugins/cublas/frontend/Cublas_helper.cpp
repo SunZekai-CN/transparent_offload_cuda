@@ -239,6 +239,36 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceDestroy
     printf("cublasLtMatmulPreferenceDestroy undone\n");
     assert(0);
       }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgelsBatched( cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int m,
+                                   int n,
+                                   int nrhs,
+                                   double *const Aarray[],
+                                   int lda,
+                                   double *const Carray[],
+                                   int ldc,
+                                   int *info,
+                                   int *devInfoArray,
+                                   int batchSize ){
+    printf("cublasDgelsBatched undone\n");
+    assert(0);
+                                   }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgelsBatched( cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int m,
+                                   int n,
+                                   int nrhs,
+                                   cuComplex *const Aarray[],
+                                   int lda,
+                                   cuComplex *const Carray[],
+                                   int ldc,
+                                   int *info,
+                                   int *devInfoArray,
+                                   int batchSize ){
+    printf("cublasCgelsBatched undone\n");
+    assert(0);
+                                   }
 
 
 
