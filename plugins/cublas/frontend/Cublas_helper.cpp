@@ -51,6 +51,10 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulDescCreate(cudaDa
     printf("cublasLtMatmulDescCreate undone\n");
     assert(0);                                        
     }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulDescSetAttribute(const void *buf,size_t sizeInBytes){
+    printf("cublasLtMatmulDescSetAttribute undone\n");
+    assert(0); 
+}
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgetrfBatched(cublasHandle_t handle,
                                    int n,
                                    cuDoubleComplex *const Aarray[],
