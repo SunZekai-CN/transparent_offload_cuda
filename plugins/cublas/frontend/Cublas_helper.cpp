@@ -51,6 +51,16 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulDescCreate(cudaDa
     printf("cublasLtMatmulDescCreate undone\n");
     assert(0);                                        
     }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgetrfBatched(cublasHandle_t handle,
+                                   int n,
+                                   cuDoubleComplex *const Aarray[],
+                                   int lda,
+                                   int *PivotArray,
+                                   int *infoArray,
+                                   int batchSize){
+    printf("cublasZgetrfBatched undone\n");
+    assert(0); 
+                                   }
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCreate_v2(cublasHandle_t *handle) {
     CublasFrontend::Prepare();
     //CublasFrontend::AddHostPointerForArguments<cublasHandle_t>(handle);
