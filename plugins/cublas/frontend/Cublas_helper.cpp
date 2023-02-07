@@ -469,19 +469,12 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgemmStridedBatched(cubla
     assert(0);
                                   }
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmul(
-      cublasLtHandle_t               lightHandle,
-      cublasLtMatmulDesc_t           computeDesc,
       const void                    *alpha,
       const void                    *A,
-      cublasLtMatrixLayout_t         Adesc,
       const void                    *B,
-      cublasLtMatrixLayout_t         Bdesc,
       const void                    *beta,
       const void                    *C,
-      cublasLtMatrixLayout_t         Cdesc,
       void                          *D,
-      cublasLtMatrixLayout_t         Ddesc,
-      const cublasLtMatmulAlgo_t    *algo,
       void                          *workspace,
       size_t                         workspaceSizeInBytes,
       cudaStream_t                   stream){
