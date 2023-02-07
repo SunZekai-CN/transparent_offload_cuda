@@ -342,8 +342,36 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCtrsmBatched( cublasHandl
     printf("cublasCtrsmBatched undone\n");
     assert(0);
                                    }
-
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgetrfBatched(cublasHandle_t handle,
+                                   int n,
+                                   float *const Aarray[],
+                                   int lda,
+                                   int *PivotArray,
+                                   int *infoArray,
+                                   int batchSize){
+    printf("cublasSgetrfBatched undone\n");
+    assert(0);
+                                   }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgetrfBatched(cublasHandle_t handle,
+                                   int n,
+                                   double *const Aarray[],
+                                   int lda,
+                                   int *PivotArray,
+                                   int *infoArray,
+                                   int batchSize){
+    printf("cublasDgetrfBatched undone\n");
+    assert(0);
+                                   }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgetrfBatched(cublasHandle_t handle,
+                                   int n,
+                                   cuComplex *const Aarray[],
+                                   int lda,
+                                   int *PivotArray,
+                                   int *infoArray,
+                                   int batchSize){
+    printf("cublasCgetrfBatched undone\n");
+    assert(0);
+                                   }
 
 
 
