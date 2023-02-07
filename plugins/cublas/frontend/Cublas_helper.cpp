@@ -322,7 +322,10 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGemmStridedBatchedEx(cubl
     printf("cublasGemmStridedBatchedEx undone\n");
     assert(0);                                
                             }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulDescDestroy(cublasLtMatmulDesc_t matmulDesc){
+    printf("cublasLtMatmulDescDestroy undone\n");
+    assert(0);
+}
 
 
 
