@@ -372,9 +372,102 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgetrfBatched(cublasHandl
     printf("cublasCgetrfBatched undone\n");
     assert(0);
                                    }
-
-
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgemmStridedBatched(cublasHandle_t handle,
+                                  cublasOperation_t transa,
+                                  cublasOperation_t transb,
+                                  int m, int n, int k,
+                                  const float           *alpha,
+                                  const float           *A, int lda,
+                                  long long int          strideA,
+                                  const float           *B, int ldb,
+                                  long long int          strideB,
+                                  const float           *beta,
+                                  float                 *C, int ldc,
+                                  long long int          strideC,
+                                  int batchCount){
+    printf("cublasSgemmStridedBatched undone\n");
+    assert(0);
+                                  }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasHgemmStridedBatched(cublasHandle_t handle,
+                                  cublasOperation_t transa,
+                                  cublasOperation_t transb,
+                                  int m, int n, int k,
+                                  const __half           *alpha,
+                                  const __half           *A, int lda,
+                                  long long int          strideA,
+                                  const __half           *B, int ldb,
+                                  long long int          strideB,
+                                  const __half           *beta,
+                                  __half                 *C, int ldc,
+                                  long long int          strideC,
+                                  int batchCount){
+    printf("cublasHgemmStridedBatched undone\n");
+    assert(0);
+                                  }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgemmStridedBatched(cublasHandle_t handle,
+                                  cublasOperation_t transa,
+                                  cublasOperation_t transb,
+                                  int m, int n, int k,
+                                  const double          *alpha,
+                                  const double          *A, int lda,
+                                  long long int          strideA,
+                                  const double          *B, int ldb,
+                                  long long int          strideB,
+                                  const double          *beta,
+                                  double                *C, int ldc,
+                                  long long int          strideC,
+                                  int batchCount){
+    printf("cublasDgemmStridedBatched undone\n");
+    assert(0);
+                                  }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgemmStridedBatched(cublasHandle_t handle,
+                                  cublasOperation_t transa,
+                                  cublasOperation_t transb,
+                                  int m, int n, int k,
+                                  const cuComplex       *alpha,
+                                  const cuComplex       *A, int lda,
+                                  long long int          strideA,
+                                  const cuComplex       *B, int ldb,
+                                  long long int          strideB,
+                                  const cuComplex       *beta,
+                                  cuComplex             *C, int ldc,
+                                  long long int          strideC,
+                                  int batchCount){
+    printf("cublasCgemmStridedBatched undone\n");
+    assert(0);
+                                  }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgemm3mStridedBatched(cublasHandle_t handle,
+                                  cublasOperation_t transa,
+                                  cublasOperation_t transb,
+                                  int m, int n, int k,
+                                  const cuComplex       *alpha,
+                                  const cuComplex       *A, int lda,
+                                  long long int          strideA,
+                                  const cuComplex       *B, int ldb,
+                                  long long int          strideB,
+                                  const cuComplex       *beta,
+                                  cuComplex             *C, int ldc,
+                                  long long int          strideC,
+                                  int batchCount){
+    printf("cublasCgemm3mStridedBatched undone\n");
+    assert(0);
+                                  }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgemmStridedBatched(cublasHandle_t handle,
+                                  cublasOperation_t transa,
+                                  cublasOperation_t transb,
+                                  int m, int n, int k,
+                                  const cuDoubleComplex *alpha,
+                                  const cuDoubleComplex *A, int lda,
+                                  long long int          strideA,
+                                  const cuDoubleComplex *B, int ldb,
+                                  long long int          strideB,
+                                  const cuDoubleComplex *beta,
+                                  cuDoubleComplex       *C, int ldc,
+                                  long long int          strideC,
+                                  int batchCount){
+    printf("cublasZgemmStridedBatched undone\n");
+    assert(0);
+                                  }
 
 
 
