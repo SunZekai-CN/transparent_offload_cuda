@@ -481,6 +481,11 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmul(
     printf("cublasLtMatmul undone\n");
     assert(0);
       }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSetMathMode(cublasHandle_t handle, cublasMath_t mode){
+    printf("cublasSetMathMode undone\n");
+    assert(0);
+}
+
 
 
 
