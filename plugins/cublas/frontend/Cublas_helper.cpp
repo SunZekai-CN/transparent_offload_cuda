@@ -61,6 +61,27 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgetrfBatched(cublasHandl
     printf("cublasZgetrfBatched undone\n");
     assert(0); 
                                    }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgemmEx(cublasHandle_t handle,
+                           cublasOperation_t transa,
+                           cublasOperation_t transb,
+                           int m,
+                           int n,
+                           int k,
+                           const float    *alpha,
+                           const void     *A,
+                           cudaDataType_t Atype,
+                           int lda,
+                           const void     *B,
+                           cudaDataType_t Btype,
+                           int ldb,
+                           const float    *beta,
+                           void           *C,
+                           cudaDataType_t Ctype,
+                           int ldc){
+    printf("cublasSgemmEx undone\n");
+    assert(0);                         
+                           }
+
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCreate_v2(cublasHandle_t *handle) {
     CublasFrontend::Prepare();
     //CublasFrontend::AddHostPointerForArguments<cublasHandle_t>(handle);
