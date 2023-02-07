@@ -124,6 +124,25 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgeqrfBatched( cublasHand
     assert(0);                                   
                                     }
 
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgelsBatched( cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int m,
+                                   int n,
+                                   int nrhs,
+                                   float *const Aarray[],
+                                   int lda,
+                                   float *const Carray[],
+                                   int ldc,
+                                   int *info,
+                                   int *devInfoArray,
+                                   int batchSize ){
+    printf("cublasSgelsBatched undone\n");
+    assert(0);                                  
+                                   }
+
+
+
+
 
 
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCreate_v2(cublasHandle_t *handle) {
