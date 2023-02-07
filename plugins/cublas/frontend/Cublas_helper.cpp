@@ -82,6 +82,26 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgemmEx(cublasHandle_t ha
     assert(0);                         
                            }
 
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgelsBatched( cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int m,
+                                   int n,
+                                   int nrhs,
+                                   cuDoubleComplex *const Aarray[],
+                                   int lda,
+                                   cuDoubleComplex *const Carray[],
+                                   int ldc,
+                                   int *info,
+                                   int *devInfoArray,
+                                   int batchSize ){
+    printf("cublasZgelsBatched undone\n");
+    assert(0); 
+                                   }
+
+
+
+
+
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCreate_v2(cublasHandle_t *handle) {
     CublasFrontend::Prepare();
     //CublasFrontend::AddHostPointerForArguments<cublasHandle_t>(handle);
