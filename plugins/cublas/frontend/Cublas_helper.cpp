@@ -143,7 +143,22 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceCreate(
     printf("cublasLtMatmulPreferenceCreate undone\n");
     assert(0);     
       }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasStrsmBatched( cublasHandle_t    handle,
+                                   cublasSideMode_t  side,
+                                   cublasFillMode_t  uplo,
+                                   cublasOperation_t trans,
+                                   cublasDiagType_t  diag,
+                                   int m,
+                                   int n,
+                                   const float *alpha,
+                                   const float *const A[],
+                                   int lda,
+                                   float *const B[],
+                                   int ldb,
+                                   int batchCount){
+    printf("cublasStrsmBatched undone\n");
+    assert(0);                                 
+                                   }
 
 
 
