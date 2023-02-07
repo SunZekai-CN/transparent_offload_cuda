@@ -507,15 +507,11 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGemmEx(cublasHandle_t han
     printf("cublasGemmEx undone\n");
     assert(0);
 }                        
-extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatrixLayoutCreate( cublasLtMatrixLayout_t *matLayout,
-                                           cudaDataType type,
-                                           uint64_t rows,
-                                           uint64_t cols,
-                                           int64_t ld){
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatrixLayoutCreate(cudaDataType type,uint64_t rows,uint64_t cols,int64_t ld){
     printf("cublasLtMatrixLayoutCreate undone\n");
     assert(0);
                                            }
-extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatrixLayoutDestroy(cublasLtMatrixLayout_t matLayout){
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatrixLayoutDestroy(){
     printf("cublasLtMatrixLayoutDestroy undone\n");
     assert(0);
 }
