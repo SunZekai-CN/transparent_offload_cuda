@@ -235,7 +235,10 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasGetMathMode(cublasHandle_
     printf("cublasGetMathMode undone\n");
     assert(0);
 }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceDestroy(){
+    printf("cublasLtMatmulPreferenceDestroy undone\n");
+    assert(0);
+      }
 
 
 
