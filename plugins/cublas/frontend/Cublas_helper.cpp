@@ -28,9 +28,25 @@
 #include <string>
 
 #include "CublasFrontend.h"
-
+#include "assert.h"
 using namespace std;
 
+extern "C" CUBLASAPI cublasStatus_t cublasDtrsmBatched( cublasHandle_t    handle,
+                                   cublasSideMode_t  side,
+                                   cublasFillMode_t  uplo,
+                                   cublasOperation_t trans,
+                                   cublasDiagType_t  diag,
+                                   int m,
+                                   int n,
+                                   const double *alpha,
+                                   const double *const A[],
+                                   int lda,
+                                   double *const B[],
+                                   int ldb,
+                                   int batchCount){
+    printf("cublasDtrsmBatched undone\n");
+    assert(0);
+                                   }
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCreate_v2(cublasHandle_t *handle) {
     CublasFrontend::Prepare();
     //CublasFrontend::AddHostPointerForArguments<cublasHandle_t>(handle);
