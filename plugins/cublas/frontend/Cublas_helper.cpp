@@ -31,7 +31,7 @@
 #include "assert.h"
 using namespace std;
 
-extern "C" CUBLASAPI cublasStatus_t cublasDtrsmBatched( cublasHandle_t    handle,
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDtrsmBatched( cublasHandle_t    handle,
                                    cublasSideMode_t  side,
                                    cublasFillMode_t  uplo,
                                    cublasOperation_t trans,
@@ -47,12 +47,10 @@ extern "C" CUBLASAPI cublasStatus_t cublasDtrsmBatched( cublasHandle_t    handle
     printf("cublasDtrsmBatched undone\n");
     assert(0);
                                    }
-extern "C" CUBLASAPI cublasStatus_t cublasLtMatmulDescCreate( cublasLtMatmulDesc_t *matmulDesc,
-                                         cublasComputeType_t computeType,
-                                         cudaDataType_t scaleType){
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulDescCreate(cudaDataType_t scaleType){
     printf("cublasLtMatmulDescCreate undone\n");
     assert(0);                                        
-                                         }
+    }
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCreate_v2(cublasHandle_t *handle) {
     CublasFrontend::Prepare();
     //CublasFrontend::AddHostPointerForArguments<cublasHandle_t>(handle);
