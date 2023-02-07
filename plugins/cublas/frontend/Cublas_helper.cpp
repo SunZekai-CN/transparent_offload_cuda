@@ -528,8 +528,34 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceGetAttr
     printf("cublasLtMatmulPreferenceGetAttribute undone\n");
     assert(0);
       }
-
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDotEx (cublasHandle_t handle,
+                            int n,
+                            const void *x,
+                            cudaDataType xType,
+                            int incx,
+                            const void *y,
+                            cudaDataType yType,
+                            int incy,
+                            void *result,
+                            cudaDataType resultType,
+                            cudaDataType executionType){
+    printf("cublasDotEx undone\n");
+    assert(0);
+                            }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDotcEx (cublasHandle_t handle,
+                             int n,
+                             const void *x,
+                             cudaDataType xType,
+                             int incx,
+                             const void *y,
+                             cudaDataType yType,
+                             int incy,
+                             void *result,
+                             cudaDataType resultType,
+                             cudaDataType executionType){
+    printf("cublasDotcEx undone\n");
+    assert(0);
+                             }
 
 
 
