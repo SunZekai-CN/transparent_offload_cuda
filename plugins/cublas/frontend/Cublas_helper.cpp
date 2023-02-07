@@ -175,6 +175,67 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZtrsmBatched( cublasHandl
     printf("cublasZtrsmBatched undone\n");
     assert(0);                                 
                                    }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgetrsBatched(cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int n,
+                                   int nrhs,
+                                   const double *const Aarray[],
+                                   int lda,
+                                   const int *devIpiv,
+                                   double *const Barray[],
+                                   int ldb,
+                                   int *info,
+                                   int batchSize){
+    printf("cublasDgetrsBatched undone\n");
+    assert(0);      
+                                   }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgetrsBatched(cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int n,
+                                   int nrhs,
+                                   const float *const Aarray[],
+                                   int lda,
+                                   const int *devIpiv,
+                                   float *const Barray[],
+                                   int ldb,
+                                   int *info,
+                                   int batchSize){
+    printf("cublasSgetrsBatched undone\n");
+    assert(0);
+                                   }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasCgetrsBatched(cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int n,
+                                   int nrhs,
+                                   const cuComplex *const Aarray[],
+                                   int lda,
+                                   const int *devIpiv,
+                                   cuComplex *const Barray[],
+                                   int ldb,
+                                   int *info,
+                                   int batchSize){
+    printf("cublasCgetrsBatched undone\n");
+    assert(0);
+                                   }
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZgetrsBatched(cublasHandle_t handle,
+                                   cublasOperation_t trans,
+                                   int n,
+                                   int nrhs,
+                                   const cuDoubleComplex *const Aarray[],
+                                   int lda,
+                                   const int *devIpiv,
+                                   cuDoubleComplex *const Barray[],
+                                   int ldb,
+                                   int *info,
+                                   int batchSize){
+    printf("cublasZgetrsBatched undone\n");
+    assert(0);
+                                   }
+
+
+
+
+
 
 
 
