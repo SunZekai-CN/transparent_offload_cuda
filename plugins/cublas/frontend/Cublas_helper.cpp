@@ -159,7 +159,22 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasStrsmBatched( cublasHandl
     printf("cublasStrsmBatched undone\n");
     assert(0);                                 
                                    }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasZtrsmBatched( cublasHandle_t    handle,
+                                   cublasSideMode_t  side,
+                                   cublasFillMode_t  uplo,
+                                   cublasOperation_t trans,
+                                   cublasDiagType_t  diag,
+                                   int m,
+                                   int n,
+                                   const cuDoubleComplex *alpha,
+                                   const cuDoubleComplex *const A[],
+                                   int lda,
+                                   cuDoubleComplex *const B[],
+                                   int ldb,
+                                   int batchCount){
+    printf("cublasZtrsmBatched undone\n");
+    assert(0);                                 
+                                   }
 
 
 
