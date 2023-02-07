@@ -139,7 +139,10 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasSgelsBatched( cublasHandl
     printf("cublasSgelsBatched undone\n");
     assert(0);                                  
                                    }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceCreate(){
+    printf("cublasLtMatmulPreferenceCreate undone\n");
+    assert(0);     
+      }
 
 
 
