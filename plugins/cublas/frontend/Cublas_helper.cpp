@@ -291,7 +291,11 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasDgeqrfBatched( cublasHand
     printf("cublasDgeqrfBatched undone\n");
     assert(0);
                                     }
-
+extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulAlgoGetHeuristic(int requestedAlgoCount,int *returnAlgoCount)
+{
+    printf("cublasLtMatmulAlgoGetHeuristic undone\n");
+    assert(0);
+}
 
 
 
