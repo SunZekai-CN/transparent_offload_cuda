@@ -516,16 +516,12 @@ extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatrixLayoutDestroy(){
     assert(0);
 }
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceSetAttribute(
-      cublasLtMatmulPreference_t pref,
-      cublasLtMatmulPreferenceAttributes_t attr,
       const void *buf,
       size_t sizeInBytes){
     printf("cublasLtMatmulPreferenceSetAttribute undone\n");
     assert(0);
       }
 extern "C" CUBLASAPI cublasStatus_t CUBLASWINAPI cublasLtMatmulPreferenceGetAttribute(
-      cublasLtMatmulPreference_t pref,
-      cublasLtMatmulPreferenceAttributes_t attr,
       void *buf,
       size_t sizeInBytes,
       size_t *sizeWritten){
