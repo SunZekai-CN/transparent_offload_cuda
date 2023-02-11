@@ -304,7 +304,7 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     void **fatCubinHandle;
     if (strcmp(handler,"(nil)") == 0) fatCubinHandle = nullptr;
     else fatCubinHandle = pThis->GetFatBinary(handler)
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    // void **fatCubinHandle = pThis->GetFatBinary(handler);
     const char *hostfun = (const char *)(input_buffer->Get<pointer_t>());
     char *deviceFun = strdup(input_buffer->AssignString());
     const char *deviceName = strdup(input_buffer->AssignString());
