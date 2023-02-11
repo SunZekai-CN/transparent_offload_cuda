@@ -150,9 +150,9 @@ extern "C" __host__ void __cudaRegisterFunction(
     const char *deviceName, int thread_limit, uint3 *tid, uint3 *bid,
     dim3 *bDim, dim3 *gDim, int *wSize) {
 
-  printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s fatcubinhandle:%s\n",hostFun,deviceFun,CudaUtil::MarshalHostPointer(fatCubinHandle));
-  printf("hahahh %d\n",strlen(CudaUtil::MarshalHostPointer(fatCubinHandle)));
-  if (fatCubinHandle == nullptr)printf("aaaaaaaa\n");
+//   printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s fatcubinhandle:%s\n",hostFun,deviceFun,CudaUtil::MarshalHostPointer(fatCubinHandle));
+//   printf("hahahh %d\n",strlen(CudaUtil::MarshalHostPointer(fatCubinHandle)));
+//   if (fatCubinHandle == nullptr)printf("aaaaaaaa\n");
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
       CudaUtil::MarshalHostPointer(fatCubinHandle));
