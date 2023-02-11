@@ -150,7 +150,7 @@ extern "C" __host__ void __cudaRegisterFunction(
     const char *deviceName, int thread_limit, uint3 *tid, uint3 *bid,
     dim3 *bDim, dim3 *gDim, int *wSize) {
 
-    //printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s\n",hostFun,deviceFun);
+  printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s fatcubinhandle:%s\n",hostFun,deviceFun,CudaUtil::MarshalHostPointer(fatCubinHandle));
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
       CudaUtil::MarshalHostPointer(fatCubinHandle));
