@@ -204,6 +204,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;
   }
+  printf("finish executing %s\n",routine);
 }
 
 void Frontend::Prepare() {
