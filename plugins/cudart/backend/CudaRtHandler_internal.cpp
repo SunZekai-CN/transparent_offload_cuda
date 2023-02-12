@@ -358,8 +358,10 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     int size = input_buffer->Get<int>();
     int constant = input_buffer->Get<int>();
     int global = input_buffer->Get<int>();
+    printf("hostvar:%s\n",hostVar);
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
                       size, constant, global);
+    printf("hostvar:%s\n",hostVar);
 #ifdef DEBUG
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
