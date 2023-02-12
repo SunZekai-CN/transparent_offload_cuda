@@ -346,6 +346,7 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
 CUDA_ROUTINE_HANDLER(RegisterVar) {
   try {
     char *handler = input_buffer->AssignString();
+    void **fatCubinHandle;
     if (strcmp(handler,"(nil)") == 0) fatCubinHandle = nullptr;
     else fatCubinHandle = pThis->GetFatBinary(handler);
     // void **fatCubinHandle = pThis->GetFatBinary(handler);
