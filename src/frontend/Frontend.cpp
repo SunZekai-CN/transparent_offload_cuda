@@ -169,7 +169,7 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
 
 void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
   if (input_buffer == nullptr) input_buffer = mpInputBuffer.get();
-
+  printf("i am executing %s\n",routine);
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
     /* sending job */
