@@ -346,7 +346,9 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
 CUDA_ROUTINE_HANDLER(RegisterVar) {
   try {
     char *handler = input_buffer->AssignString();
-    void **fatCubinHandle = pThis->GetFatBinary(handler);
+    if (strcmp(handler,"(nil)") == 0) fatCubinHandle = nullptr;
+    else fatCubinHandle = pThis->GetFatBinary(handler);
+    // void **fatCubinHandle = pThis->GetFatBinary(handler);
     char *hostVar =
         (char *)CudaUtil::UnmarshalPointer(input_buffer->AssignString());
     char *deviceAddress = strdup(input_buffer->AssignString());
