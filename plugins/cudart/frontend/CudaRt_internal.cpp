@@ -197,6 +197,7 @@ extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
   CudaRtFrontend::AddVariableForArguments(size);
   CudaRtFrontend::AddVariableForArguments(constant);
   CudaRtFrontend::AddVariableForArguments(global);
+  printf("hostvar:%s\n",hostVar);
   CudaRtFrontend::Execute("cudaRegisterVar");
   printf("hostvar:%s\n",hostVar);
 }
