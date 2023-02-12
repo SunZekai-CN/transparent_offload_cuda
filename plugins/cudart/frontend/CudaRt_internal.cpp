@@ -185,6 +185,7 @@ extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
                                            char *deviceAddress,
                                            const char *deviceName, int ext,
                                            int size, int constant, int global) {
+    printf("__cudaRegisterVar - hostVAR:%s deviceaddress:%s devicename:%s\n",hostVar,deviceAddress,deviceName);
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
       CudaUtil::MarshalHostPointer(fatCubinHandle));
