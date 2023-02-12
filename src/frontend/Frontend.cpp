@@ -150,15 +150,11 @@ Frontend::~Frontend() {
 }
 
 Frontend *Frontend::GetFrontend(Communicator *c) {
-  printf("iam getfronted\n");
+  
   if (mpFrontends == NULL) mpFrontends = new map<pthread_t, Frontend *>();
-
   pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
   if (mpFrontends->find(tid) != mpFrontends->end())
-    {
-      printf("finish getfronted true\n");
       return mpFrontends->find(tid)->second;
-    }
   else {
     Frontend *f = new Frontend();
     try {
@@ -167,13 +163,12 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
     } catch (const char *e) {
       cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
     }
-    printf("finish getfronted false\n");
     return f;
   }
 }
 
 void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
-  printf("iam execute");
+  printf("iam execute: %s\n",routine);
   if (input_buffer == nullptr) input_buffer = mpInputBuffer.get();
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
