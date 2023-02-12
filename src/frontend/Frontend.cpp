@@ -155,7 +155,10 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
 
   pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
   if (mpFrontends->find(tid) != mpFrontends->end())
-    return mpFrontends->find(tid)->second;
+    {
+      printf("finish getfronted true\n");
+      return mpFrontends->find(tid)->second;
+    }
   else {
     Frontend *f = new Frontend();
     try {
@@ -164,7 +167,7 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
     } catch (const char *e) {
       cerr << "Error: cannot create Frontend ('" << e << "')" << endl;
     }
-
+    printf("finish getfronted false\n");
     return f;
   }
 }
