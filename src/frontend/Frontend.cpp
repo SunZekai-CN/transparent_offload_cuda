@@ -150,7 +150,7 @@ Frontend::~Frontend() {
 }
 
 Frontend *Frontend::GetFrontend(Communicator *c) {
-  
+  printf("iam getfronted\n");
   if (mpFrontends == NULL) mpFrontends = new map<pthread_t, Frontend *>();
   pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
   if (mpFrontends->find(tid) != mpFrontends->end())
