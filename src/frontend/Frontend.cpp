@@ -126,6 +126,7 @@ void Frontend::Init(Communicator *c) {
 }
 
 Frontend::~Frontend() {
+  printf("iam ~fronted\n");
   if (mpFrontends != NULL) {
     pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
     auto env = getenv("GVIRTUS_DUMP_STATS");
@@ -149,6 +150,7 @@ Frontend::~Frontend() {
 }
 
 Frontend *Frontend::GetFrontend(Communicator *c) {
+  printf("iam getfronted\n");
   if (mpFrontends == NULL) mpFrontends = new map<pthread_t, Frontend *>();
 
   pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
@@ -168,8 +170,8 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
 }
 
 void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
+  printf("iam execute");
   if (input_buffer == nullptr) input_buffer = mpInputBuffer.get();
-  printf("i am executing %s\n",routine);
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
     /* sending job */
@@ -204,10 +206,10 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
     /* error */
     cerr << " ERROR - can't send any job request " << endl;
   }
-  printf("finish executing %s\n",routine);
 }
 
 void Frontend::Prepare() {
+  printf("i am prepare\n");
   pid_t tid = syscall(SYS_gettid);
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
