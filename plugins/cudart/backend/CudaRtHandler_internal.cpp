@@ -301,10 +301,10 @@ CUDA_ROUTINE_HANDLER(UnregisterFatBinary) {
 CUDA_ROUTINE_HANDLER(RegisterFunction) {
   try {
     char *handler = input_buffer->AssignString();
-    void **fatCubinHandle;
-    if (strcmp(handler,"(nil)") == 0) fatCubinHandle = nullptr;
-    else fatCubinHandle = pThis->GetFatBinary(handler);
-    // void **fatCubinHandle = pThis->GetFatBinary(handler);
+    // void **fatCubinHandle;
+    // if (strcmp(handler,"(nil)") == 0) fatCubinHandle = nullptr;
+    // else fatCubinHandle = pThis->GetFatBinary(handler);
+    void **fatCubinHandle = pThis->GetFatBinary(handler);
     const char *hostfun = (const char *)(input_buffer->Get<pointer_t>());
     char *deviceFun = strdup(input_buffer->AssignString());
     const char *deviceName = strdup(input_buffer->AssignString());
@@ -316,7 +316,11 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     int *wSize = input_buffer->Assign<int>();
     __cudaRegisterFunction(fatCubinHandle, hostfun, deviceFun, deviceName,
                            thread_limit, tid, bid, bDim, gDim, wSize);
-
+    cudaError_t error = cudaGetLastError();
+    if (error != 0) {
+      cerr << "error executing RegisterFunction: " << _cudaGetErrorEnum(error)
+           << endl;
+    }
 #ifdef DEBUG
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
