@@ -151,7 +151,7 @@ extern "C" __host__ void __cudaRegisterFunction(
     dim3 *bDim, dim3 *gDim, int *wSize) {
 
   printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s\n",hostFun,deviceFun);
-//   printf("hahahh %d\n",strlen(CudaUtil::MarshalHostPointer(fatCubinHandle)));
+  printf("fatcubinhandle %d\n",strlen(CudaUtil::MarshalHostPointer(fatCubinHandle)));
 //   if (fatCubinHandle == nullptr)printf("aaaaaaaa\n");
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
@@ -187,6 +187,7 @@ extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
                                            int size, int constant, int global) {
     printf("__cudaRegisterVar - hostVAR:%s deviceaddress:%s devicename:%s\n",hostVar,deviceAddress,deviceName);
     // printf("hostvar:%s\n",hostVar);
+    printf("fatcubinhandle %d\n",strlen(CudaUtil::MarshalHostPointer(fatCubinHandle)));
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
       CudaUtil::MarshalHostPointer(fatCubinHandle));
