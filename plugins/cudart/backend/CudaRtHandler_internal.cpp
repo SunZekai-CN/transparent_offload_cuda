@@ -358,11 +358,10 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     int size = input_buffer->Get<int>();
     int constant = input_buffer->Get<int>();
     int global = input_buffer->Get<int>();
-    printf("aaaaaaaaaaaaaaaaaa\n");
-    printf("hostvar:%p\n",hostVar);
+    printf("fatcubinhandle:%p ,%s\n",fatCubinHandle,CudaUtil::MarshalHostPointer(fatCubinHandle));
+    printf("hostvar:%p  ,   %s\n",hostVar,CudaUtil::MarshalHostPointer(hostVar));
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
                       size, constant, global);
-    printf("hostvar:%p\n",hostVar);
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
       cerr << "error executing RegisterVar: " << _cudaGetErrorEnum(error)
