@@ -38,7 +38,7 @@
 
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
-
+  printf("i am cudaregisterfatbinary\n");
 
   /* Fake host pointer */
   __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
@@ -120,6 +120,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
         if (CudaRtFrontend::Success()) return (void **) fatCubin;
     }
+ printf("return null\n");
   return NULL;
 }
 
