@@ -363,6 +363,10 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
                       size, constant, global);
     printf("hostvar:%p\n",hostVar);
+    cudaError_t error = cudaGetLastError();
+    if (error != 0) {
+      cerr << "error executing RegisterVar: " << _cudaGetErrorEnum(error)
+           << endl;
 #ifdef DEBUG
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
