@@ -366,7 +366,7 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
       cerr << "error executing RegisterVar: " << _cudaGetErrorEnum(error)
-           << endl;
+           << endl;}
 #ifdef DEBUG
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
