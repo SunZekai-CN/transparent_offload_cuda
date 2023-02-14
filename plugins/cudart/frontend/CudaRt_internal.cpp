@@ -38,10 +38,10 @@
 
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
-  printf("i am cudaregisterfatbinary\n");
-  unsigned int magic;
+    printf("i am cudaregisterfatbinary\n");
+    unsigned int magic;
     void **fatCubinHandle;
-   magic = *(unsigned int *) fatCubin;
+    magic = *(unsigned int *) fatCubin;
     fatCubinHandle = (void **)malloc(sizeof(void *)); //original
 //	fatCubinHandle = myfat; //cocotion
     printf("fatcubin:%p/n",fatCubin);
@@ -55,20 +55,20 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
         *fatCubinHandle = (void *) binary->data;
     }
-    else {printf("this is not fatbinc_magic\n");}
 
 
 
   /* Fake host pointer */
-  __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
-  char *data = (char *)bin->data;
+    __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
+    char *data = (char *)bin->data;
+    
 
     NvFatCubin *pFatCubin = (NvFatCubin *)data;
     // check so its really an elf file
     Elf64_Ehdr *eh = &(pFatCubin->elf);
     printf("hahahhahah:%s\b",(char*)eh->e_ident);
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
-
+        printf("aaaaaaaaaaaaaa\n");
         /* Section header table :  */
         Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
 
@@ -80,12 +80,14 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
         char *sh_str = static_cast<char *>(malloc(sh_table[eh->e_shstrndx].sh_size));
         if (sh_str) {
+            printf("bbbbbbbbbb\n");
             memcpy(sh_str, baseAddr + sh_table[eh->e_shstrndx].sh_offset, sh_table[eh->e_shstrndx].sh_size);
 
             for (uint32_t i = 0; i < eh->e_shnum; i++) {
 
                 char *szSectionName = (sh_str + sh_table[i].sh_name);
                 if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
+                    printf("cccccccccccccccccc\n");
                     char *szFuncName = szSectionName + strlen(".nv.info.");
                     //printf("%s:\n", szFuncName);
                     byte *p = (byte *) eh + sh_table[i].sh_offset;
@@ -108,6 +110,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
                         }
                         if (pAttr->attr == EIATTR_KPARAM_INFO) {
+                            printf("ddddddddddddddd\n");
                             NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
 
                             //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
@@ -130,15 +133,18 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
             free(sh_str);
         }
         free(sh_table);
+        printf("eeeeeeeeeeeeeee\n");
 
 
         Buffer *input_buffer = new Buffer();
         input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
         input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
-
+         
+        printf("fffffffffffffff\n");
         CudaRtFrontend::Prepare();
         CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
         if (CudaRtFrontend::Success()) return (void **) fatCubin;
+        printf("gggggggggggggggg\n");
     }
  printf("return null\n");
   return NULL;
