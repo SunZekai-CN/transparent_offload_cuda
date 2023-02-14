@@ -62,7 +62,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
     __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
     char *data = (char *)bin->data;
     
-
+    printf("data: %p,%s\n",data,data);
     NvFatCubin *pFatCubin = (NvFatCubin *)data;
     // check so its really an elf file
     Elf64_Ehdr *eh = &(pFatCubin->elf);
@@ -178,7 +178,7 @@ extern "C" __host__ void __cudaRegisterFunction(
     dim3 *bDim, dim3 *gDim, int *wSize) {
 
   printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s\n",hostFun,deviceFun);
-  printf("fatcubinhandle:%p,value = %p\n",fatCubinHandle,*fatCubinHandle);
+//   printf("fatcubinhandle:%p,value = %p\n",fatCubinHandle,*fatCubinHandle);
   if (fatCubinHandle == nullptr)printf("fatCubinHandle is nullptr\n");
   if (strcmp(CudaUtil::MarshalHostPointer(fatCubinHandle),"(nil)") == 0)printf("fatCubinHandle is (nil)\n");
   CudaRtFrontend::Prepare();
