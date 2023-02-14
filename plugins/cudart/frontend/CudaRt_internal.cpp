@@ -38,8 +38,6 @@
 
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
-    printf("i am cudaregisterfatbinary\n");
-
   /* Fake host pointer */
     __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
     char *data = (char *)bin->data;

@@ -55,9 +55,7 @@ class CudaRtFrontend {
     if (string(routine) != "cudaLaunch")
       cerr << "Requesting " << routine << endl;
 #endif
-    printf("cudartfronted execute\n");
     gvirtus::frontend::Frontend::GetFrontend()->Execute(routine, input_buffer);
-    printf("finish cudartfronted execute\n");
   }
 
   /**

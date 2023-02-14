@@ -61,7 +61,6 @@ CudaUtil::~CudaUtil() {}
 char* CudaUtil::MarshalHostPointer(const void* ptr) {
   char* marshal = new char[CudaUtil::MarshaledHostPointerSize];
   MarshalHostPointer(ptr, marshal);
-  printf("%p, %s\n",ptr,marshal);
   return marshal;
 }
 
