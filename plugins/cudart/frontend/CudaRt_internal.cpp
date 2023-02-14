@@ -47,6 +47,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
     NvFatCubin *pFatCubin = (NvFatCubin *)data;
     // check so its really an elf file
     Elf64_Ehdr *eh = &(pFatCubin->elf);
+    printf("hahahhahah:%s\b",(char*)eh->e_ident);
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
 
         /* Section header table :  */
