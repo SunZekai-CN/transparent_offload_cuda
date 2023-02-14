@@ -44,7 +44,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
    magic = *(unsigned int *) fatCubin;
     fatCubinHandle = malloc(sizeof(void *)); //original
 //	fatCubinHandle = myfat; //cocotion
-
+    printf("fatcubin:%p/n",fatCubin);
     if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
         __fatBinC_Wrapper_t *binary = (__fatBinC_Wrapper_t *) fatCubin;
         printf("FATBINC_MAGIC\n");
