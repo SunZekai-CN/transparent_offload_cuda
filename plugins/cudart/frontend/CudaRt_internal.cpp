@@ -39,124 +39,92 @@
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
     printf("i am cudaregisterfatbinary\n");
-    unsigned int magic;
-    void **fatCubinHandle;
-    magic = *(unsigned int *) fatCubin;
-    fatCubinHandle = (void **)malloc(sizeof(void *)); //original
-//	fatCubinHandle = myfat; //cocotion
-    printf("fatcubin:%p/n",fatCubin);
-    if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
-        __fatBinC_Wrapper_t *binary = (__fatBinC_Wrapper_t *) fatCubin;
-        printf("FATBINC_MAGIC\n");
-        printf("magic= %x\n", binary->magic);
-        printf("version= %x\n", binary->version);
-        printf("data= %p\n", binary->data);
-        printf("filename_or_fatbins= %p\n", binary->filename_or_fatbins);
-
-        *fatCubinHandle = (void *) binary->data;
-    }
-
-
 
   /* Fake host pointer */
     __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
     char *data = (char *)bin->data;
     
-    printf("data: %p,%s\n",data,data);
     NvFatCubin *pFatCubin = (NvFatCubin *)data;
     // check so its really an elf file
-    printf("")
     Elf64_Ehdr *eh = &(pFatCubin->elf);
-    printf("hahahhahah:%s\b",(char*)eh->e_ident);
-    if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
-        printf("aaaaaaaaaaaaaa\n");
-        /* Section header table :  */
-        Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
+    // if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
+    //     /* Section header table :  */
+    //     Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
 
-        byte *baseAddr = (byte *) eh;
-        for (uint32_t i = 0; i < eh->e_shnum; i++) {
-            Elf64_Shdr *shdrSrc = (Elf64_Shdr *) (baseAddr + (off_t) eh->e_shoff + i * eh->e_shentsize);
-            memcpy(&sh_table[i], shdrSrc, eh->e_shentsize);
-        }
+    //     byte *baseAddr = (byte *) eh;
+    //     for (uint32_t i = 0; i < eh->e_shnum; i++) {
+    //         Elf64_Shdr *shdrSrc = (Elf64_Shdr *) (baseAddr + (off_t) eh->e_shoff + i * eh->e_shentsize);
+    //         memcpy(&sh_table[i], shdrSrc, eh->e_shentsize);
+    //     }
 
-        char *sh_str = static_cast<char *>(malloc(sh_table[eh->e_shstrndx].sh_size));
-        if (sh_str) {
-            printf("bbbbbbbbbb\n");
-            memcpy(sh_str, baseAddr + sh_table[eh->e_shstrndx].sh_offset, sh_table[eh->e_shstrndx].sh_size);
+    //     char *sh_str = static_cast<char *>(malloc(sh_table[eh->e_shstrndx].sh_size));
+    //     if (sh_str) {
+    //         memcpy(sh_str, baseAddr + sh_table[eh->e_shstrndx].sh_offset, sh_table[eh->e_shstrndx].sh_size);
 
-            for (uint32_t i = 0; i < eh->e_shnum; i++) {
+    //         for (uint32_t i = 0; i < eh->e_shnum; i++) {
 
-                char *szSectionName = (sh_str + sh_table[i].sh_name);
-                if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
-                    printf("cccccccccccccccccc\n");
-                    char *szFuncName = szSectionName + strlen(".nv.info.");
-                    //printf("%s:\n", szFuncName);
-                    byte *p = (byte *) eh + sh_table[i].sh_offset;
+    //             char *szSectionName = (sh_str + sh_table[i].sh_name);
+    //             if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
+    //                 char *szFuncName = szSectionName + strlen(".nv.info.");
+    //                 //printf("%s:\n", szFuncName);
+    //                 byte *p = (byte *) eh + sh_table[i].sh_offset;
 
-                    NvInfoFunction infoFunction;
-                    size_t size;
-                    NvInfoAttribute *pAttr = (NvInfoAttribute *) p;
-                    while (pAttr < (NvInfoAttribute *) ((byte *) p + sh_table[i].sh_size)) {
-                        size = 0;
-                        switch (pAttr->fmt) {
-                            case EIFMT_SVAL:
-                                size = sizeof(NvInfoAttribute) + pAttr->value;
-                                break;
-                            case EIFMT_NVAL:
-                                size = sizeof(NvInfoAttribute);
-                                break;
-                            case EIFMT_HVAL:
-                                size = sizeof(NvInfoAttribute);
-                                break;
+    //                 NvInfoFunction infoFunction;
+    //                 size_t size;
+    //                 NvInfoAttribute *pAttr = (NvInfoAttribute *) p;
+    //                 while (pAttr < (NvInfoAttribute *) ((byte *) p + sh_table[i].sh_size)) {
+    //                     size = 0;
+    //                     switch (pAttr->fmt) {
+    //                         case EIFMT_SVAL:
+    //                             size = sizeof(NvInfoAttribute) + pAttr->value;
+    //                             break;
+    //                         case EIFMT_NVAL:
+    //                             size = sizeof(NvInfoAttribute);
+    //                             break;
+    //                         case EIFMT_HVAL:
+    //                             size = sizeof(NvInfoAttribute);
+    //                             break;
 
-                        }
-                        if (pAttr->attr == EIATTR_KPARAM_INFO) {
-                            printf("ddddddddddddddd\n");
-                            NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
+    //                     }
+    //                     if (pAttr->attr == EIATTR_KPARAM_INFO) {
+    //                         NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
 
-                            //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
-                            //       nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
+    //                         //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
+    //                         //       nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
 
-                            NvInfoKParam nvInfoKParam1;
-                            nvInfoKParam1.index = nvInfoKParam->index;
-                            nvInfoKParam1.ordinal = nvInfoKParam->ordinal;
-                            nvInfoKParam1.offset = nvInfoKParam->offset;
-                            nvInfoKParam1.a = nvInfoKParam->a;
-                            nvInfoKParam1.size = nvInfoKParam->size;
-                            nvInfoKParam1.b = nvInfoKParam->b;
-                            infoFunction.params.push_back(nvInfoKParam1);
-                        }
-                        pAttr = (NvInfoAttribute *) ((byte *) pAttr + size);
-                    }
-                    CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
-                }
-            }
-            free(sh_str);
-        }
-        free(sh_table);
-        printf("eeeeeeeeeeeeeee\n");
+    //                         NvInfoKParam nvInfoKParam1;
+    //                         nvInfoKParam1.index = nvInfoKParam->index;
+    //                         nvInfoKParam1.ordinal = nvInfoKParam->ordinal;
+    //                         nvInfoKParam1.offset = nvInfoKParam->offset;
+    //                         nvInfoKParam1.a = nvInfoKParam->a;
+    //                         nvInfoKParam1.size = nvInfoKParam->size;
+    //                         nvInfoKParam1.b = nvInfoKParam->b;
+    //                         infoFunction.params.push_back(nvInfoKParam1);
+    //                     }
+    //                     pAttr = (NvInfoAttribute *) ((byte *) pAttr + size);
+    //                 }
+    //                 CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
+    //             }
+    //         }
+    //         free(sh_str);
+    //     }
+    //     free(sh_table);
 
-
-        Buffer *input_buffer = new Buffer();
-        input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
-        input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
-         
-        printf("fffffffffffffff\n");
-        CudaRtFrontend::Prepare();
-        CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
-        if (CudaRtFrontend::Success()) return (void **) fatCubin;
-        printf("gggggggggggggggg\n");
-    }
+    //     Buffer *input_buffer = new Buffer();
+    //     input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
+    //     input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
+    //     CudaRtFrontend::Prepare();
+    //     CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
+    //     if (CudaRtFrontend::Success()) return (void **) fatCubin;
+    // }
 
         Buffer *input_buffer = new Buffer();
         input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
         input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
          
-        printf("fffffffffffffff\n");
         CudaRtFrontend::Prepare();
         CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
         if (CudaRtFrontend::Success()) return (void **) fatCubin;
- printf("return null\n");
   return NULL;
 }
 
@@ -216,7 +184,7 @@ extern "C" __host__ void __cudaRegisterFunction(
 
 
 
-  CudaRtFrontend::addHost2DeviceFunc((void*)hostFun,deviceFun);
+//   CudaRtFrontend::addHost2DeviceFunc((void*)hostFun,deviceFun);
 }
 
 extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
