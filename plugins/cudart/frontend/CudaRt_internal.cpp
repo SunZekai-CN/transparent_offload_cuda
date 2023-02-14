@@ -55,7 +55,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
         *fatCubinHandle = (void *) binary->data;
     }
-
+    else {printf("this is not fatbinc_magic\n");}
 
 
 
