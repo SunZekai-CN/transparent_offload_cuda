@@ -39,6 +39,25 @@
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
   printf("i am cudaregisterfatbinary\n");
+  unsigned int magic;
+    void **fatCubinHandle;
+   magic = *(unsigned int *) fatCubin;
+    fatCubinHandle = malloc(sizeof(void *)); //original
+//	fatCubinHandle = myfat; //cocotion
+
+    if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
+        __fatBinC_Wrapper_t *binary = (__fatBinC_Wrapper_t *) fatCubin;
+        printf("FATBINC_MAGIC\n");
+        printf("magic= %x\n", binary->magic);
+        printf("version= %x\n", binary->version);
+        printf("data= %p\n", binary->data);
+        printf("filename_or_fatbins= %p\n", binary->filename_or_fatbins);
+
+        *fatCubinHandle = (void *) binary->data;
+    }
+
+
+
 
   /* Fake host pointer */
   __fatBinC_Wrapper_t *bin = (__fatBinC_Wrapper_t *)fatCubin;
