@@ -157,8 +157,8 @@ extern "C" __host__ void __cudaRegisterFunction(
 
 //   printf("__cudaRegisterFunction - hostFun:%x deviceFun:%s\n",hostFun,deviceFun);
 //   printf("fatcubinhandle:%p,value = %p\n",fatCubinHandle,*fatCubinHandle);
-  if (fatCubinHandle == nullptr)printf("fatCubinHandle is nullptr\n");
-  if (strcmp(CudaUtil::MarshalHostPointer(fatCubinHandle),"(nil)") == 0)printf("fatCubinHandle is (nil)\n");
+//   if (fatCubinHandle == nullptr)printf("fatCubinHandle is nullptr\n");
+//   if (strcmp(CudaUtil::MarshalHostPointer(fatCubinHandle),"(nil)") == 0)printf("fatCubinHandle is (nil)\n");
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
       CudaUtil::MarshalHostPointer(fatCubinHandle));
@@ -193,10 +193,10 @@ extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
                                            int size, int constant, int global) {
     
     // printf("hostvar:%s\n",hostVar);
-    printf("__cudaRegisterVar - fatcubinhandle:%p ,%s\n",fatCubinHandle,CudaUtil::MarshalHostPointer(fatCubinHandle));
-    printf("__cudaRegisterVar - hostvar:%p  ,   %s\n",hostVar,CudaUtil::MarshalHostPointer(hostVar));
-    printf("__cudaRegisterVar - deviceaddress:%s devicename:%s\n",deviceAddress,deviceName);
-    printf("__cudaRegisterVar - ext:%d size:%d constant:%d global:%d\n",ext,size,constant,global);
+    // printf("__cudaRegisterVar - fatcubinhandle:%p ,%s\n",fatCubinHandle,CudaUtil::MarshalHostPointer(fatCubinHandle));
+    // printf("__cudaRegisterVar - hostvar:%p  ,   %s\n",hostVar,CudaUtil::MarshalHostPointer(hostVar));
+    // printf("__cudaRegisterVar - deviceaddress:%s devicename:%s\n",deviceAddress,deviceName);
+    // printf("__cudaRegisterVar - ext:%d size:%d constant:%d global:%d\n",ext,size,constant,global);
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddStringForArguments(
       CudaUtil::MarshalHostPointer(fatCubinHandle));
@@ -208,7 +208,7 @@ extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
   CudaRtFrontend::AddVariableForArguments(constant);
   CudaRtFrontend::AddVariableForArguments(global);
   CudaRtFrontend::Execute("cudaRegisterVar");
-  printf("finish cudaregistervar");
+//   printf("finish cudaregistervar");
 }
 
 extern "C" __host__ void __cudaRegisterShared(void **fatCubinHandle,

@@ -126,7 +126,7 @@ void Frontend::Init(Communicator *c) {
 }
 
 Frontend::~Frontend() {
-  printf("iam ~fronted\n");
+  // printf("iam ~fronted\n");
   if (mpFrontends != NULL) {
     pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
     auto env = getenv("GVIRTUS_DUMP_STATS");
@@ -150,7 +150,7 @@ Frontend::~Frontend() {
 }
 
 Frontend *Frontend::GetFrontend(Communicator *c) {
-  printf("iam getfronted\n");
+  // printf("iam getfronted\n");
   if (mpFrontends == NULL) mpFrontends = new map<pthread_t, Frontend *>();
   pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
   if (mpFrontends->find(tid) != mpFrontends->end())
@@ -207,7 +207,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
 }
 
 void Frontend::Prepare() {
-  printf("i am prepare\n");
+  // printf("i am prepare\n");
   pid_t tid = syscall(SYS_gettid);
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
