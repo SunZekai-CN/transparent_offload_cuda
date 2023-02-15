@@ -51,15 +51,8 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaGetDevice(int *device) {
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddHostPointerForArguments(device);
   CudaRtFrontend::Execute("cudaGetDevice");
-  printf("finish cudagetdevice");
   if (CudaRtFrontend::Success())
-    {
       *device = *(CudaRtFrontend::GetOutputHostPointer<int>());
-      printf("cudagetdevice get success\n");
-      printf("device is :%d\n",device[0]);
-    }
-    else
-    printf("cudagetdevice fail\n");
   return CudaRtFrontend::GetExitCode();
 }
 
@@ -81,9 +74,9 @@ cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
   if (CudaRtFrontend::Success()) {
     memmove(prop, CudaRtFrontend::GetOutputHostPointer<cudaDeviceProp>(),
             sizeof(cudaDeviceProp));
-    // char name[sizeof(prop->name)];
-    // snprintf(name, sizeof(name), "%s", prop->name);
-    // snprintf(prop->name, sizeof(prop->name), "%s (GVirtuS)", name);
+    char name[sizeof(prop->name)];
+    snprintf(name, sizeof(name), "%s", prop->name);
+    snprintf(prop->name, sizeof(prop->name), "%s (GVirtuS)", name);
 #ifndef CUDA_VERSION
 #error CUDA_VERSION not defined
 #endif
@@ -91,6 +84,7 @@ cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     prop->canMapHostMemory = 0;
 #endif
   }
+  if (CudaRtFrontend::Success())printf("cudaGetDeviceProperties succes")
   return CudaRtFrontend::GetExitCode();
 }
 
