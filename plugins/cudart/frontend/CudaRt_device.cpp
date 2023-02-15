@@ -51,8 +51,15 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaGetDevice(int *device) {
   CudaRtFrontend::Prepare();
   CudaRtFrontend::AddHostPointerForArguments(device);
   CudaRtFrontend::Execute("cudaGetDevice");
+  printf("finish cudagetdevice");
   if (CudaRtFrontend::Success())
-    *device = *(CudaRtFrontend::GetOutputHostPointer<int>());
+    {
+      *device = *(CudaRtFrontend::GetOutputHostPointer<int>());
+      printf("cudagetdevice get success\n");
+      printf("device is :%d\n",device[0]);
+    }
+    else
+    printf("cudagetdevice fail\n");
   return CudaRtFrontend::GetExitCode();
 }
 
