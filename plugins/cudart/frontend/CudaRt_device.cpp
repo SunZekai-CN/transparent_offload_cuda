@@ -84,7 +84,6 @@ cudaGetDeviceProperties(cudaDeviceProp *prop, int device) {
     prop->canMapHostMemory = 0;
 #endif
   }
-  if (CudaRtFrontend::Success())printf("cudaGetDeviceProperties succes")
   return CudaRtFrontend::GetExitCode();
 }
 
