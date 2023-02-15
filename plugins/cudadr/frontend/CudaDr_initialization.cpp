@@ -42,6 +42,7 @@ extern CUresult cuInit(unsigned int flags) {
     FrontEndFactory.deleteFrontEnd(pFrontEnd);
     return result;   
 */
+   printf("iam cuinit\n");
     CudaDrFrontend::Prepare();
     CudaDrFrontend::AddVariableForArguments(flags);
     CudaDrFrontend::Execute("cuInit");
