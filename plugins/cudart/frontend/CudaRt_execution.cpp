@@ -151,6 +151,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg,
 
 extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDim, dim3 blockDim, void** args, size_t sharedMem, cudaStream_t stream ) {
 
+    printf("i am cudalauchkernel\n");
     CudaRtFrontend::Prepare();
     CudaRtFrontend::AddDevicePointerForArguments(func);
     CudaRtFrontend::AddVariableForArguments(gridDim);
@@ -159,7 +160,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     std::string deviceFunc=CudaRtFrontend::getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = CudaRtFrontend::getInfoFunc(deviceFunc);
 
-    //printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
+    printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
 
 
     size_t argsSize=0;
@@ -176,7 +177,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
 
     for (NvInfoKParam infoKParam:infoFunction.params) {
         byte *p=pArgs+infoKParam.offset;
-        //printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
+        // printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
 
 
         memcpy(p,args[infoKParam.ordinal],((infoKParam.size & 0xf8) >> 2));
