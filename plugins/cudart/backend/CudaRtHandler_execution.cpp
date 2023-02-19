@@ -97,12 +97,15 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     printf("entering lauchkernel\n");
 
     void *func = (void *)input_buffer->Get<pointer_t>();
+    printf("aaaaaaaa\n");
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
+    printf("bbbbbbbbbbbbbbbbb\n");
     void **args = (void **)input_buffer->Get<pointer_t>();
+    printf("cccccccc\n");
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-
+    printf("dddddddddddddddddd\n");
 
 
     // void *func = input_buffer->GetFromMarshal<void *>();
