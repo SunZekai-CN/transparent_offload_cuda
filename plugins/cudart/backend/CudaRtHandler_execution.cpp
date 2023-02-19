@@ -102,7 +102,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     dim3 blockDim = input_buffer->Get<dim3>();
     printf("bbbbbbbbbb\n");
     void **args = (void **)input_buffer->Get<pointer_t>();
-    printf("cccccccc\n")
+    printf("cccccccc\n");
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
     printf("execute kernel\n");
