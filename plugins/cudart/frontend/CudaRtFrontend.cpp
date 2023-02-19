@@ -45,7 +45,6 @@ map<const void*, std::string>* CudaRtFrontend::mapHost2DeviceFunc = NULL;
 map<std::string, NvInfoFunction>* CudaRtFrontend::mapDeviceFunc2InfoFunc = NULL;
 
 CudaRtFrontend::CudaRtFrontend() {
-   printf("iam getInfoFunc with map is %d\n",mapDeviceFunc2InfoFunc->size());
   if (devicePointers == NULL) devicePointers = new set<const void*>();
   if (mappedPointers == NULL)
     mappedPointers = new map<const void*, mappedPointer>();
