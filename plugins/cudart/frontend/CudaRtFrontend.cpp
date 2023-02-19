@@ -45,12 +45,14 @@ map<const void*, std::string>* CudaRtFrontend::mapHost2DeviceFunc = NULL;
 map<std::string, NvInfoFunction>* CudaRtFrontend::mapDeviceFunc2InfoFunc = NULL;
 
 CudaRtFrontend::CudaRtFrontend() {
+   printf("iam getInfoFunc with map is %d\n",mapDeviceFunc2InfoFunc->size());
   if (devicePointers == NULL) devicePointers = new set<const void*>();
   if (mappedPointers == NULL)
     mappedPointers = new map<const void*, mappedPointer>();
 
     if (mapHost2DeviceFunc == NULL) mapHost2DeviceFunc = new map<const void*, std::string>();
     if (mapDeviceFunc2InfoFunc == NULL) mapDeviceFunc2InfoFunc = new map<std::string, NvInfoFunction>();
+    printf("iam getInfoFunc with map is %d\n",mapDeviceFunc2InfoFunc->size());
 
   if (toManage == NULL) toManage = new map<pthread_t, stack<void*>*>();
   gvirtus::frontend::Frontend::GetFrontend();
