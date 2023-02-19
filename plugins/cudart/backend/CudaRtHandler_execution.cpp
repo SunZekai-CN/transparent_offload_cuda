@@ -96,9 +96,9 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     //LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
     printf("entering lauchkernel\n");
 
-    uint64_t func = input_buffer->Get<pointer_t>();
-    printf("cudaLaunchKernel - hostFunc:%x\n",func);
-    void * func = (void *) func;
+    uint64_t func_t = input_buffer->Get<pointer_t>();
+    printf("cudaLaunchKernel - hostFunc:%x\n",func_t);
+    void * func = (void *) func_t;
     printf("aaaaaaaa\n");
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
