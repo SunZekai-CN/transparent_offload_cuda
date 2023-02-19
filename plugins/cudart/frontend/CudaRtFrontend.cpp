@@ -51,7 +51,6 @@ CudaRtFrontend::CudaRtFrontend() {
 
     if (mapHost2DeviceFunc == NULL) mapHost2DeviceFunc = new map<const void*, std::string>();
     if (mapDeviceFunc2InfoFunc == NULL) mapDeviceFunc2InfoFunc = new map<std::string, NvInfoFunction>();
-    printf("iam getInfoFunc with map is %d\n",mapDeviceFunc2InfoFunc->size());
 
   if (toManage == NULL) toManage = new map<pthread_t, stack<void*>*>();
   gvirtus::frontend::Frontend::GetFrontend();
