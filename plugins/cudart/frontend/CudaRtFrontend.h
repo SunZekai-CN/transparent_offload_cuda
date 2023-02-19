@@ -274,10 +274,12 @@ class CudaRtFrontend {
   static inline void addConfigureElement() {}
 
     static inline void addDeviceFunc2InfoFunc(std::string deviceFunc, NvInfoFunction infoFunction) {
+      printf("iam addDeviceFunc2InfoFunc");
         mapDeviceFunc2InfoFunc->insert(make_pair(deviceFunc, infoFunction));
     }
 
     static inline NvInfoFunction getInfoFunc(std::string deviceFunc) {
+      printf("iam getInfoFunc\n");
         return mapDeviceFunc2InfoFunc->find(deviceFunc)->second;
     };
 
