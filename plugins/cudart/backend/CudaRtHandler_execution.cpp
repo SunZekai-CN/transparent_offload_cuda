@@ -94,14 +94,18 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     //LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
-
+    
+    printf("entering lauchkernel\n");
     void *func = (void *)input_buffer->Get<pointer_t>();
+    printf("aaaaaaaaaa\n");
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
+    printf("bbbbbbbbbb\n");
     void **args = (void **)input_buffer->Get<pointer_t>();
+    printf("cccccccc\n")
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-
+    printf("execute kernel\n");
     // void *func = input_buffer->GetFromMarshal<void *>();
 
     // std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
