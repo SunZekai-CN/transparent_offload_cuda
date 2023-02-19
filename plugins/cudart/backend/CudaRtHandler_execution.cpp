@@ -94,11 +94,15 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     //LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
-    
+
+    printf("entering lauchkernel\n");
     void *func = (void *)input_buffer->Get<pointer_t>();
+    printf("aaaaaaaaaaa\n");
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
+    printf("bbbbbbbbbbbbbbb\n");
     void **args = (void **)input_buffer->Get<pointer_t>();
+    printf("ccccccccccccccccc\n");
     size_t sharedMem = input_buffer->Get<size_t>();
     cudaStream_t stream = input_buffer->Get<cudaStream_t>();
 
@@ -139,7 +143,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
     // size_t sharedMem = input_buffer->Get<size_t>();
     // cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-
+    printf("execute on server\n");
     cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
 
     //LOG4CPLUS_DEBUG(logger, "LaunchKernel: post");
