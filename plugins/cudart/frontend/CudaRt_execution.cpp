@@ -157,7 +157,9 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     CudaRtFrontend::AddVariableForArguments(gridDim);
     CudaRtFrontend::AddVariableForArguments(blockDim);
 
+    printf("aaaaaaa\n");
     std::string deviceFunc=CudaRtFrontend::getDeviceFunc(const_cast<void *>(func));
+    printf("bbbbbbbbbbbb\n");
     NvInfoFunction infoFunction = CudaRtFrontend::getInfoFunc(deviceFunc);
 
     printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
