@@ -29,7 +29,7 @@
 #include "cuda_runtime_compat.h"
 #endif
 
-
+#define _GLIBCXX_USE_CXX11_ABI 0
 
 CUDA_ROUTINE_HANDLER(ConfigureCall) {
   /* cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
