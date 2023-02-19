@@ -95,7 +95,8 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     //LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
     printf("entering lauchkernel\n");
-
+    void *func = nullptr;
+    std::string deviceFunc=CudaRtFrontend::getDeviceFunc(func);
     pointer_t func_t = input_buffer->Get<pointer_t>();
     printf("success/n");
     printf("cudaLaunchKernel - hostFunc:%x\n",func_t);
