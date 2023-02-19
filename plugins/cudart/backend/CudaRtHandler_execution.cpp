@@ -96,7 +96,8 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     //LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
     printf("entering lauchkernel\n");
 
-    uint64_t func_t = input_buffer->Get<pointer_t>();
+    pointer_t func_t = input_buffer->Get<pointer_t>();
+    printf("success/n");
     printf("cudaLaunchKernel - hostFunc:%x\n",func_t);
     void * func = (void *) func_t;
     printf("aaaaaaaa\n");
