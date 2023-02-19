@@ -335,7 +335,7 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     output_buffer->Add(gDim);
     output_buffer->Add(wSize);
 
-    // pThis->addHost2DeviceFunc((void *) hostfun, deviceFun);
+    pThis->addHost2DeviceFunc((void *) hostfun, deviceFun);
 
     return std::make_shared<Result>(cudaSuccess, output_buffer);
   } catch (string e) {

@@ -182,7 +182,7 @@ extern "C" __host__ void __cudaRegisterFunction(
 
 
 
-//   CudaRtFrontend::addHost2DeviceFunc((void*)hostFun,deviceFun);
+  CudaRtFrontend::addHost2DeviceFunc((void*)hostFun,deviceFun);
 }
 
 extern "C" __host__ void __cudaRegisterVar(void **fatCubinHandle, char *hostVar,
