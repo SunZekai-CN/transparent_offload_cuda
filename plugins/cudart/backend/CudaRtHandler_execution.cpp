@@ -98,6 +98,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
     uint64_t func = input_buffer->Get<pointer_t>();
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
+    void * func = (void *) func;
     printf("aaaaaaaa\n");
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
