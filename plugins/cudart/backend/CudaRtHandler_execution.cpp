@@ -100,16 +100,16 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     printf("bbbbbbbbbbbbbbbbb\n");
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
+    printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
 
-    
-    printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
+    printf("success\n");
     printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
      
     size_t argsSize=0;
     for (NvInfoKParam infoKParam:infoFunction.params) {
-        printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
-              infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+        // printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
+        //       infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
         argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
     }
     printf("ccccccccccccccccc\n");

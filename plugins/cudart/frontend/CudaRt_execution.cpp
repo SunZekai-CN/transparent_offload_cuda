@@ -170,8 +170,8 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
 
     size_t argsSize=0;
     for (NvInfoKParam infoKParam:infoFunction.params) {
-        //printf("index: %d align%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
-        //       infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+        printf("index: %d align%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
+              infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
         argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
     }
 
@@ -182,7 +182,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
 
     for (NvInfoKParam infoKParam:infoFunction.params) {
         byte *p=pArgs+infoKParam.offset;
-        // printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
+        printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
 
 
         memcpy(p,args[infoKParam.ordinal],((infoKParam.size & 0xf8) >> 2));
