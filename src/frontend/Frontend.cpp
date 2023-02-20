@@ -212,3 +212,16 @@ void Frontend::Prepare() {
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
 }
+
+void Frontend::printinfo() {
+  printf("iam printfinfo\n");
+  pid_t tid = syscall(SYS_gettid);
+  if (mpFrontends->find(tid) != mpFrontends->end()) {
+    printf("execute times: %lu\n",frontend->mRoutinesExecuted);
+    printf("sent size: %lu\n",frontend->mDataSent);
+    printf("sending time: %lf\n",frontend->mSendingTime);
+    printf("remote GPU time: %lf\n",frontend->mRoutineExecutionTime);
+    printf("received size: %lu\n", frontend->mDataReceived);
+    printf("receiving time: %lf\n",frontend->mReceivingTime);
+  }
+}

@@ -67,6 +67,10 @@ class CudaRtFrontend {
     gvirtus::frontend::Frontend::GetFrontend()->Prepare();
   }
 
+  static inline void printinfo() {
+    gvirtus::frontend::Frontend::GetFrontend()->printinfo();
+  }
+
   static inline Buffer* GetLaunchBuffer() {
     return gvirtus::frontend::Frontend::GetFrontend()->GetLaunchBuffer();
   }
