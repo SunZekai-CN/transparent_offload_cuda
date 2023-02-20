@@ -1559,7 +1559,7 @@ extern "C" cudnnStatus_t CUDNNWINAPI cudnnConvolutionForward(cudnnHandle_t handl
 
     // printf("ALPHA IN FRONTEND INIZIALE: %f\n", *(float  *)alpha);
     printf("iam cudnnConvolutionForward\n");
-    return cudaSuccess;
+    return CUDNN_STATUS_SUCCESS;
 
     CudnnFrontend::Prepare();
   
