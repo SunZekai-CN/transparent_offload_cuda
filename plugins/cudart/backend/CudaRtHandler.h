@@ -139,8 +139,6 @@ class CudaRtHandler : public gvirtus::backend::Handler {
     }
 
      inline std::string getDeviceFunc(void *hostFunc) {
-        for(auto it = mapHost2DeviceFunc->cbegin(); it != mapHost2DeviceFunc->cend(); ++it)
-         printf("deviceFunc %x: %s\n", it->first, it->second.c_str());
         return mapHost2DeviceFunc->find(hostFunc)->second;
     };
 
