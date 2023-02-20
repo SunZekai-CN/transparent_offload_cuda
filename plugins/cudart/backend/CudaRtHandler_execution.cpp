@@ -95,65 +95,65 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     //LOG4CPLUS_DEBUG(logger, "Entering in LaunchKernel");
     printf("entering lauchkernel\n");
-    void *func = nullptr;
-    std::string deviceFunc=CudaRtFrontend::getDeviceFunc(func);
-    pointer_t func_t = input_buffer->Get<pointer_t>();
-    printf("success/n");
-    printf("cudaLaunchKernel - hostFunc:%x\n",func_t);
-    func = (void *) func_t;
-    printf("aaaaaaaa\n");
-    dim3 gridDim = input_buffer->Get<dim3>();
-    dim3 blockDim = input_buffer->Get<dim3>();
-    printf("bbbbbbbbbbbbbbbbb\n");
-    void **args = (void **)input_buffer->Get<pointer_t>();
-    printf("cccccccc\n");
-    size_t sharedMem = input_buffer->Get<size_t>();
-    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-    printf("dddddddddddddddddd\n");
-
-
-    // void *func = input_buffer->GetFromMarshal<void *>();
-    // printf("aaaaaaaaaaa\n");
-    // std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
-    // printf("bbbbbbbbbbbbbbbbb\n");
-    // printf("cudaLaunchKernel - hostFunc:%x\n",func);
-    // printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
-    // NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
-
-    // printf("success\n");
-    // printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
-     
-    // size_t argsSize=0;
-    // for (NvInfoKParam infoKParam:infoFunction.params) {
-    //     // printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
-    //     //       infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
-    //     argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
-    // }
-    // printf("ccccccccccccccccc\n");
+    // void *func = nullptr;
+    // std::string deviceFunc=CudaRtFrontend::getDeviceFunc(func);
+    // pointer_t func_t = input_buffer->Get<pointer_t>();
+    // printf("success/n");
+    // printf("cudaLaunchKernel - hostFunc:%x\n",func_t);
+    // func = (void *) func_t;
+    // printf("aaaaaaaa\n");
     // dim3 gridDim = input_buffer->Get<dim3>();
     // dim3 blockDim = input_buffer->Get<dim3>();
-    // printf("dddddddddddd\n");
-    // byte *pArgs = input_buffer->AssignAll<byte>();
-    // //CudaRtHandler::hexdump(pArgs,argsSize);
-
-    // void *args[infoFunction.params.size()];
-    // printf("eeeeeeeeeeeeee\n");
-    // for (NvInfoKParam infoKParam:infoFunction.params) {
-    //     printf("index: %d ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.ordinal,
-    //           infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
-
-    //     args[infoKParam.ordinal]=reinterpret_cast<void *>((byte *)pArgs+infoKParam.offset);
-    // }
-
-    // /*
-    // for (int i=0;i<infoFunction.params.size();i++) {
-    //     printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
-    // }
-    // */
-    // printf("fffffff\n");
+    // printf("bbbbbbbbbbbbbbbbb\n");
+    // void **args = (void **)input_buffer->Get<pointer_t>();
+    // printf("cccccccc\n");
     // size_t sharedMem = input_buffer->Get<size_t>();
     // cudaStream_t stream = input_buffer->Get<cudaStream_t>();
-    // printf("ggggggggggggg\n");
+    // printf("dddddddddddddddddd\n");
+
+
+    void *func = input_buffer->GetFromMarshal<void *>();
+    printf("aaaaaaaaaaa\n");
+    std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
+    printf("bbbbbbbbbbbbbbbbb\n");
+    printf("cudaLaunchKernel - hostFunc:%x\n",func);
+    printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
+    NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
+
+    printf("success\n");
+    printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
+     
+    size_t argsSize=0;
+    for (NvInfoKParam infoKParam:infoFunction.params) {
+        // printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
+        //       infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+        argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
+    }
+    printf("ccccccccccccccccc\n");
+    dim3 gridDim = input_buffer->Get<dim3>();
+    dim3 blockDim = input_buffer->Get<dim3>();
+    printf("dddddddddddd\n");
+    byte *pArgs = input_buffer->AssignAll<byte>();
+    //CudaRtHandler::hexdump(pArgs,argsSize);
+
+    void *args[infoFunction.params.size()];
+    printf("eeeeeeeeeeeeee\n");
+    for (NvInfoKParam infoKParam:infoFunction.params) {
+        printf("index: %d ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.ordinal,
+              infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+
+        args[infoKParam.ordinal]=reinterpret_cast<void *>((byte *)pArgs+infoKParam.offset);
+    }
+
+    /*
+    for (int i=0;i<infoFunction.params.size();i++) {
+        printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
+    }
+    */
+    printf("fffffff\n");
+    size_t sharedMem = input_buffer->Get<size_t>();
+    cudaStream_t stream = input_buffer->Get<cudaStream_t>();
+    printf("ggggggggggggg\n");
     cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
 
     //LOG4CPLUS_DEBUG(logger, "LaunchKernel: post");
