@@ -217,6 +217,7 @@ void Frontend::printinfo() {
   printf("iam printfinfo\n");
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
+    auto frontend = mpFrontends->find(tid)->second;
     printf("execute times: %lu\n",frontend->mRoutinesExecuted);
     printf("sent size: %lu\n",frontend->mDataSent);
     printf("sending time: %lf\n",frontend->mSendingTime);
