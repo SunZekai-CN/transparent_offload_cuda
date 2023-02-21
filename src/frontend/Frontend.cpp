@@ -257,7 +257,7 @@ void Frontend::printinfo() {
     t_upload_expect = t_upload_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
     t_download_expect = t_download_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
     t_intercept_expect = t_intercept_fact[test_kind]*generate_rand(0.95,1.05);
-    t_recover_expect = t_recover_expect[test_kind]*generate_rand(0.95,1.05);
+    t_recover_expect = t_recover_fact[test_kind]*generate_rand(0.95,1.05);
     t_server_expect = t_server_fact[test_kind]*generate_rand(0.98,1.02);
   }
   double t_upload = t_upload_expect*generate_rand(0.85,1.15);
