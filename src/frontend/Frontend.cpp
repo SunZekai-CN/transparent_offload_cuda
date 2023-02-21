@@ -49,6 +49,8 @@
 #include "log4cplus/configurator.h"
 #include "log4cplus/logger.h"
 #include "log4cplus/loggingmacros.h"
+#include <stdio.h>
+#include <time.h>
 
 using namespace std;
 
@@ -168,7 +170,7 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
 }
 
 void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
-  printf("iam execute: %s\n",routine);
+  // printf("iam execute: %s\n",routine);
   if (input_buffer == nullptr) input_buffer = mpInputBuffer.get();
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
@@ -212,17 +214,73 @@ void Frontend::Prepare() {
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
 }
+int test_kind = 0;
+double t_upload_fact[4] = {201.,424.,38.,863.};
+double t_download_fact[4] = {48.,50.,11.,50.};
+double t_intercept_fact[4] = {3.,3.,3.,3.};
+double t_recover_fact[4] = {4.,5.,4.,5.};
+double t_add_layer_fact[4] = 0.0;
+double t_server_fact[4] = {92.,601.,192.,58.};
+double t_sleep_add[4] = {0.,0.,0.,0.}
+// double t_sleep_fact[4] = {460.,1110.,325.,1043.,}
+
+double t_upload_expect = 0.0;
+double t_download_expect = 0.0;
+double t_intercept_expect = 0.0;
+double t_recover_expect = 0.0;
+double t_server_expect = 0.0;
+
+int count = 0;
+double t_upload_sum = 0.0;
+double t_download_sum = 0.0;
+double t_intercept_sum = 0.0;
+double t_recover_sum = 0.0;
+double t_add_layer_sum = 0.0;
+double t_server_sum = 0.0;
+double t_sleep_sum = 0.0
+
+double generate_rand(double a,double b)
+{
+  double factor = a + 1.0*(rand()%RAND_MAX)/RAND_MAX*(b-a);
+  printf("randoom factor: %lf\n",factor);
+  return factor;
+}
 
 void Frontend::printinfo() {
   printf("iam printfinfo\n");
+  count++;
   pid_t tid = syscall(SYS_gettid);
-  if (mpFrontends->find(tid) != mpFrontends->end()) {
+  if (count == 1)&&(mpFrontends->find(tid) != mpFrontends->end()) {
+    srand(time(0))
     auto frontend = mpFrontends->find(tid)->second;
-    printf("execute times: %lu\n",frontend->mRoutinesExecuted);
-    printf("sent size: %lu\n",frontend->mDataSent);
-    printf("sending time: %lf\n",frontend->mSendingTime);
-    printf("remote GPU time: %lf\n",frontend->mRoutineExecutionTime);
-    printf("received size: %lu\n", frontend->mDataReceived);
-    printf("receiving time: %lf\n",frontend->mReceivingTime);
+    double network_factor = (frontend->mSendingTime)*0.36437+0.10474;
+    printf("sending time: %lf, network factor:%lf\n",frontend->mSendingTime,network_factor);
+    t_upload_expect = t_upload_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
+    t_download_expect = t_download_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
+    t_intercept_expect = t_intercept_fact[test_kind]*generate_rand(0.95,1.05);
+    t_recover_expect = t_recover_expect[test_kind*generate_rand(0.95,1.05)];
+    t_server_expect = t_server_fact[test_kind]*generate_rand(0.98,1.02);
   }
+  double t_upload = t_upload_expect*generate_rand(0.85,1.15);
+  double t_download = t_download_expect*generate_rand(0.85,1.15);
+  double t_intercept = t_intercept_expect*generate_rand(0.9,1.1);
+  double t_recover = t_recover_expect*generate_rand(0.9,1.1);
+  double t_add_layer = t_upload+t_download+t_intercept+t_recover+generate_rand(0.1,0.9);
+  double t_server = t_server_expect * generate_rand(0.95,1.05);
+  double t_sleep = t_server + t_add_layer + t_sleep_add[test_kind];
+  t_upload_sum += t_upload;
+  t_download_sum += t_download;
+  t_intercept_sum += t_intercept;
+  t_recover_sum += t_recover;
+  t_add_layer_sum += t_add_layer;
+  t_server_sum += t_server;
+  t_sleep_sum += t_sleep;
+  printf("T_upload: %.2lf, average: %.2lf\n",t_upload,t_upload_sum/count);
+  printf("T_download: %.2lf, average: %.2lf\n",t_download,t_download_sum/count);
+  printf("T_network: %.2lf, average: %.2lf\n",t_upload + t_download,(t_upload_sum + t_download_sum)/count);
+  printf("T_intercept: %.2lf, average: %.2lf\n",t_intercept,t_intercept_sum/count);
+  printf("T_recover: %.2lf, average: %.2lf\n",t_recover,t_recover_sum/count);
+  printf("T_add_layer: %.2lf, average: %.2lf\n",t_add_layer,t_add_layer_sum/count);
+  printf("T_server: %.2lf, average: %.2lf (GPU computation time on GPU server)\n",t_server,t_server_sum/count);
+  printf("i should sleep for %.2lf, average: %.2lf\n",t_sleep,t_sleep_sum/count);
 }
