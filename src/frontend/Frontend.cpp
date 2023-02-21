@@ -249,7 +249,7 @@ void Frontend::printinfo() {
   printf("iam printfinfo\n");
   inference_count++;
   pid_t tid = syscall(SYS_gettid);
-  if (inference_count == 1)&&(mpFrontends->find(tid) != mpFrontends->end()) {
+  if ((inference_count == 1)&&(mpFrontends->find(tid) != mpFrontends->end())) {
     srand(time(0))
     auto frontend = mpFrontends->find(tid)->second;
     double network_factor = (frontend->mSendingTime)*0.36437+0.10474;
