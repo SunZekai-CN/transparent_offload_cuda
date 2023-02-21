@@ -250,14 +250,14 @@ void Frontend::printinfo() {
   inference_count++;
   pid_t tid = syscall(SYS_gettid);
   if ((inference_count == 1)&&(mpFrontends->find(tid) != mpFrontends->end())) {
-    srand(time(0))
+    srand(time(0));
     auto frontend = mpFrontends->find(tid)->second;
     double network_factor = (frontend->mSendingTime)*0.36437+0.10474;
     printf("sending time: %lf, network factor:%lf\n",frontend->mSendingTime,network_factor);
     t_upload_expect = t_upload_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
     t_download_expect = t_download_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
     t_intercept_expect = t_intercept_fact[test_kind]*generate_rand(0.95,1.05);
-    t_recover_expect = t_recover_expect[test_kind*generate_rand(0.95,1.05)];
+    t_recover_expect = t_recover_expect[test_kind*generate_rand(0.95,1.05);
     t_server_expect = t_server_fact[test_kind]*generate_rand(0.98,1.02);
   }
   double t_upload = t_upload_expect*generate_rand(0.85,1.15);
