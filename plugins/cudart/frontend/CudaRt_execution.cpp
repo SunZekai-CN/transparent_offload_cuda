@@ -151,7 +151,7 @@ extern "C" __host__ cudaError_t CUDARTAPI cudaSetupArgument(const void *arg,
 
 extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDim, dim3 blockDim, void** args, size_t sharedMem, cudaStream_t stream ) {
 
-    printf("i am cudalauchkernel\n");
+    // printf("i am cudalauchkernel\n");
     CudaRtFrontend::printinfo();
     return cudaSuccess;
   //   CudaRtFrontend::Prepare();
