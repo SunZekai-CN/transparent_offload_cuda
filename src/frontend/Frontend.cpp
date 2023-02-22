@@ -221,7 +221,7 @@ double t_download_fact[4] = {48.,50.,11.,50.};
 double t_intercept_fact[4] = {3.,3.,3.,3.};
 double t_recover_fact[4] = {4.,5.,4.,5.};
 double t_server_fact[4] = {92.,601.,192.,58.};
-double t_sleep_add[4] = -15.;
+double t_sleep_add = -15.;
 // double t_sleep_fact[4] = {460.,1110.,325.,1043.,}
 
 double t_upload_expect = 0.0;
