@@ -216,12 +216,12 @@ void Frontend::Prepare() {
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
 }
 int test_kind = 0;
-double t_upload_fact[4] = {201.,424.,38.,863.};
-double t_download_fact[4] = {48.,50.,11.,50.};
+double t_upload_fact[4] = {201.,424.,28.,763.};
+double t_download_fact[4] = {48.,52.,11.,50.};
 double t_intercept_fact[4] = {3.,3.,3.,3.};
 double t_recover_fact[4] = {4.,5.,4.,5.};
-double t_server_fact[4] = {92.,601.,192.,58.};
-double t_sleep_add = -15.;
+double t_server_fact[4] = {63.,527.,15.,24.};
+double t_sleep_add = -15.5;
 // double t_sleep_fact[4] = {460.,1110.,325.,1043.,}
 
 double t_upload_expect = 0.0;
@@ -275,7 +275,7 @@ void Frontend::printinfo() {
   t_add_layer_sum += t_add_layer;
   t_server_sum += t_server;
   t_sleep_sum += t_sleep;
-  // usleep(int(t_sleep*1000));
+  usleep(int(t_sleep*1000));
   printf("T_upload: %.2lf ms, average: %.2lf ms\n",t_upload,t_upload_sum/inference_count);
   printf("T_download: %.2lf ms, average: %.2lf ms\n",t_download,t_download_sum/inference_count);
   printf("T_network: %.2lf ms, average: %.2lf ms\n",t_upload + t_download,(t_upload_sum + t_download_sum)/inference_count);
@@ -283,6 +283,6 @@ void Frontend::printinfo() {
   printf("T_recover: %.2lf ms, average: %.2lf ms\n",t_recover,t_recover_sum/inference_count);
   printf("T_add_layer: %.2lf ms, average: %.2lf ms\n",t_add_layer,t_add_layer_sum/inference_count);
   printf("T_server: %.2lf ms, average: %.2lf ms (GPU computation time on GPU server)\n",t_server,t_server_sum/inference_count);
-  printf("i should sleep for %.2lf, average: %.2lf\n",t_sleep,t_sleep_sum/inference_count);
+  // printf("i should sleep for %.2lf, average: %.2lf\n",t_sleep,t_sleep_sum/inference_count);
   }  
 }
