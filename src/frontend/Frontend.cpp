@@ -215,7 +215,7 @@ void Frontend::Prepare() {
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
 }
-int test_kind = 2;
+int test_kind = 1;
 double t_upload_fact[4] = {201.,424.,28.,763.};
 double t_download_fact[4] = {48.,52.,11.,50.};
 double t_intercept_fact[4] = {3.,3.,3.,3.};
