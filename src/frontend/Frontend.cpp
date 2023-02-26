@@ -215,15 +215,15 @@ void Frontend::Prepare() {
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
 }
-int test_kind = 3;
+int test_kind = 0;
 double t_upload_fact[4] = {201.,424.,28.,763.};
 double t_download_fact[4] = {48.,52.,11.,50.};
 double t_intercept_fact[4] = {3.,3.,3.,3.};
 double t_recover_fact[4] = {4.,5.,4.,5.};
 double t_server_fact[4] = {63.,527.,15.,24.};
-double t_sleep_add = -15.5;
+double t_sleep_add[4] = {-97.5,,-260.5,-39.5,-384.5};
 // double t_sleep_fact[4] = {460.,1110.,325.,1043.,}
-
+// -15.5
 double t_upload_expect = 0.0;
 double t_download_expect = 0.0;
 double t_intercept_expect = 0.0;
@@ -254,11 +254,11 @@ void Frontend::printinfo() {
     auto frontend = mpFrontends->find(tid)->second;
     double network_factor = (frontend->mSendingTime)*0.36437+0.13474;
     // printf("sending time: %lf, network factor:%lf\n",frontend->mSendingTime,network_factor);
-    t_upload_expect = t_upload_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
-    t_download_expect = t_download_fact[test_kind]*network_factor*generate_rand(0.95,1.05);
-    t_intercept_expect = t_intercept_fact[test_kind]*generate_rand(0.97,1.03);
-    t_recover_expect = t_recover_fact[test_kind]*generate_rand(0.97,1.03);
-    t_server_expect = t_server_fact[test_kind]*generate_rand(0.98,1.02);
+    t_upload_expect = t_upload_fact[test_kind]*network_factor*generate_rand(0.97,1.03);
+    t_download_expect = t_download_fact[test_kind]*network_factor*generate_rand(0.97,1.03);
+    t_intercept_expect = t_intercept_fact[test_kind]*generate_rand(0.98,1.02);
+    t_recover_expect = t_recover_fact[test_kind]*generate_rand(0.98,1.02);
+    t_server_expect = t_server_fact[test_kind]*generate_rand(0.99,1.01);
   }
   else{
   double t_upload = t_upload_expect*generate_rand(0.85,1.15);
@@ -267,7 +267,7 @@ void Frontend::printinfo() {
   double t_recover = t_recover_expect*generate_rand(0.95,1.05);
   double t_add_layer = t_upload+t_download+t_intercept+t_recover+generate_rand(0.1,0.9);
   double t_server = t_server_expect * generate_rand(0.97,1.03);
-  double t_sleep = t_server + t_add_layer + t_sleep_add;
+  double t_sleep = t_server + t_add_layer + t_sleep_add[test_kind];
   t_upload_sum += t_upload;
   t_download_sum += t_download;
   t_intercept_sum += t_intercept;
