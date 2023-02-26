@@ -215,13 +215,13 @@ void Frontend::Prepare() {
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
 }
-int test_kind = 0;
+int test_kind = 1;
 double t_upload_fact[4] = {201.,424.,28.,763.};
 double t_download_fact[4] = {48.,52.,11.,50.};
 double t_intercept_fact[4] = {3.,3.,3.,3.};
 double t_recover_fact[4] = {4.,5.,4.,5.};
 double t_server_fact[4] = {63.,527.,15.,24.};
-double t_sleep_add[4] = {-97.5,,-260.5,-39.5,-384.5};
+double t_sleep_add[4] = {-97.5,,-260.5,-39.5,-522.5};
 // double t_sleep_fact[4] = {460.,1110.,325.,1043.,}
 // -15.5
 double t_upload_expect = 0.0;
