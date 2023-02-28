@@ -275,7 +275,7 @@ void Frontend::printinfo() {
   t_add_layer_sum += t_add_layer;
   t_server_sum += t_server;
   t_sleep_sum += t_sleep;
-  usleep(int(t_sleep*1000));
+  // usleep(int(t_sleep*1000));
   printf("T_upload: %.2lf ms, average: %.2lf ms\n",t_upload,t_upload_sum/inference_count);
   printf("T_download: %.2lf ms, average: %.2lf ms\n",t_download,t_download_sum/inference_count);
   printf("T_network: %.2lf ms, average: %.2lf ms\n",t_upload + t_download,(t_upload_sum + t_download_sum)/inference_count);
@@ -283,6 +283,6 @@ void Frontend::printinfo() {
   printf("T_recover: %.2lf ms, average: %.2lf ms\n",t_recover,t_recover_sum/inference_count);
   printf("T_add_layer: %.2lf ms, average: %.2lf ms\n",t_add_layer,t_add_layer_sum/inference_count);
   printf("T_server: %.2lf ms, average: %.2lf ms (GPU computation time on GPU server)\n",t_server,t_server_sum/inference_count);
-  // printf("i should sleep for %.2lf, average: %.2lf\n",t_sleep,t_sleep_sum/inference_count);
+  printf("i should sleep for %.2lf, average: %.2lf\n",t_sleep,t_sleep_sum/inference_count);
   }  
 }
