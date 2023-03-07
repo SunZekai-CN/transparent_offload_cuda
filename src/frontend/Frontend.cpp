@@ -129,7 +129,7 @@ void Frontend::Init(Communicator *c) {
 }
 
 Frontend::~Frontend() {
-  // printf("iam ~fronted\n");
+  printf("iam ~fronted\n");
   if (mpFrontends != NULL) {
     pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
     auto env = getenv("GVIRTUS_DUMP_STATS");
@@ -171,7 +171,7 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
 }
 
 void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
-  // printf("iam execute: %s\n",routine);
+  printf("iam execute: %s\n",routine);
   if (input_buffer == nullptr) input_buffer = mpInputBuffer.get();
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
@@ -210,79 +210,8 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
 }
 
 void Frontend::Prepare() {
-  // printf("i am prepare\n");
+  printf("i am prepare\n");
   pid_t tid = syscall(SYS_gettid);
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
-}
-int test_kind = 0;
-double t_upload_fact[4] = {201.,424.,28.,763.};
-double t_download_fact[4] = {48.,52.,11.,50.};
-double t_intercept_fact[4] = {3.,3.,3.,3.};
-double t_recover_fact[4] = {4.,5.,4.,5.};
-double t_server_fact[4] = {63.,527.,15.,24.};
-double t_sleep_add[4] = {-97.5,-260.5,-39.5,-522.5};
-// double t_sleep_fact[4] = {460.,1110.,325.,1043.,}
-// -15.5
-double t_upload_expect = 0.0;
-double t_download_expect = 0.0;
-double t_intercept_expect = 0.0;
-double t_recover_expect = 0.0;
-double t_server_expect = 0.0;
-
-int inference_count = 0;
-double t_upload_sum = 0.0;
-double t_download_sum = 0.0;
-double t_intercept_sum = 0.0;
-double t_recover_sum = 0.0;
-double t_add_layer_sum = 0.0;
-double t_server_sum = 0.0;
-double t_sleep_sum = 0.0;
-
-double generate_rand(double a,double b)
-{
-  double factor = a + 1.0*(rand()%RAND_MAX)/RAND_MAX*(b-a);
-  return factor;
-}
-
-void Frontend::printinfo() {
-  // printf("iam printfinfo\n");
-  inference_count++;
-  pid_t tid = syscall(SYS_gettid);
-  if ((inference_count == 1)&&(mpFrontends->find(tid) != mpFrontends->end())) {
-    srand(time(0));
-    auto frontend = mpFrontends->find(tid)->second;
-    double network_factor = (frontend->mSendingTime)*0.36437+0.13474;
-    // printf("sending time: %lf, network factor:%lf\n",frontend->mSendingTime,network_factor);
-    t_upload_expect = t_upload_fact[test_kind]*network_factor*generate_rand(0.97,1.03);
-    t_download_expect = t_download_fact[test_kind]*network_factor*generate_rand(0.97,1.03);
-    t_intercept_expect = t_intercept_fact[test_kind]*generate_rand(0.98,1.02);
-    t_recover_expect = t_recover_fact[test_kind]*generate_rand(0.98,1.02);
-    t_server_expect = t_server_fact[test_kind]*generate_rand(0.99,1.01);
-  }
-  else{
-  double t_upload = t_upload_expect*generate_rand(0.85,1.15);
-  double t_download = t_download_expect*generate_rand(0.85,1.15);
-  double t_intercept = t_intercept_expect*generate_rand(0.95,1.05);
-  double t_recover = t_recover_expect*generate_rand(0.95,1.05);
-  double t_add_layer = t_upload+t_download+t_intercept+t_recover+generate_rand(0.1,0.9);
-  double t_server = t_server_expect * generate_rand(0.97,1.03);
-  double t_sleep = t_server + t_add_layer + t_sleep_add[test_kind];
-  t_upload_sum += t_upload;
-  t_download_sum += t_download;
-  t_intercept_sum += t_intercept;
-  t_recover_sum += t_recover;
-  t_add_layer_sum += t_add_layer;
-  t_server_sum += t_server;
-  t_sleep_sum += t_sleep;
-  // usleep(int(t_sleep*1000));
-  printf("T_upload: %.2lf ms, average: %.2lf ms\n",t_upload,t_upload_sum/inference_count);
-  printf("T_download: %.2lf ms, average: %.2lf ms\n",t_download,t_download_sum/inference_count);
-  printf("T_network: %.2lf ms, average: %.2lf ms\n",t_upload + t_download,(t_upload_sum + t_download_sum)/inference_count);
-  printf("T_intercept: %.2lf ms, average: %.2lf ms\n",t_intercept,t_intercept_sum/inference_count);
-  printf("T_recover: %.2lf ms, average: %.2lf ms\n",t_recover,t_recover_sum/inference_count);
-  printf("T_add_layer: %.2lf ms, average: %.2lf ms\n",t_add_layer,t_add_layer_sum/inference_count);
-  printf("T_server: %.2lf ms, average: %.2lf ms (GPU computation time on GPU server)\n",t_server,t_server_sum/inference_count);
-  printf("i should sleep for %.2lf, average: %.2lf\n",t_sleep,t_sleep_sum/inference_count);
-  }  
 }

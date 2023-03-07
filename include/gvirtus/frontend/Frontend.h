@@ -100,8 +100,6 @@ class Frontend {
    */
   void Prepare();
 
-  void printinfo();
-
   inline communicators::Buffer *GetInputBuffer() { return mpInputBuffer.get(); }
 
   inline communicators::Buffer *GetOutputBuffer() {
