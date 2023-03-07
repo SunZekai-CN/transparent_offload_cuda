@@ -28,6 +28,12 @@
 #include <elf.h>
 #include <CudaRt_internal.h>
 
+#include "CudaRt.h"
+#include <dlfcn.h>
+#include <iostream>
+#include <lz4.h>
+#include <sstream>
+#include <string.h>
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
