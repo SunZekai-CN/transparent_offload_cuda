@@ -113,7 +113,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 						printf("compressed ptx\n");
 						_cubin = 0;
 						_ptx = 0;
-						return;
+						return NULL;
 					}
 				}
 			}
