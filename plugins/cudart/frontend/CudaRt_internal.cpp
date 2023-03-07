@@ -45,6 +45,16 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
     NvFatCubin *pFatCubin = (NvFatCubin *)data;
     // check so its really an elf file
     Elf64_Ehdr *eh = &(pFatCubin->elf);
+
+    unsigned int magic = *(unsigned int *) fatCubin;
+    if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
+        printf("FATBINC_MAGIC\n");
+        printf("magic= %x\n", bin->magic);
+        printf("version= %x\n", bin->version);
+        printf("data= %p\n", bin->data);
+        printf("filename_or_fatbins= %p\n", bin->filename_or_fatbins);
+    }
+
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
         /* Section header table :  */
         Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
