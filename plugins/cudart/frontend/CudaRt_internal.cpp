@@ -45,84 +45,77 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
     NvFatCubin *pFatCubin = (NvFatCubin *)data;
     // check so its really an elf file
     Elf64_Ehdr *eh = &(pFatCubin->elf);
-    // if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
-    //     /* Section header table :  */
-    //     Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
+    if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
+        /* Section header table :  */
+        Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
 
-    //     byte *baseAddr = (byte *) eh;
-    //     for (uint32_t i = 0; i < eh->e_shnum; i++) {
-    //         Elf64_Shdr *shdrSrc = (Elf64_Shdr *) (baseAddr + (off_t) eh->e_shoff + i * eh->e_shentsize);
-    //         memcpy(&sh_table[i], shdrSrc, eh->e_shentsize);
-    //     }
+        byte *baseAddr = (byte *) eh;
+        for (uint32_t i = 0; i < eh->e_shnum; i++) {
+            Elf64_Shdr *shdrSrc = (Elf64_Shdr *) (baseAddr + (off_t) eh->e_shoff + i * eh->e_shentsize);
+            memcpy(&sh_table[i], shdrSrc, eh->e_shentsize);
+        }
 
-    //     char *sh_str = static_cast<char *>(malloc(sh_table[eh->e_shstrndx].sh_size));
-    //     if (sh_str) {
-    //         memcpy(sh_str, baseAddr + sh_table[eh->e_shstrndx].sh_offset, sh_table[eh->e_shstrndx].sh_size);
+        char *sh_str = static_cast<char *>(malloc(sh_table[eh->e_shstrndx].sh_size));
+        if (sh_str) {
+            memcpy(sh_str, baseAddr + sh_table[eh->e_shstrndx].sh_offset, sh_table[eh->e_shstrndx].sh_size);
 
-    //         for (uint32_t i = 0; i < eh->e_shnum; i++) {
+            for (uint32_t i = 0; i < eh->e_shnum; i++) {
 
-    //             char *szSectionName = (sh_str + sh_table[i].sh_name);
-    //             if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
-    //                 char *szFuncName = szSectionName + strlen(".nv.info.");
-    //                 //printf("%s:\n", szFuncName);
-    //                 byte *p = (byte *) eh + sh_table[i].sh_offset;
+                char *szSectionName = (sh_str + sh_table[i].sh_name);
+                if (strncmp(".nv.info.", szSectionName, strlen(".nv.info.")) == 0) {
+                    char *szFuncName = szSectionName + strlen(".nv.info.");
+                    //printf("%s:\n", szFuncName);
+                    byte *p = (byte *) eh + sh_table[i].sh_offset;
 
-    //                 NvInfoFunction infoFunction;
-    //                 size_t size;
-    //                 NvInfoAttribute *pAttr = (NvInfoAttribute *) p;
-    //                 while (pAttr < (NvInfoAttribute *) ((byte *) p + sh_table[i].sh_size)) {
-    //                     size = 0;
-    //                     switch (pAttr->fmt) {
-    //                         case EIFMT_SVAL:
-    //                             size = sizeof(NvInfoAttribute) + pAttr->value;
-    //                             break;
-    //                         case EIFMT_NVAL:
-    //                             size = sizeof(NvInfoAttribute);
-    //                             break;
-    //                         case EIFMT_HVAL:
-    //                             size = sizeof(NvInfoAttribute);
-    //                             break;
+                    NvInfoFunction infoFunction;
+                    size_t size;
+                    NvInfoAttribute *pAttr = (NvInfoAttribute *) p;
+                    while (pAttr < (NvInfoAttribute *) ((byte *) p + sh_table[i].sh_size)) {
+                        size = 0;
+                        switch (pAttr->fmt) {
+                            case EIFMT_SVAL:
+                                size = sizeof(NvInfoAttribute) + pAttr->value;
+                                break;
+                            case EIFMT_NVAL:
+                                size = sizeof(NvInfoAttribute);
+                                break;
+                            case EIFMT_HVAL:
+                                size = sizeof(NvInfoAttribute);
+                                break;
 
-    //                     }
-    //                     if (pAttr->attr == EIATTR_KPARAM_INFO) {
-    //                         NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
+                        }
+                        if (pAttr->attr == EIATTR_KPARAM_INFO) {
+                            NvInfoKParam *nvInfoKParam = (NvInfoKParam *) pAttr;
 
-    //                         //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
-    //                         //       nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
+                            //printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  nvInfoKParam->index, nvInfoKParam->index, nvInfoKParam->ordinal,
+                            //       nvInfoKParam->offset, nvInfoKParam->a, (nvInfoKParam->size & 0xf8) >> 2, nvInfoKParam->size & 0x07, nvInfoKParam->b);
 
-    //                         NvInfoKParam nvInfoKParam1;
-    //                         nvInfoKParam1.index = nvInfoKParam->index;
-    //                         nvInfoKParam1.ordinal = nvInfoKParam->ordinal;
-    //                         nvInfoKParam1.offset = nvInfoKParam->offset;
-    //                         nvInfoKParam1.a = nvInfoKParam->a;
-    //                         nvInfoKParam1.size = nvInfoKParam->size;
-    //                         nvInfoKParam1.b = nvInfoKParam->b;
-    //                         infoFunction.params.push_back(nvInfoKParam1);
-    //                     }
-    //                     pAttr = (NvInfoAttribute *) ((byte *) pAttr + size);
-    //                 }
-    //                 CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
-    //             }
-    //         }
-    //         free(sh_str);
-    //     }
-    //     free(sh_table);
-
-    //     Buffer *input_buffer = new Buffer();
-    //     input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
-    //     input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
-    //     CudaRtFrontend::Prepare();
-    //     CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
-    //     if (CudaRtFrontend::Success()) return (void **) fatCubin;
-    // }
+                            NvInfoKParam nvInfoKParam1;
+                            nvInfoKParam1.index = nvInfoKParam->index;
+                            nvInfoKParam1.ordinal = nvInfoKParam->ordinal;
+                            nvInfoKParam1.offset = nvInfoKParam->offset;
+                            nvInfoKParam1.a = nvInfoKParam->a;
+                            nvInfoKParam1.size = nvInfoKParam->size;
+                            nvInfoKParam1.b = nvInfoKParam->b;
+                            infoFunction.params.push_back(nvInfoKParam1);
+                        }
+                        pAttr = (NvInfoAttribute *) ((byte *) pAttr + size);
+                    }
+                    CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
+                }
+            }
+            free(sh_str);
+        }
+        free(sh_table);
 
         Buffer *input_buffer = new Buffer();
         input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
         input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
-         
         CudaRtFrontend::Prepare();
         CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
         if (CudaRtFrontend::Success()) return (void **) fatCubin;
+    }
+  printf("__cudaRegisterFatBinary return null\n");
   return NULL;
 }
 

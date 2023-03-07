@@ -153,22 +153,6 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
 
     printf("i am cudalauchkernel\n");
     CudaRtFrontend::Prepare();
-  Buffer *launch = CudaRtFrontend::GetLaunchBuffer();
-  printf("cudaLaunchKernel - hostFunc:%x\n",func);
-  std::string deviceFunc=CudaRtFrontend::getDeviceFunc(const_cast<void *>(func));
-
-    printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
-
-  launch->Reset();
-  launch->Add((gvirtus::common::pointer_t)func);
-  launch->Add(&gridDim);
-  launch->Add(&blockDim);
-  launch->Add((gvirtus::common::pointer_t)args);
-  launch->Add(&sharedMem);
-  launch->Add((gvirtus::common::pointer_t)&stream);
-  CudaRtFrontend::Execute("cudaLaunchKernel");
-  return CudaRtFrontend::GetExitCode();
-    CudaRtFrontend::Prepare();
     CudaRtFrontend::AddDevicePointerForArguments(func);
     CudaRtFrontend::AddVariableForArguments(gridDim);
     CudaRtFrontend::AddVariableForArguments(blockDim);
