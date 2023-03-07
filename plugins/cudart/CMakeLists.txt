@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(gvirtus-plugin-cudart)
 find_package(CUDA REQUIRED)
+find_package(lz4 REQUIRED)
 
 find_path(CUDART_INCLUDE_DIRECTORY
         cuda_runtime_api.h
