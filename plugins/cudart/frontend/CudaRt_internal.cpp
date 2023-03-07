@@ -127,7 +127,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 						auto compressed_input_clean = new uint8_t[compressed_size + 32];
 						::memset(compressed_input_clean, 0, compressed_size + 32);
 						::memcpy(compressed_input_clean, compressed_input, compressed_size);
-						auto r = ::LZ4_decompress_safe((const char*)compressed_input_clean, (char*)uncompressed_output, compressed_size, uncompressed_size);
+						auto r = LZ4_decompress_safe((const char*)compressed_input_clean, (char*)uncompressed_output, compressed_size, uncompressed_size);
 						if (r != compressed_size && -r < (compressed_size  - 32)) {
 							printf("error in decompressing fatbin: %ld != %ld ", uncompressed_size, compressed_size);
 						} 
