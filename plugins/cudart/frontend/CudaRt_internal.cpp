@@ -54,7 +54,8 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         printf("data= %p\n", bin->data);
         printf("filename_or_fatbins= %p\n", bin->filename_or_fatbins);
     }
-    printf("eh->e_ident:%s",eh->e_ident);
+    for (int i =0;i<16;i++)
+    printf("eh->e_ident %d : %u ",i,eh->e_ident[i]);
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
         /* Section header table :  */
         Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
