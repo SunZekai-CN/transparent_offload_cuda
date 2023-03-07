@@ -35,6 +35,40 @@
  KEEP THEM WITH CARE
  */
 
+typedef struct __cudaFatCudaBinary2HeaderRec {
+  unsigned int magic;
+  unsigned int version;
+  unsigned long long int length;
+} __cudaFatCudaBinary2Header;
+
+enum FatBin2EntryType { FATBIN_2_PTX = 0x1 };
+
+typedef struct __cudaFatCudaBinary2EntryRec {
+  unsigned int type;
+  unsigned int binary;
+  unsigned long long int binarySize;
+  unsigned int unknown2;
+  unsigned int kindOffset;
+  unsigned int unknown3;
+  unsigned int unknown4;
+  unsigned int name;
+  unsigned int nameSize;
+  unsigned long long int flags;
+  unsigned long long int unknown7;
+  unsigned long long int uncompressedBinarySize;
+} __cudaFatCudaBinary2Entry;
+
+long long COMPRESSED_PTX = 0x0000000000001000LL;
+
+typedef struct __cudaFatCudaBinaryRec2 {
+  int magic;
+  int version;
+  const unsigned long long *fatbinData;
+  char *f;
+} __cudaFatCudaBinary2;
+
+
+
 
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
@@ -48,14 +82,13 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
     unsigned int magic = *(unsigned int *) fatCubin;
     if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
-        printf("FATBINC_MAGIC\n");
-        printf("magic= %x\n", bin->magic);
-        printf("version= %x\n", bin->version);
-        printf("data= %p\n", bin->data);
-        printf("filename_or_fatbins= %p\n", bin->filename_or_fatbins);
+        printf("Found new fat binary format!");
+		__cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*)fatCubin;
+		__cudaFatCudaBinary2Header* header =
+			(__cudaFatCudaBinary2Header*) binary->fatbinData;
+		
+		printf(" binary size is: %llu bytes\n", header->length);
     }
-    for (int i =0;i<16;i++)
-    printf("eh->e_ident %d : %u %c\n",i,eh->e_ident[i],eh->e_ident[i]);
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
         /* Section header table :  */
         Elf64_Shdr *sh_table = static_cast<Elf64_Shdr *>(malloc(eh->e_shentsize * eh->e_shnum));
