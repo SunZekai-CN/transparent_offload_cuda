@@ -29,7 +29,7 @@
 #include <CudaRt_internal.h>
 
 #include "CudaRt.h"
-
+#include <lz4.h>
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
@@ -41,8 +41,11 @@ typedef struct __cudaFatCudaBinary2HeaderRec {
   unsigned long long int length;
 } __cudaFatCudaBinary2Header;
 
-enum FatBin2EntryType { FATBIN_2_PTX = 0x1 };
-
+enum FatBin2EntryType {
+	FATBIN_2_PTX = 0x1,
+	FATBIN_2_ELF = 0x2,
+	FATBIN_2_OLDCUBIN = 0x4
+};
 typedef struct __cudaFatCudaBinary2EntryRec {
   unsigned int type;
   unsigned int binary;
@@ -69,7 +72,10 @@ typedef struct __cudaFatCudaBinaryRec2 {
 
 
 
-
+void* _ptx;
+void* _cubin;
+#define COMPRESSED_PTX 0x0000000000001000LL
+#define COMPRESSED_FATBIN 0x0000000000002000LL
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
   /* Fake host pointer */
@@ -88,6 +94,60 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 			(__cudaFatCudaBinary2Header*) binary->fatbinData;
 		
 		printf(" binary size is: %llu bytes\n", header->length);
+
+        char* base = (char*)(header + 1);
+		long long unsigned int offset = 0;
+        char* _name = 0;
+        _ptx = 0;
+        _cubin = 0;
+		__cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
+		printf(" binary flag: %llu ,uncompress size %llu\n",entry->flags, entry->uncompressedBinarySize);
+
+		while (offset < header->length) {
+			_name = (char*)entry + entry->name;
+			if (entry->type & FATBIN_2_PTX) {
+				if (!_ptx) {
+					_ptx  = (char*)entry + entry->binary;
+					if(entry->flags & COMPRESSED_PTX)
+					{
+						printf("compressed ptx\n");
+						_cubin = 0;
+						_ptx = 0;
+						return;
+					}
+				}
+			}
+			if (entry->type & FATBIN_2_ELF) {
+				if (!_cubin) {
+					if (entry->flags & COMPRESSED_FATBIN) {
+						unsigned long uncompressed_size = entry->uncompressedBinarySize;
+						unsigned long compressed_size = entry->binarySize;
+						auto uncompressed_output = new uint8_t[uncompressed_size];
+						auto compressed_input = (uint8_t*)entry + entry->binary;
+						auto compressed_input_clean = new uint8_t[compressed_size + 32];
+						::memset(compressed_input_clean, 0, compressed_size + 32);
+						::memcpy(compressed_input_clean, compressed_input, compressed_size);
+						auto r = ::LZ4_decompress_safe((const char*)compressed_input_clean, (char*)uncompressed_output, compressed_size, uncompressed_size);
+						if (r != compressed_size && -r < (compressed_size  - 32)) {
+							printf("error in decompressing fatbin: %ld != %ld ", uncompressed_size, compressed_size);
+						} 
+						/*
+						else {
+							report("same in decompressing fatbin: " << r << " == " << uncompressed_size << " " << compressed_size);
+						}
+						*/
+						_cubin = uncompressed_output;
+					} else {
+						_cubin  = (char*)entry + entry->binary;
+					}
+				}
+			}
+
+
+			entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
+			offset += entry->binary + entry->binarySize;
+		}
+
     }
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
         /* Section header table :  */
