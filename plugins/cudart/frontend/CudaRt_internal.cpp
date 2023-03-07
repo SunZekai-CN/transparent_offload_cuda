@@ -29,7 +29,7 @@
 #include <CudaRt_internal.h>
 
 #include "CudaRt.h"
-#include "lz4.h"
+#include <lz4>
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
