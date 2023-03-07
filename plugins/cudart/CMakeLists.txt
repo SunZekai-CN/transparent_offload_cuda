@@ -30,6 +30,8 @@ string(REGEX REPLACE ".*\\.so\\.([0-9]+\\.[0-9]+\\.[0-9]+)" "\\1" CUDART_VERSION
 
 message(STATUS "Found cudaRt: ${CUDART_VERSION} (${CUDART_INCLUDE_DIRECTORY}/cuda_runtime_api.h, ${CUDART_LIBRARY})")
 
+target_link_libraries(${PROJECT_NAME} lz4)
+
 gvirtus_add_backend(cudart ${CUDA_VERSION}
         backend/CudaRtHandler_texture.cpp
         backend/CudaRtHandler_event.cpp
