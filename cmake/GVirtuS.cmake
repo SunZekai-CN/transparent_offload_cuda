@@ -74,6 +74,7 @@ function(gvirtus_add_frontend)
     add_library(${wrapped_library} SHARED
             ${ARGV})
     target_link_libraries(${wrapped_library} ${LIBLOG4CPLUS} gvirtus-common gvirtus-communicators gvirtus-frontend)
+    target_link_libraries(${wrapped_library} lz4)
     set_target_properties(${wrapped_library} PROPERTIES VERSION ${version})
     string(REGEX REPLACE "\\..*" "" soversion ${version})
     set_target_properties(${wrapped_library} PROPERTIES SOVERSION ${soversion})

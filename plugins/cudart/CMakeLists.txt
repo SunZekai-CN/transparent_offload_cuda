@@ -67,5 +67,5 @@ gvirtus_add_frontend(cudart ${CUDA_VERSION}
         frontend/CudaRt_thread.cpp
         frontend/CudaRt_version.cpp
         util/CudaUtil.cpp)
-target_link_libraries(${PROJECT_NAME} lz4)
+
 add_subdirectory(demo)
