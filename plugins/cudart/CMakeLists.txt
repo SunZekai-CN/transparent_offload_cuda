@@ -48,6 +48,7 @@ gvirtus_add_backend(cudart ${CUDA_VERSION}
         backend/CudaRtHandler.cpp
         util/CudaUtil.cpp)
 target_link_libraries(${PROJECT_NAME} ${CUDA_CUDART_LIBRARY})
+target_link_libraries(${PROJECT_NAME} lz4)
 
 gvirtus_add_frontend(cudart ${CUDA_VERSION}
         frontend/CudaRt.cpp
