@@ -4,7 +4,6 @@
 	\brief object for interacting with CUDA Fat Binaries
 */
 
-#include "cudaFatBinary.h"
 #include "debug.h"
 #include "FatBinary.h"
 
