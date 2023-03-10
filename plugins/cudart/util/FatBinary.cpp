@@ -17,7 +17,7 @@
 #define report(s) { 					\
 	std::stringstream ss;				\
 	ss << s; 							\
-	fprintf(stderr, "%s\n", ss.str().c_str());	\
+	printf(stderr, "%s\n", ss.str().c_str());	\
 	}
 
 #undef report
@@ -26,7 +26,7 @@
 #define assertM(cond, s) { 						\
 	std::stringstream ss;						\
 	ss << s; 									\
-	fprintf(stderr, "%s\n", ss.str().c_str());	\
+	printf(stderr, "%s\n", ss.str().c_str());	\
 	}
 
 FatBinary::FatBinary(void* ptr) {
