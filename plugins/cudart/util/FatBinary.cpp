@@ -177,7 +177,6 @@ FatBinary::FatBinary(void* ptr) {
 }
 
 #include "cuda.h"
-#include "cuda_version.h"
 
 #include <elf.h>
 #include <malloc.h>
