@@ -29,47 +29,11 @@
 #include <CudaRt_internal.h>
 
 #include "CudaRt.h"
-#include <lz4.h>
 #include "FatBinary.h"
 /*
  Routines not found in the cuda's header files.
  KEEP THEM WITH CARE
  */
-
-typedef struct __cudaFatCudaBinary2HeaderRec {
-  unsigned int magic;
-  unsigned int version;
-  unsigned long long int length;
-} __cudaFatCudaBinary2Header;
-
-enum FatBin2EntryType {
-	FATBIN_2_PTX = 0x1,
-	FATBIN_2_ELF = 0x2,
-	FATBIN_2_OLDCUBIN = 0x4
-};
-typedef struct __cudaFatCudaBinary2EntryRec {
-  unsigned int type;
-  unsigned int binary;
-  unsigned long long int binarySize;
-  unsigned int unknown2;
-  unsigned int kindOffset;
-  unsigned int unknown3;
-  unsigned int unknown4;
-  unsigned int name;
-  unsigned int nameSize;
-  unsigned long long int flags;
-  unsigned long long int unknown7;
-  unsigned long long int uncompressedBinarySize;
-} __cudaFatCudaBinary2Entry;
-
-long long COMPRESSED_PTX = 0x0000000000001000LL;
-
-typedef struct __cudaFatCudaBinaryRec2 {
-  int magic;
-  int version;
-  const unsigned long long *fatbinData;
-  char *f;
-} __cudaFatCudaBinary2;
 
 std::list<FatBinary*> *fatbins;
 

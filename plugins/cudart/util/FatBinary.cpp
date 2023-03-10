@@ -4,7 +4,7 @@
 	\brief object for interacting with CUDA Fat Binaries
 */
 
-#include "debug.h"
+#include "cudaFatBinary.h"
 #include "FatBinary.h"
 
 #include <dlfcn.h>
