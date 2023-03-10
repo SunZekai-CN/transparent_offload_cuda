@@ -5,6 +5,7 @@
 */
 
 #include "cudaFatBinary.h"
+#include "cuda_version.h"
 #include "FatBinary.h"
 
 #include <dlfcn.h>
@@ -14,14 +15,9 @@
 #include <string.h>
 
 
-#define assertM(cond, s) { 						\
-	std::stringstream ss;						\
-	ss << s; 									\
-	fprintf(stderr, "%s\n", ss.str().c_str());	\
-	}
 
 FatBinary::FatBinary(void* ptr) {
-	printf("FatBinaryContext(" << ptr << ")");
+	printf(f"FatBinaryContext:%p/n",ptr);
 
 	char* _name = 0;
 	_ptx = 0;
@@ -62,7 +58,7 @@ FatBinary::FatBinary(void* ptr) {
 					_ptx = binary->ptx[i].ptx;
 				}
 			}		
-			printf(" Selected version " << ptxVersion);
+			printf(" Selected version %u\n",ptxVersion);
 		}
 		if (binary->cubin) {
 			printf("Getting the highest CUBIN version");
@@ -86,7 +82,7 @@ FatBinary::FatBinary(void* ptr) {
 					_cubin = binary->cubin[i].cubin;
 				}
 			}		
-			printf(" Selected version " << cubinVersion);
+			printf(" Selected version %u\n",cubinVersion);
 		}
 	}
 	else if (*(int*)cubin_ptr == __cudaFatMAGIC2) {
@@ -95,12 +91,12 @@ FatBinary::FatBinary(void* ptr) {
 		__cudaFatCudaBinary2Header* header =
 			(__cudaFatCudaBinary2Header*) binary->fatbinData;
 		
-		printf(" binary size is: " << header->length << " bytes");
+		printf(" binary size is: %llu bytes\n",header->length);
 				
 		char* base = (char*)(header + 1);
 		long long unsigned int offset = 0;
 		__cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-		printf(" binary flag: " << std::hex << entry->flags << " uncompress size: " << entry->uncompressedBinarySize);
+		printf(f"binary flag: %llu, uncompress size: %llu\n",entry->flags,entry->uncompressedBinarySize);
 
 		while (offset < header->length) {
 			_name = (char*)entry + entry->name;
