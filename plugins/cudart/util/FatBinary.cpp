@@ -13,23 +13,15 @@
 #include <sstream>
 #include <string.h>
 
-#define report(s) { 					\
-	std::stringstream ss;				\
-	ss << s; 							\
-	printf(stderr, "%s\n", ss.str().c_str());	\
-	}
-
-#undef report
-#define report(s)
 
 #define assertM(cond, s) { 						\
 	std::stringstream ss;						\
 	ss << s; 									\
-	printf(stderr, "%s\n", ss.str().c_str());	\
+	fprintf(stderr, "%s\n", ss.str().c_str());	\
 	}
 
 FatBinary::FatBinary(void* ptr) {
-	report("FatBinaryContext(" << ptr << ")");
+	printf("FatBinaryContext(" << ptr << ")");
 
 	char* _name = 0;
 	_ptx = 0;
@@ -49,7 +41,7 @@ FatBinary::FatBinary(void* ptr) {
 		unsigned int cubinVersion = 0;
 
 		if (binary->ptx) {
-			report("Getting the highest PTX version");
+			printf("Getting the highest PTX version");
 
 			for(unsigned int i = 0; ; ++i)
 			{
@@ -70,10 +62,10 @@ FatBinary::FatBinary(void* ptr) {
 					_ptx = binary->ptx[i].ptx;
 				}
 			}		
-			report(" Selected version " << ptxVersion);
+			printf(" Selected version " << ptxVersion);
 		}
 		if (binary->cubin) {
-			report("Getting the highest CUBIN version");
+			printf("Getting the highest CUBIN version");
 
 			for(unsigned int i = 0; ; ++i)
 			{
@@ -94,21 +86,21 @@ FatBinary::FatBinary(void* ptr) {
 					_cubin = binary->cubin[i].cubin;
 				}
 			}		
-			report(" Selected version " << cubinVersion);
+			printf(" Selected version " << cubinVersion);
 		}
 	}
 	else if (*(int*)cubin_ptr == __cudaFatMAGIC2) {
-		report("Found new fat binary format!");
+		printf("Found new fat binary format!");
 		__cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*) cubin_ptr;
 		__cudaFatCudaBinary2Header* header =
 			(__cudaFatCudaBinary2Header*) binary->fatbinData;
 		
-		report(" binary size is: " << header->length << " bytes");
+		printf(" binary size is: " << header->length << " bytes");
 				
 		char* base = (char*)(header + 1);
 		long long unsigned int offset = 0;
 		__cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-		report(" binary flag: " << std::hex << entry->flags << " uncompress size: " << entry->uncompressedBinarySize);
+		printf(" binary flag: " << std::hex << entry->flags << " uncompress size: " << entry->uncompressedBinarySize);
 
 		while (offset < header->length) {
 			_name = (char*)entry + entry->name;
@@ -117,7 +109,7 @@ FatBinary::FatBinary(void* ptr) {
 					_ptx  = (char*)entry + entry->binary;
 					if(entry->flags & COMPRESSED_PTX)
 					{
-						report("compressed ptx\n");
+						printf("compressed ptx\n");
 						_cubin = 0;
 						_ptx = 0;
 						return;
@@ -136,11 +128,11 @@ FatBinary::FatBinary(void* ptr) {
 						::memcpy(compressed_input_clean, compressed_input, compressed_size);
 						auto r = ::LZ4_decompress_safe((const char*)compressed_input_clean, (char*)uncompressed_output, compressed_size, uncompressed_size);
 						if (r != compressed_size && -r < (compressed_size  - 32)) {
-							log_err("error in decompressing fatbin: %ld != %ld ", uncompressed_size, compressed_size);
+							printf("error in decompressing fatbin: %ld != %ld ", uncompressed_size, compressed_size);
 						} 
 						/*
 						else {
-							report("same in decompressing fatbin: " << r << " == " << uncompressed_size << " " << compressed_size);
+							printf("same in decompressing fatbin: " << r << " == " << uncompressed_size << " " << compressed_size);
 						}
 						*/
 						_cubin = uncompressed_output;
@@ -157,22 +149,22 @@ FatBinary::FatBinary(void* ptr) {
 
 	}
 	else {
-		assertM(false, "unknown fat binary magic number "
-			<< std::hex << *(int*)cubin_ptr);		
+		printf( "unknown fat binary magic number\n");
+			// << std::hex << *(int*)cubin_ptr);		
 	}
 	
 	if (!_ptx) {
-		report("registered, contains NO PTX");
+		printf("registered, contains NO PTX");
 	}
 	else {
-		report("registered, contains PTX");	
+		printf("registered, contains PTX");	
 	}
 
 	if (!_cubin) {
-		report("registered, contains NO CUBIN");
+		printf("registered, contains NO CUBIN");
 	}
 	else {
-		report("registered, contains CUBIN");	
+		printf("registered, contains CUBIN");	
 	}
 }
 
@@ -856,7 +848,7 @@ int FatBinary::parse() {
 fail_symbol:
 fail_cubin_func_type:
 fail_malloc_func:
-	log_err("error in parsing");
+	printf("error in parsing");
 
 	return ret;
 }
