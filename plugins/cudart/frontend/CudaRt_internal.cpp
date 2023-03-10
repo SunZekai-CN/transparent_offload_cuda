@@ -71,7 +71,7 @@ typedef struct __cudaFatCudaBinaryRec2 {
   char *f;
 } __cudaFatCudaBinary2;
 
-
+std::list<FatBinary*> *fatbins;
 
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
@@ -85,6 +85,9 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
     unsigned int magic = *(unsigned int *) fatCubin;
     if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
+        if (!fatbins) {
+        fatbins = new std::list<FatBinary*>();
+    }
         auto fatbin_handle = new FatBinary(fatCubin);
         fatbin_handle->parse();
         fatbins->push_back(fatbin_handle);
