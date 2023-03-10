@@ -105,9 +105,12 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 		printf(" binary flag: %llu ,uncompress size %llu\n",entry->flags, entry->uncompressedBinarySize);
 
 		while (offset < header->length) {
+            printf("aaaaaaa\n");
 			_name = (char*)entry + entry->name;
 			if (entry->type & FATBIN_2_PTX) {
+                printf("bbbbbbbb\n");
 				if (!_ptx) {
+                    printf("cccccccccccccccccc\n");
 					_ptx  = (char*)entry + entry->binary;
 					if(entry->flags & COMPRESSED_PTX)
 					{
@@ -119,8 +122,11 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 				}
 			}
 			if (entry->type & FATBIN_2_ELF) {
+                printf("ddddd\n");
 				if (!_cubin) {
+                    printf("eeeeeeeeeeeeeee\n");
 					if (entry->flags & COMPRESSED_FATBIN) {
+                        printf("fffffffffff\n");
 						unsigned long uncompressed_size = entry->uncompressedBinarySize;
 						unsigned long compressed_size = entry->binarySize;
 						auto uncompressed_output = new uint8_t[uncompressed_size];
@@ -138,18 +144,17 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 						}
 						*/
 						_cubin = uncompressed_output;
-                        printf("aaaaaaaaaaaa\n");
 					} else {
+                        printf("ggggggggg\n");
 						_cubin  = (char*)entry + entry->binary;
-                        printf("bbbbbbbbbbbbbb\n");
 					}
 				}
 			}
 
-
+            printf("hhhhhhhhhhhh\n");
 			entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
 			offset += entry->binary + entry->binarySize;
-            printf("once\n");
+            
 		}
         printf("finish while\n");
 
