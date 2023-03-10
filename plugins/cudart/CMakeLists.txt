@@ -46,6 +46,7 @@ gvirtus_add_backend(cudart ${CUDA_VERSION}
         backend/CudaRtHandler_version.cpp
         backend/CudaRtHandler_error.cpp
         backend/CudaRtHandler.cpp
+        util/FatBinary.cpp
         util/CudaUtil.cpp)
 target_link_libraries(${PROJECT_NAME} ${CUDA_CUDART_LIBRARY})
 
@@ -66,6 +67,7 @@ gvirtus_add_frontend(cudart ${CUDA_VERSION}
         frontend/CudaRt_texture.cpp
         frontend/CudaRt_thread.cpp
         frontend/CudaRt_version.cpp
+        util/FatBinary.cpp
         util/CudaUtil.cpp)
 
 add_subdirectory(demo)
