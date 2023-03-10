@@ -150,17 +150,17 @@ FatBinary::FatBinary(void* ptr) {
 	}
 	
 	if (!_ptx) {
-		printf("registered, contains NO PTX");
+		printf("registered, contains NO PTX\n");
 	}
 	else {
-		printf("registered, contains PTX");	
+		printf("registered, contains PTX\n");	
 	}
 
 	if (!_cubin) {
-		printf("registered, contains NO CUBIN");
+		printf("registered, contains NO CUBIN\n");
 	}
 	else {
-		printf("registered, contains CUBIN");	
+		printf("registered, contains CUBIN\n");	
 	}
 }
 
