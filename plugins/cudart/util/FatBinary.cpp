@@ -17,7 +17,7 @@
 
 
 FatBinary::FatBinary(void* ptr) {
-	printf(f"FatBinaryContext:%p/n",ptr);
+	printf("FatBinaryContext:%p/n",ptr);
 
 	char* _name = 0;
 	_ptx = 0;
@@ -96,7 +96,7 @@ FatBinary::FatBinary(void* ptr) {
 		char* base = (char*)(header + 1);
 		long long unsigned int offset = 0;
 		__cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-		printf(f"binary flag: %llu, uncompress size: %llu\n",entry->flags,entry->uncompressedBinarySize);
+		printf("binary flag: %llu, uncompress size: %llu\n",entry->flags,entry->uncompressedBinarySize);
 
 		while (offset < header->length) {
 			_name = (char*)entry + entry->name;
