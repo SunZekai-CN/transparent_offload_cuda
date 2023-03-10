@@ -138,8 +138,10 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 						}
 						*/
 						_cubin = uncompressed_output;
+                        printf("aaaaaaaaaaaa\n");
 					} else {
 						_cubin  = (char*)entry + entry->binary;
+                        printf("bbbbbbbbbbbbbb\n");
 					}
 				}
 			}
@@ -147,7 +149,9 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
 			entry = (__cudaFatCudaBinary2EntryRec*)(base + offset);
 			offset += entry->binary + entry->binarySize;
+            printf("once\n");
 		}
+        printf("finish while\n");
 
     }
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
