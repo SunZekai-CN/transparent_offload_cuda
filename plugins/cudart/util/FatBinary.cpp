@@ -841,7 +841,7 @@ int FatBinary::parse() {
 printf("parse finish\n");
 for (auto iter = functions.begin();iter !=functions.end();++iter)
         {
-            std::string szFuncName(iter->first);
+            std::string szFuncName(iter->first.c_str());
             printf("functions: %s\n",szFuncName);
         }
 	return 0;
