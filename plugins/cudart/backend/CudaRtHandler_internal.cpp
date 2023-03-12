@@ -30,6 +30,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <list>
 
 #include "CudaUtil.h"
 #include "FatBinary.h"
@@ -187,7 +188,7 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
         CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer.get());
     void **bin = __cudaRegisterFatBinary((void *)fatBin);
     pThis->RegisterFatBinary(handler, bin);
-    unsigned int magic = *(unsigned int *) fatCubin;
+    unsigned int magic = *(unsigned int *) fatBin;
     if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
         if (!fatbins) {
         fatbins = new std::list<FatBinary*>();
