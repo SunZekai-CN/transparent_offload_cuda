@@ -58,7 +58,8 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         printf("fatbin push back\n");
         fatbins->push_back(fatbin_handle);
         printf("finish cronous\n");
-        transfer_cronous_to_gvirtus_functions(fatbin_handle);
+        map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc = new map<std::string, NvInfoFunction>();
+        transfer_cronous_to_gvirtus_functions(fatbin_handle,mapDeviceFunc2InfoFunc);
         Buffer *input_buffer = new Buffer();
         input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
         input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);

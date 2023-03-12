@@ -51,4 +51,4 @@ class FatBinary {
 		struct cuda_raw_func* malloc_func_if_necessary(const char *name);
 		struct cuda_raw_func* get_function(const char *name);
 };
-int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle);
+int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle,map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc);

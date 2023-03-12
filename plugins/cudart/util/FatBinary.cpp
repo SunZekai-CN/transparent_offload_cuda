@@ -14,9 +14,10 @@
 #include <lz4.h>
 #include <sstream>
 #include <string.h>
+#include <map>
 
-int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle){
-    int count = 0;
+int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle,map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc){
+	int count =0;
     for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
         {
             std::string szFuncName(iter->first);
@@ -32,8 +33,8 @@ int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle){
                 infoFunction.params.push_back(nvInfoKParam);
 
             }
-            CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
-            count +=1;
+			mapDeviceFunc2InfoFunc->insert(make_pair(szFuncName, infoFunction));
+			count +=1;
         }
     return count;
 }
