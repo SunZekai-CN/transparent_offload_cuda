@@ -276,6 +276,7 @@ typedef struct symbol_entry {
 
 struct cuda_raw_func* FatBinary::malloc_func_if_necessary(const char *name)
 {
+	printf("my name is %s\n",name);
 	std::string s(name);
 	if (functions.count(s) == 0) {
 		auto func = new cuda_raw_func();

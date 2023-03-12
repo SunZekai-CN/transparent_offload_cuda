@@ -61,7 +61,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         printf("finish cronous\n");
         for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
         {
-            printf("functions: %s",iter->first);
+            printf("functions: %s\n",iter->first);
         }
 
     }
