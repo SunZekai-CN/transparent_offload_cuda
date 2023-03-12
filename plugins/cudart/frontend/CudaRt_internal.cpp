@@ -36,7 +36,18 @@
  */
 
 std::list<FatBinary*> *fatbins;
-
+int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle){
+    int count = 0;
+    for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
+        {
+            char *szFuncName = iter->first.c_str();
+            NvInfoFunction infoFunction;
+            printf("functions: %s\n",szFuncName);
+            CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
+            count +=1;
+        }
+    return count;
+}
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
   /* Fake host pointer */
@@ -59,10 +70,7 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         printf("fatbin push back\n");
         fatbins->push_back(fatbin_handle);
         printf("finish cronous\n");
-        for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
-        {
-            printf("functions: %s\n",iter->first);
-        }
+        transfer_cronous_to_gvirtus_functions(fatbin_handle);
 
     }
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
