@@ -636,7 +636,7 @@ int FatBinary::parse() {
 	/* seek the ELF header. */
 	for (i = 0; i < ehead->e_shnum; i++) {
 		sh_name = (char *)(shstrings + sheads[i].sh_name);
-		printf("sh_name:%s\n",sh_name)
+		printf("sh_name:%s\n",sh_name);
 		sh = bin + sheads[i].sh_offset;
 		/* the following are function-independent sections. */
 		switch (sheads[i].sh_type) {
