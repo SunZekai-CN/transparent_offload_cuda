@@ -194,7 +194,7 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
         fatbins = new std::list<FatBinary*>();
     }
         printf("new fatbinary\n");
-        auto fatbin_handle = new FatBinary(fatCubin);
+        auto fatbin_handle = new FatBinary(fatBin);
         printf("fatbin handle parse\n");
         fatbin_handle->parse();   
         printf("fatbin push back\n");
