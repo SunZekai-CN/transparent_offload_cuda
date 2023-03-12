@@ -201,15 +201,6 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
         fatbins->push_back(fatbin_handle);
         printf("finish cronous\n");
         transfer_cronous_to_gvirtus_functions(fatbin_handle);
-        Buffer *input_buffer = new Buffer();
-        input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
-        input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
-        CudaRtFrontend::Prepare();
-        CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
-        if (CudaRtFrontend::Success()) return (void **) fatCubin;
-        else printf("cudaRegisterFatBinary failed\n");
-        return NULL;
-        
     }
       // char *data = (char *)fatBin->data;
 
