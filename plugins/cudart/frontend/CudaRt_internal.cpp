@@ -67,11 +67,12 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         auto fatbin_handle = new FatBinary(fatCubin);
         printf("fatbin handle parse\n");
         fatbin_handle->parse();
+        printf("transfering\n");
+        transfer_cronous_to_gvirtus_functions(fatbin_handle);
         printf("fatbin push back\n");
         fatbins->push_back(fatbin_handle);
         printf("finish cronous\n");
-        transfer_cronous_to_gvirtus_functions(fatbin_handle);
-
+        
     }
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
         /* Section header table :  */
