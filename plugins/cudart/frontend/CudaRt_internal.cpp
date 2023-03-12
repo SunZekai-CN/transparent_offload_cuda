@@ -40,7 +40,7 @@ int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle){
     int count = 0;
     for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
         {
-            char *szFuncName = iter->first.c_str();
+            std::string szFuncName(iter->first);
             NvInfoFunction infoFunction;
             printf("functions: %s\n",szFuncName);
             CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
