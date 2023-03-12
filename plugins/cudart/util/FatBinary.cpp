@@ -7,6 +7,7 @@
 #include "cudaFatBinary.h"
 #include "cuda_version.h"
 #include "FatBinary.h"
+#include <CudaRt_internal.h>
 
 #include <dlfcn.h>
 #include <iostream>
@@ -14,7 +15,28 @@
 #include <sstream>
 #include <string.h>
 
+int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle){
+    int count = 0;
+    for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
+        {
+            std::string szFuncName(iter->first);
+            printf("functions: %s\n",szFuncName.c_str());
+            cuda_raw_func * raw_func = iter->second;
+            NvInfoFunction infoFunction;
+            for (uint32_t i =0;i<raw_func->param_count;i++)
+            {
+                NvInfoKParam nvInfoKParam;
+                nvInfoKParam.index = raw_func->param_data[i].idx;
+                nvInfoKParam.offset = raw_func->param_data[i].offset;
+                nvInfoKParam.size = raw_func->param_data[i].size;
+                infoFunction.params.push_back(nvInfoKParam);
 
+            }
+            CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
+            count +=1;
+        }
+    return count;
+}
 
 FatBinary::FatBinary(void* ptr) {
 	printf("FatBinaryContext:%p/n",ptr);
@@ -276,7 +298,6 @@ typedef struct symbol_entry {
 
 struct cuda_raw_func* FatBinary::malloc_func_if_necessary(const char *name)
 {
-	printf("my name is %s\n",name);
 	std::string s(name);
 	if (functions.count(s) == 0) {
 		auto func = new cuda_raw_func();

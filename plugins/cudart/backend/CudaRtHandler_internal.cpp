@@ -32,6 +32,7 @@
 #include <vector>
 
 #include "CudaUtil.h"
+#include "FatBinary.h"
 
 using namespace std;
 
@@ -175,7 +176,7 @@ const textureReference *getTexture(const textureReference *handler) {
 #endif
 
 
-
+std::list<FatBinary*> *fatbins;
 CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("RegisterFatBinary"));
     LOG4CPLUS_DEBUG(logger, "Entering in RegisterFatBinary");
@@ -186,7 +187,29 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
         CudaUtil::UnmarshalFatCudaBinaryV2(input_buffer.get());
     void **bin = __cudaRegisterFatBinary((void *)fatBin);
     pThis->RegisterFatBinary(handler, bin);
-
+    unsigned int magic = *(unsigned int *) fatCubin;
+    if (magic == FATBINC_MAGIC) {// fatBinaryCtl.h
+        if (!fatbins) {
+        fatbins = new std::list<FatBinary*>();
+    }
+        printf("new fatbinary\n");
+        auto fatbin_handle = new FatBinary(fatCubin);
+        printf("fatbin handle parse\n");
+        fatbin_handle->parse();   
+        printf("fatbin push back\n");
+        fatbins->push_back(fatbin_handle);
+        printf("finish cronous\n");
+        transfer_cronous_to_gvirtus_functions(fatbin_handle);
+        Buffer *input_buffer = new Buffer();
+        input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
+        input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
+        CudaRtFrontend::Prepare();
+        CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
+        if (CudaRtFrontend::Success()) return (void **) fatCubin;
+        else printf("cudaRegisterFatBinary failed\n");
+        return NULL;
+        
+    }
       // char *data = (char *)fatBin->data;
 
       // NvFatCubin *pFatCubin = (NvFatCubin *)data;

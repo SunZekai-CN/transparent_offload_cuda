@@ -36,28 +36,6 @@
  */
 
 std::list<FatBinary*> *fatbins;
-int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle){
-    int count = 0;
-    for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
-        {
-            std::string szFuncName(iter->first);
-            printf("functions: %s\n",szFuncName.c_str());
-            cuda_raw_func * raw_func = iter->second;
-            NvInfoFunction infoFunction;
-            for (uint32_t i =0;i<raw_func->param_count;i++)
-            {
-                NvInfoKParam nvInfoKParam;
-                nvInfoKParam.index = raw_func->param_data[i].idx;
-                nvInfoKParam.offset = raw_func->param_data[i].offset;
-                nvInfoKParam.size = raw_func->param_data[i].size;
-                infoFunction.params.push_back(nvInfoKParam);
-
-            }
-            CudaRtFrontend::addDeviceFunc2InfoFunc(szFuncName, infoFunction);
-            count +=1;
-        }
-    return count;
-}
 extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
 
   /* Fake host pointer */
@@ -81,6 +59,14 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         fatbins->push_back(fatbin_handle);
         printf("finish cronous\n");
         transfer_cronous_to_gvirtus_functions(fatbin_handle);
+        Buffer *input_buffer = new Buffer();
+        input_buffer->AddString(CudaUtil::MarshalHostPointer((void **) bin));
+        input_buffer = CudaUtil::MarshalFatCudaBinary(bin, input_buffer);
+        CudaRtFrontend::Prepare();
+        CudaRtFrontend::Execute("cudaRegisterFatBinary", input_buffer);
+        if (CudaRtFrontend::Success()) return (void **) fatCubin;
+        else printf("cudaRegisterFatBinary failed\n");
+        return NULL;
         
     }
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
