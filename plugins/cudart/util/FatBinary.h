@@ -52,3 +52,13 @@ class FatBinary {
 		struct cuda_raw_func* get_function(const char *name);
 };
 int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle);
+typedef struct {
+    NvInfoAttribute nvInfoAttribute;
+    uint16_t index;
+    uint16_t align;
+    uint16_t ordinal;
+    uint16_t offset;
+    uint16_t a;
+    uint8_t size;
+    uint8_t b;
+} NvInfoKParam;
