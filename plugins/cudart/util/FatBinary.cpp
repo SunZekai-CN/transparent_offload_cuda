@@ -184,8 +184,6 @@ FatBinary::FatBinary(void* ptr) {
 #define Elf_Sym	 Elf64_Sym
 #endif
 
-#define GDEV_PRINT(s...)
-// fprintf(stderr, s);
 #define MALLOC(s) malloc(s)
 
 #define SH_TEXT ".text."
@@ -321,7 +319,7 @@ static void cubin_func_skip(char **pos, section_entry_t *e)
 
 static void cubin_func_unknown(char **pos, section_entry_t *e)
 {
-	GDEV_PRINT("/* nv.info: unknown entry type: 0x%.4x, size=0x%x */\n",
+	printf("/* nv.info: unknown entry type: 0x%.4x, size=0x%x */\n",
 			   e->type, e->size);
 	cubin_func_skip(pos, e);
 }
@@ -412,8 +410,8 @@ static int cubin_func_1903
 			raw_func->param_size = e->size;
 		}
 		else {
-			GDEV_PRINT("Parameter size mismatched\n");
-			GDEV_PRINT("0x%x and 0x%x\n", raw_func->param_size, e->size);
+			printf("Parameter size mismatched\n");
+			printf("0x%x and 0x%x\n", raw_func->param_size, e->size);
 		}
 	}
 
@@ -443,7 +441,7 @@ static int cubin_func_maxreg_count
 
 	*pos += sizeof(section_entry_t);
 	crse = (crs_stack_size_entry_t*) *pos;
-	GDEV_PRINT("func maxreg_count: %d, ignored\n", crse->size);
+	printf("func maxreg_count: %d, ignored\n", crse->size);
 
 	*pos += e->size;
 
@@ -457,7 +455,7 @@ static int cubin_func_sw_war
 
 	*pos += sizeof(section_entry_t);
 	crse = (crs_stack_size_entry_t*) *pos;
-	GDEV_PRINT("func sw_war: %d, ignored\n", crse->size);
+	printf("func sw_war: %d, ignored\n", crse->size);
 
 	*pos += e->size;
 
@@ -471,7 +469,7 @@ static int cubin_func_api_version
 
 	*pos += sizeof(section_entry_t);
 	crse = (crs_stack_size_entry_t*) *pos;
-	GDEV_PRINT("func api_version: %d, ignored\n", crse->size);
+	printf("func api_version: %d, ignored\n", crse->size);
 
 	*pos += e->size;
 
@@ -486,7 +484,7 @@ static int cubin_func_regcount
 	*pos += sizeof(section_entry_t);
 	crse = (crs_stack_size_entry_t*) *pos;
 	// k->reg_count = crse->size;
-	GDEV_PRINT("reg count %d, ignored\n", crse->size);
+	printf("reg count %d, ignored\n", crse->size);
 
 	*pos += e->size;
 
@@ -501,7 +499,7 @@ static int cubin_func_max_stack
 	*pos += sizeof(section_entry_t);
 	crse = (crs_stack_size_entry_t*) *pos;
 	// k->reg_count = crse->size;
-	GDEV_PRINT("max stack %d, ignored\n", crse->size);
+	printf("max stack %d, ignored\n", crse->size);
 
 	*pos += e->size;
 
@@ -632,12 +630,13 @@ int FatBinary::parse() {
 	shstrings = bin + sheads[ehead->e_shstrndx].sh_offset;
 
 	// set arch version
-	GDEV_PRINT("version is sm_%d, flag %lx\n", flags & 0xff, flags);
+	printf("version is sm_%d, flag %lx\n", flags & 0xff, flags);
 	sm_2_arch(flags & 0xff);
 
 	/* seek the ELF header. */
 	for (i = 0; i < ehead->e_shnum; i++) {
 		sh_name = (char *)(shstrings + sheads[i].sh_name);
+		printf("sh_name:%s\n",sh_name)
 		sh = bin + sheads[i].sh_offset;
 		/* the following are function-independent sections. */
 		switch (sheads[i].sh_type) {
@@ -801,13 +800,13 @@ int FatBinary::parse() {
 		 case 0x12: /* function symbols */
 			 break;
 		 case 0x22: /* quick hack: FIXME! */
-			 GDEV_PRINT("sym_name: %s\n", sym_name);
-			 GDEV_PRINT("sh_name: %s\n", sh_name);
-			 GDEV_PRINT("st_value: 0x%llx\n", (unsigned long long)sym->st_value);
-			 GDEV_PRINT("st_size: 0x%llx\n", (unsigned long long)sym->st_size);
+			 printf("sym_name: %s\n", sym_name);
+			 printf("sh_name: %s\n", sh_name);
+			 printf("st_value: 0x%llx\n", (unsigned long long)sym->st_value);
+			 printf("st_size: 0x%llx\n", (unsigned long long)sym->st_size);
 			 break;
 		 default: /* ??? */
-			 GDEV_PRINT("/* unknown symbols: 0x%x\n */", sym->st_info);
+			 printf("/* unknown symbols: 0x%x\n */", sym->st_info);
 			 goto fail_symbol;
 		 }
 	}
