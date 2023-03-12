@@ -838,7 +838,13 @@ int FatBinary::parse() {
 			}
 		}
 	}
-
+printf("parse finish\n");
+for (auto iter = functions.begin();iter !=functions.end();++iter)
+        {
+            std::string szFuncName(iter->first);
+            printf("functions: %s\n",szFuncName);
+            count +=1;
+        }
 	return 0;
 
 fail_symbol:
