@@ -7,6 +7,7 @@
 #include "cudaFatBinary.h"
 #include "cuda_version.h"
 #include "FatBinary.h"
+#include <CudaRt_internal.h>
 
 #include <dlfcn.h>
 #include <iostream>
@@ -223,38 +224,6 @@ FatBinary::FatBinary(void* ptr) {
  * This is from https://github.com/cloudcores/CuAssembler
  * But it may not be correct
  */
-#define EIATTR_CTAIDZ_USED 0x0401
-#define EIATTR_MAX_THREADS 0x0504
-#define EIATTR_PARAM_CBANK 0x0a04
-#define EIATTR_EXTERNS 0x0f04
-#define EIATTR_REQNTID 0x1004
-#define EIATTR_FRAME_SIZE 0x1104
-#define EIATTR_MIN_STACK_SIZE 0x1204
-#define EIATTR_BINDLESS_TEXTURE_BANK 0x1502
-#define EIATTR_BINDLESS_SURFACE_BANK 0x1602
-#define EIATTR_KPARAM_INFO 0x1704
-#define EIATTR_CBANK_PARAM_SIZE 0x1903
-#define EIATTR_MAXREG_COUNT 0x1b03
-#define EIATTR_EXIT_INSTR_OFFSETS 0x1c04
-#define EIATTR_S2RCTAID_INSTR_OFFSETS 0x1d04
-#define EIATTR_CRS_STACK_SIZE 0x1e04
-#define EIATTR_NEED_CNP_WRAPPER 0x1f01
-#define EIATTR_NEED_CNP_PATCH 0x2001
-#define EIATTR_EXPLICIT_CACHING 0x2101
-#define EIATTR_MAX_STACK_SIZE 0x2304
-#define EIATTR_LD_CACHEMOD_INSTR_OFFSETS 0x2504
-#define EIATTR_ATOM_SYS_INSTR_OFFSETS 0x2704
-#define EIATTR_COOP_GROUP_INSTR_OFFSETS 0x2804
-#define EIATTR_SW1850030_WAR 0x2a01
-#define EIATTR_WMMA_USED 0x2b01
-#define EIATTR_ATOM16_EMUL_INSTR_REG_MAP 0x2e04
-#define EIATTR_REGCOUNT 0x2f04
-#define EIATTR_SW2393858_WAR 0x3001
-#define EIATTR_INT_WARP_WIDE_INSTR_OFFSETS 0x3104
-#define EIATTR_INDIRECT_BRANCH_TARGETS 0x3404
-#define EIATTR_SW2861232_WAR 0x3501
-#define EIATTR_SW_WAR 0x3604
-#define EIATTR_CUDA_API_VERSION 0x3704
 
 typedef struct section_entry_ {
 	uint16_t type;
