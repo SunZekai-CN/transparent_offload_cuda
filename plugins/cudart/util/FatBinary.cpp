@@ -283,7 +283,16 @@ struct cuda_raw_func* FatBinary::malloc_func_if_necessary(const char *name)
 		func->name = name;
 		functions[s] = func;
 	}
-	
+	printf("my name is %s\n",s);
+	printf("my name is %s\n",s.c_str());
+	printf("parse finish\n");
+	for (auto iter = functions.begin();iter !=functions.end();++iter)
+        {
+			std::string tag = iter->first;
+			printf("functions: %s\n",tag);
+            std::string szFuncName(iter->first.c_str());
+            printf("functions: %s\n",szFuncName);
+        }
 	return functions[s];
 }
 
@@ -838,12 +847,6 @@ int FatBinary::parse() {
 			}
 		}
 	}
-printf("parse finish\n");
-for (auto iter = functions.begin();iter !=functions.end();++iter)
-        {
-            std::string szFuncName(iter->first.c_str());
-            printf("functions: %s\n",szFuncName);
-        }
 	return 0;
 
 fail_symbol:
