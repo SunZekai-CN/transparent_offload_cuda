@@ -43,8 +43,8 @@ class FatBinary {
 		std::string name;
 		void* _cubin;
 		void* _ptx;
-		std::unordered_map<std::string, struct cuda_raw_func *> functions;
 	public:
+	    std::unordered_map<std::string, struct cuda_raw_func *> functions;
 		FatBinary(void* entry);
 		inline void* cubin() { return _cubin; }
 		int parse();

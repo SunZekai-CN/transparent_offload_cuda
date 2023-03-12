@@ -59,6 +59,10 @@ extern "C" __host__ void **__cudaRegisterFatBinary(void *fatCubin) {
         printf("fatbin push back\n");
         fatbins->push_back(fatbin_handle);
         printf("finish cronous\n");
+        for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
+        {
+            printf("functions: %s",iter->first);
+        }
 
     }
     if(!strncmp((char*)eh->e_ident, "\177ELF", 4)) {
