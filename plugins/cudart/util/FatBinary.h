@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <map>
 
 #define NVIDIA_CONST_SEGMENT_MAX_COUNT 10
 
