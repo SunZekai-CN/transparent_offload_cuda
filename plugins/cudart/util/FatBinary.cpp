@@ -16,7 +16,7 @@
 #include <string.h>
 #include <map>
 
-int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle,map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc){
+int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle,std::map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc){
 	int count =0;
     for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
         {
