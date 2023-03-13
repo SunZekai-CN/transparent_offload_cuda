@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <CudaRt_internal.h>
 
 #define NVIDIA_CONST_SEGMENT_MAX_COUNT 10
 

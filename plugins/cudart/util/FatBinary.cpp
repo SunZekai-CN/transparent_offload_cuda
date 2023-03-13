@@ -7,7 +7,6 @@
 #include "cudaFatBinary.h"
 #include "cuda_version.h"
 #include "FatBinary.h"
-#include <CudaRt_internal.h>
 
 #include <dlfcn.h>
 #include <iostream>
