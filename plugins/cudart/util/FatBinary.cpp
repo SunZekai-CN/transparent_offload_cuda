@@ -20,7 +20,7 @@ int transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle,std::map<std:
     for (auto iter = fatbin_handle->functions.begin();iter !=fatbin_handle->functions.end();++iter)
         {
             std::string szFuncName(iter->first);
-            printf("functions: %s\n",szFuncName.c_str());
+            // printf("functions: %s\n",szFuncName.c_str());
             cuda_raw_func * raw_func = iter->second;
             NvInfoFunction infoFunction;
             for (uint32_t i =0;i<raw_func->param_count;i++)

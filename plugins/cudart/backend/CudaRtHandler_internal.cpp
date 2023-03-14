@@ -170,6 +170,12 @@ CUDA_ROUTINE_HANDLER(RegisterFatBinary) {
         printf("finish cronous\n");
         map<std::string, NvInfoFunction>* mapDeviceFunc2InfoFunc = new map<std::string, NvInfoFunction>();
         transfer_cronous_to_gvirtus_functions(fatbin_handle,mapDeviceFunc2InfoFunc);
+        for (auto iter = mapDeviceFunc2InfoFunc.begin();iter !=mapDeviceFunc2InfoFunc.end();++iter)
+        {
+            std::string szFuncName(iter->first);
+            printf("functions: %s\n",szFuncName.c_str());
+            pThis->addDeviceFunc2InfoFunc(iter->first, iter->second);
+        }
     }
       // char *data = (char *)fatBin->data;
 
