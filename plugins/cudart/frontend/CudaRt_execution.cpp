@@ -161,11 +161,10 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     std::string deviceFunc=CudaRtFrontend::getDeviceFunc(const_cast<void *>(func));
 
     NvInfoFunction infoFunction = CudaRtFrontend::getInfoFunc(deviceFunc);
+    
+    printf("cudaLaunchKernel - hostFunc:%x\n",func);
     printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
     printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
-
-    // printf("cudaLaunchKernel - hostFunc:%x deviceFunc:%s parameters:%d\n",func, deviceFunc.c_str(),infoFunction.params.size());
-
 
     size_t argsSize=0;
     for (NvInfoKParam infoKParam:infoFunction.params) {
@@ -192,11 +191,11 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
 
     }
 
-    /*
-    for(int i=0;i<infoFunction.params.size();i++) {
-        printf("%d: %x -> %x\n",i,args1[i],*(reinterpret_cast<unsigned int *>(args1[i])));
+
+    for (int i=0;i<infoFunction.params.size();i++) {
+        printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
     }
-     */
+    
     //CudaRtFrontend::hexdump(pArgs,argsSize);
     CudaRtFrontend::AddHostPointerForArguments<byte>(pArgs, argsSize);
 

@@ -210,7 +210,7 @@ void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
 }
 
 void Frontend::Prepare() {
-  printf("i am prepare\n");
+  // printf("i am prepare\n");
   pid_t tid = syscall(SYS_gettid);
   if (this->mpFrontends->find(tid) != mpFrontends->end())
     mpFrontends->find(tid)->second->mpInputBuffer->Reset();
