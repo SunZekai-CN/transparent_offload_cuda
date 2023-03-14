@@ -59,6 +59,7 @@ function(gvirtus_add_backend)
     add_library(${PROJECT_NAME} SHARED
             ${ARGV})
     target_link_libraries(${PROJECT_NAME} ${LIBLOG4CPLUS} gvirtus-common gvirtus-communicators)
+    target_link_libraries(${PROJECT_NAME} lz4)
     install(TARGETS ${PROJECT_NAME}
             LIBRARY DESTINATION ${GVIRTUS_HOME}/lib)
 endfunction()
