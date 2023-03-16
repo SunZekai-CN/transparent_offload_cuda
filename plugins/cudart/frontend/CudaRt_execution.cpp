@@ -165,41 +165,62 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
     printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
     printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
+    
+    uint32_t n_par=0;
+    uint32_t *parameters = new uint32_t[infoFunction.params.size()];
+    uint32_t total_parameter_sizes = 0;
+    void* args_copy = NULL;
+    int args_copy_offset = 0;
 
-    size_t argsSize=0;
-    for (NvInfoKParam infoKParam:infoFunction.params) {
-        printf("index: %d align%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
-              infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
-        argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
-    }
+    for (auto &param : infoFunction.params) {
+                    parameters[infoFunction.params.size() - 1 - n_par] = param.size;
+                    n_par ++;
+                }
 
-    printf("argsSize:%d\n",argsSize);
-    byte *pArgs = static_cast<byte *>(malloc(argsSize));
+    for (int i = 0;i < n_par; i++)
+                total_parameter_sizes += parameters[i];
 
-    printf("aaaaaa\n");
-    void *args1[infoFunction.params.size()];
-    printf("bbbbbb\n");
-    for (NvInfoKParam infoKParam:infoFunction.params) {
-        byte *p=pArgs+infoKParam.offset;
-        printf("offset is %d\n",infoKParam.offset);
-        printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
+    args_copy = malloc(total_parameter_sizes);  
+    for (int i = 0;i < n_par;i++) {
+            memcpy((char*)args_copy + args_copy_offset, args[i], parameters[i]);
+            args_copy_offset += parameters[i];
+        }          
+
+    // size_t argsSize=0;
+    // for (NvInfoKParam infoKParam:infoFunction.params) {
+    //     printf("index: %d align%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
+    //           infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+    //     argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
+    // }
+
+    // printf("argsSize:%d\n",argsSize);
+    // byte *pArgs = static_cast<byte *>(malloc(argsSize));
+
+    // printf("aaaaaa\n");
+    // void *args1[infoFunction.params.size()];
+    // printf("bbbbbb\n");
+    // for (NvInfoKParam infoKParam:infoFunction.params) {
+    //     byte *p=pArgs+infoKParam.offset;
+    //     printf("offset is %d\n",infoKParam.offset);
+    //     printf("%x <-- %d: %x -> %x\n",p,infoKParam.ordinal,args[infoKParam.ordinal],*(reinterpret_cast<unsigned int *>(args[infoKParam.ordinal])));
 
 
-        memcpy(p,args[infoKParam.ordinal],((infoKParam.size & 0xf8) >> 2));
+    //     memcpy(p,args[infoKParam.ordinal],((infoKParam.size & 0xf8) >> 2));
 
-        args1[infoKParam.ordinal]=reinterpret_cast<void *>(p);
-
-
-
-    }
+    //     args1[infoKParam.ordinal]=reinterpret_cast<void *>(p);
 
 
-    for (int i=0;i<infoFunction.params.size();i++) {
-        printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
-    }
+
+    // }
+
+
+    // for (int i=0;i<infoFunction.params.size();i++) {
+    //     printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
+    // }
     printf("cudalauchkernel finish\n");
     //CudaRtFrontend::hexdump(pArgs,argsSize);
-    CudaRtFrontend::AddHostPointerForArguments<byte>(pArgs, argsSize);
+    // CudaRtFrontend::AddHostPointerForArguments<byte>(pArgs, argsSize);
+    CudaRtFrontend::AddHostPointerForArguments(args_copy, total_parameter_sizes);
 
     CudaRtFrontend::AddVariableForArguments(sharedMem);
 #if CUDART_VERSION >= 3010
