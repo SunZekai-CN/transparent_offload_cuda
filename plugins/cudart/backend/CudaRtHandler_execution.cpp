@@ -114,7 +114,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
 
-    void * args_buf = input_buffer->AssignAll();
+    byte * args_buf = input_buffer->AssignAll<byte>();
     int parameter_len = infoFunction.params.size();
     void** args = (void**) malloc(parameter_len * sizeof(void*));
     int total_offset = 0;
