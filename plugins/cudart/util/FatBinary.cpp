@@ -27,7 +27,7 @@ uint16_t transfer_cronous_to_gvirtus_functions(FatBinary* fatbin_handle,std::map
             {
                 NvInfoKParam nvInfoKParam;
                 nvInfoKParam.index = raw_func->param_data[i].idx;
-				nvInfoKParam.ordinal = count;
+				nvInfoKParam.ordinal = nvInfoKParam.index;
                 nvInfoKParam.offset = raw_func->param_data[i].offset;
                 nvInfoKParam.size = raw_func->param_data[i].size;
                 infoFunction.params.push_back(nvInfoKParam);
