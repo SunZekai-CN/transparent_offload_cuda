@@ -134,8 +134,8 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
 
     printf("for check:\n");
-    for (int i=0;i<total_parameter_sizes;i++)
-    printf("%0x",args_copy[i]);
+    for (int i=0;i<total_offset;i++)
+    printf("%0x",args_buf[i]);
     // byte *pArgs = input_buffer->AssignAll<byte>();
     // //CudaRtHandler::hexdump(pArgs,argsSize);
 
