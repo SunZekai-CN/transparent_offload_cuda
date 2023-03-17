@@ -229,7 +229,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     CudaRtFrontend::AddVariableForArguments(stream);
 #endif
     CudaRtFrontend::Execute("cudaLaunchKernel");
-    free(pArgs);
+    free(args_copy);
     return CudaRtFrontend::GetExitCode();
 }
 #endif
