@@ -184,10 +184,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
             memcpy(args_copy + args_copy_offset, args[i], parameters[i]);
             printf("total offset: %d; length: %d\n",args_copy_offset,parameters[i]);
             args_copy_offset += parameters[i];
-            printf("this param:\n");
-            for (int j=0;j<parameters[i];j++)
-              printf("%0x",args[i][j]);
-            printf("\n");
+            if (args[i]==nullptr)printf("this param is null\n");
         }          
     printf("for check:\n");
     for (int i=0;i<total_parameter_sizes;i++)
