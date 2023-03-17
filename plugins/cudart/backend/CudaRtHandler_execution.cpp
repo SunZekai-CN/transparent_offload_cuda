@@ -126,14 +126,16 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
                 }
 
     for (int i = 0;i < parameter_len;i++) {
-        args[i] = reinterpret_cast<void *>((char*)args_buf + total_offset);
+        args[i] = reinterpret_cast<void *>((byte *)args_buf + total_offset);
         printf("total offset: %d; length: %d\n",total_offset,parameters[i]);
         total_offset += parameters[i];
     }
 
 
 
-
+    printf("for check:\n");
+    for (int i=0;i<total_parameter_sizes;i++)
+    printf("%0x",args_copy[i]);
     // byte *pArgs = input_buffer->AssignAll<byte>();
     // //CudaRtHandler::hexdump(pArgs,argsSize);
 

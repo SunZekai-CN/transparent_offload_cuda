@@ -169,7 +169,6 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     uint32_t n_par=0;
     uint32_t *parameters = new uint32_t[infoFunction.params.size()];
     uint32_t total_parameter_sizes = 0;
-    void* args_copy = NULL;
     int args_copy_offset = 0;
 
     for (auto &param : infoFunction.params) {
@@ -180,13 +179,15 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     for (int i = 0;i < n_par; i++)
                 total_parameter_sizes += parameters[i];
 
-    args_copy = malloc(total_parameter_sizes);  
+    byte *args_copy = static_cast<byte *>(malloc(total_parameter_sizes));  
     for (int i = 0;i < n_par;i++) {
-            memcpy((char*)args_copy + args_copy_offset, args[i], parameters[i]);
+            memcpy(args_copy + args_copy_offset, args[i], parameters[i]);
             printf("total offset: %d; length: %d\n",args_copy_offset,parameters[i]);
             args_copy_offset += parameters[i];
         }          
-
+    printf("for check:\n");
+    for (int i=0;i<total_parameter_sizes;i++)
+    printf("%0x",args_copy[i]);
     // size_t argsSize=0;
     // for (NvInfoKParam infoKParam:infoFunction.params) {
     //     printf("index: %d align%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
