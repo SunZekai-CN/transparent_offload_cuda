@@ -127,6 +127,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
     for (int i = 0;i < parameter_len;i++) {
         args[i] = reinterpret_cast<void *>((char*)args_buf + total_offset);
+        printf("total offset: %d; length: %d\n",total_offset,parameters[i]);
         total_offset += parameters[i];
     }
 
