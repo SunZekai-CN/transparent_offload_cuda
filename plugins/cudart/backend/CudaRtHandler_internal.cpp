@@ -303,11 +303,6 @@ CUDA_ROUTINE_HANDLER(RegisterFunction) {
     int *wSize = input_buffer->Assign<int>();
     __cudaRegisterFunction(fatCubinHandle, hostfun, deviceFun, deviceName,
                            thread_limit, tid, bid, bDim, gDim, wSize);
-    cudaError_t error = cudaGetLastError();
-    if (error != 0) {
-      cerr << "error executing RegisterFunction: " << _cudaGetErrorEnum(error)
-           << endl;
-    }
 #ifdef DEBUG
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
@@ -352,10 +347,6 @@ CUDA_ROUTINE_HANDLER(RegisterVar) {
     // printf("__cudaRegisterVar - ext:%d size:%d constant:%d global:%d\n",ext,size,constant,global);
     __cudaRegisterVar(fatCubinHandle, hostVar, deviceAddress, deviceName, ext,
                       size, constant, global);
-    cudaError_t error = cudaGetLastError();
-    if (error != 0) {
-      cerr << "error executing RegisterVar: " << _cudaGetErrorEnum(error)
-           << endl;}
 #ifdef DEBUG
     cudaError_t error = cudaGetLastError();
     if (error != 0) {
