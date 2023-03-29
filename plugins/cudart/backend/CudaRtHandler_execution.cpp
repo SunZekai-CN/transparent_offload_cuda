@@ -29,6 +29,7 @@
 #include "cuda_runtime_compat.h"
 #endif
 
+#include <demangle.h>
 
 
 CUDA_ROUTINE_HANDLER(ConfigureCall) {
@@ -89,7 +90,78 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
   }
 }
 
+char* kernel_name_parameter(const char* s) {
+	auto name = cplus_demangle(s, DMGL_PARAMS | DMGL_AUTO);
+	auto cur = name;
+	std::vector<char> matching_stack;
+	std::vector<std::string> parameters;
 
+	auto last_name = cur;
+	auto par_cnt = 0;
+
+	while (*cur != '\0') {
+		switch (*cur) {
+			case '<': matching_stack.push_back('<'); break;
+			case '>':
+				if (matching_stack.back() == '<') {
+					matching_stack.pop_back();
+				} else {
+					log_err("error!!");
+				}
+				break;
+			case '(': 
+				matching_stack.push_back('(');
+				if (matching_stack.size() == 1) {
+					// std::cout << "par starting here: " << cur << "\n";
+					last_name = cur + 1;
+				}
+				break;
+			case ')':
+				if (matching_stack.back() == '(') {
+					matching_stack.pop_back();
+				} else {
+					log_err("error!!");
+				}
+				if (matching_stack.size() == 0) {
+					auto s = std::string(last_name, cur - last_name);
+					if (s == "anonymous namespace") break;
+					parameters.push_back(s);
+					log_info("parameter index-%d: %s",  par_cnt++, s.c_str());
+					// std::cout << "par ending here: " << cur << "\n";
+				}
+				break;
+			case ',':
+				if (matching_stack.size() == 1 && matching_stack.back() == '(') {
+					// top-level new parameter
+					auto s = std::string(last_name, cur - last_name);
+					last_name = cur + 1;
+					if (s == "anonymous namespace") break;
+					parameters.push_back(s);
+					log_info("parameter index-%d: %s",  par_cnt++, s.c_str());
+				}
+				break;
+			case ' ':
+				if (cur - last_name == 0) {
+					last_name = cur + 1;
+				}
+				break;
+			default:
+				break;
+		}
+		cur++;
+	}
+	char *ret = (char*)malloc(parameters.size() + 1);
+	for (int i = 0;i < parameters.size();i++) {
+		if (parameters[i].back() == '*')
+			ret[i] = '*';
+		else if (parameters[i].find(' ') != std::string::npos)
+			ret[i] = 'L';
+		else
+			ret[i] = '$';
+	}
+	ret[parameters.size()] = '\0';
+	return ret;
+}
 
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
@@ -98,7 +170,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     auto last_code = cudaDeviceSynchronize();
     if (last_code != cudaSuccess) {
         printf("error in previous kernel\n");
-        printf("failed: %s\n",cudaGetErrorString(exit_code));
+        printf("failed: %s\n",cudaGetErrorString(last_code));
     }
     else printf("success in previous kernel\n");
 
@@ -106,6 +178,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
 
+    printf("kernel name parameter: %s\n",kernel_name_parameter(deviceFunc));
     printf("success\n");
     
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
