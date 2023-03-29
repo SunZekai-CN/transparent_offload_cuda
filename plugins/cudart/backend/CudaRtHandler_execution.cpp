@@ -95,6 +95,13 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     printf("entering lauchkernel\n");
 
+    auto exit_code = cudaDeviceSynchronize();
+    if (exit_code != cudaSuccess) {
+        printf("error in previous kernel\n");
+        printf("failed: %s\n",cudaGetErrorString(exit_code));
+    }
+    else printf("success in previous kernel\n");
+
     void *func = input_buffer->GetFromMarshal<void *>();
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
