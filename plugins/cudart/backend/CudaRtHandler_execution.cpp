@@ -95,8 +95,8 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     printf("entering lauchkernel\n");
 
-    auto exit_code = cudaDeviceSynchronize();
-    if (exit_code != cudaSuccess) {
+    auto last_code = cudaDeviceSynchronize();
+    if (last_code != cudaSuccess) {
         printf("error in previous kernel\n");
         printf("failed: %s\n",cudaGetErrorString(exit_code));
     }
