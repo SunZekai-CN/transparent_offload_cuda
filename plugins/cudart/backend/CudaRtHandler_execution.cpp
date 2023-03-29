@@ -133,9 +133,12 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
 
 
-    printf("for check:\n");
-    for (int i=0;i<total_offset;i++)
-    printf("%0x",args_buf[i]);
+     auto pre_status = cudaDeviceSynchronize();
+    if (pre_status != cudaSuccess) {
+        printf("error in previous kernel");
+    }
+    else printf("success in previous kernel");
+
     // byte *pArgs = input_buffer->AssignAll<byte>();
     // //CudaRtHandler::hexdump(pArgs,argsSize);
 

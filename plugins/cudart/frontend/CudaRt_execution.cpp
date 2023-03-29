@@ -182,13 +182,13 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     byte *args_copy = static_cast<byte *>(malloc(total_parameter_sizes));  
     for (int i = 0;i < n_par;i++) {
             memcpy(args_copy + args_copy_offset, args[i], parameters[i]);
-            printf("total offset: %d; length: %d\n",args_copy_offset,parameters[i]);
+            printf("total offset: %d; length: %d; content:\n",args_copy_offset,parameters[i]);
+            for (int j=args_copy_offset;j<args_copy_offset+parameters[i];j++)
+              printf("%0x",args_copy[j]);
             args_copy_offset += parameters[i];
-            if (args[i]==nullptr)printf("this param is null\n");
+            printf("\n");
         }          
-    printf("for check:\n");
-    for (int i=0;i<total_parameter_sizes;i++)
-    printf("%0x",args_copy[i]);
+    
     // size_t argsSize=0;
     // for (NvInfoKParam infoKParam:infoFunction.params) {
     //     printf("index: %d align%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
