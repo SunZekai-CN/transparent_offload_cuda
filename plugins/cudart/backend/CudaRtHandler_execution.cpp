@@ -133,11 +133,6 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
 
 
 
-     auto pre_status = cudaDeviceSynchronize();
-    if (pre_status != cudaSuccess) {
-        printf("error in previous kernel");
-    }
-    else printf("success in previous kernel");
 
     // byte *pArgs = input_buffer->AssignAll<byte>();
     // //CudaRtHandler::hexdump(pArgs,argsSize);
@@ -157,6 +152,12 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     //     printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
     // }
     cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
+
+    if (exit_code != cudaSuccess) {
+        printf("error in this kernel\n");
+        printf("failed: %s\n",cudaGetErrorString(exit_code));
+    }
+    else printf("success in this kernel\n");
 
     //LOG4CPLUS_DEBUG(logger, "LaunchKernel: post");
     printf("cudalauchkernel finish\n");
