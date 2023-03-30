@@ -128,7 +128,7 @@ char* kernel_name_parameter(const char* s) {
 					auto s = std::string(last_name, cur - last_name);
 					if (s == "anonymous namespace") break;
 					parameters.push_back(s);
-					printf("parameter index-%d: %s",  par_cnt++, s.c_str());
+					printf("parameter index-%d: %s\n",  par_cnt++, s.c_str());
 					// std::cout << "par ending here: " << cur << "\n";
 				}
 				break;
@@ -139,7 +139,7 @@ char* kernel_name_parameter(const char* s) {
 					last_name = cur + 1;
 					if (s == "anonymous namespace") break;
 					parameters.push_back(s);
-					printf("parameter index-%d: %s",  par_cnt++, s.c_str());
+					printf("parameter index-%d: %s\n",  par_cnt++, s.c_str());
 				}
 				break;
 			case ' ':
@@ -165,6 +165,45 @@ char* kernel_name_parameter(const char* s) {
   printf("func demangle full: %s\n", name);
 	return ret;
 }
+static unsigned long __devptr_start = 0;
+
+// pointer mark and format
+// | dev_ptr magic number | pointer |
+
+#define NULL_DEV_PTR_OFFSET ((unsigned long)0x2e2f << 48)
+#define DEV_PTR_MARK        ((unsigned long)0x2e2e << 48)
+#define DEV_PTR_MASK        ((unsigned long)0xffff << 48)
+
+template<typename T>
+static inline void devOffsetToPtr(T* ptr) {
+    if (ptr == NULL) return;
+    auto val = (unsigned long)*ptr;
+    if ((val & DEV_PTR_MASK) == NULL_DEV_PTR_OFFSET) {
+        *ptr = NULL;
+    } else if ((unsigned long)val == 0) {
+        // if this is a null, then this null is supplied by the app
+    } else {
+        *ptr = (T)((val + __devptr_start) & (~DEV_PTR_MASK));
+    }
+    // log_info("offset %lx -> %lx %lx", val, *ptr, __devptr_start);
+}
+
+template<typename T>
+static inline void devPtrToOffset(T* offset) {
+    if (offset == NULL) return;
+    auto val = (unsigned long)*offset;
+    if ((unsigned long)val == 0) {
+        // do nothing, as this is a zero
+    } else {
+        *offset = (T)((val - __devptr_start) | DEV_PTR_MARK);
+    }
+    // log_info("ptr %lx -> %lx %lx", val, *offset, __devptr_start);
+}
+
+static inline bool isDevOffset(unsigned long offset) {
+    return ((offset & DEV_PTR_MASK) == DEV_PTR_MARK);
+}
+
 }
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
@@ -181,7 +220,6 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
 
-    printf("kernel name parameter: %s\n",A::kernel_name_parameter(deviceFunc.c_str()));
     printf("success\n");
     
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
@@ -207,11 +245,30 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
                     parameters[infoFunction.params.size() - 1 - n_par] = param.size;
                     n_par ++;
                 }
+    auto par_types = A::kernel_name_parameter(deviceFunc.c_str());
+    printf("kernel name parameter: %s\n",par_types);
 
     for (int i = 0;i < parameter_len;i++) {
         args[i] = reinterpret_cast<void *>((byte *)args_buf + total_offset);
         printf("total offset: %d; length: %d\n",total_offset,parameters[i]);
         total_offset += parameters[i];
+        if (par_types[i] == '*') {
+            auto val_ptr = (unsigned long*)(args[i]);
+            auto orig_val = *val_ptr;
+            A::devOffsetToPtr((void**)args[i]);
+            printf("transform %d (%lx -> %lx)", i, orig_val, *val_ptr);
+        } else if (par_types[i] == 'L') {
+            // lambda function
+            printf("transform lambda %d", i);
+            auto lambda_pars = (unsigned long*)(args[i]);
+            for (int j = 0;j < parameters[i] / sizeof(void*);j++) {
+                if (A::isDevOffset(lambda_pars[j])) {
+                    A::devOffsetToPtr(&lambda_pars[j]);
+                }
+            }
+        } else {
+            printf("not transform %d %d", i, parameters[i]);
+        }
     }
 
 
