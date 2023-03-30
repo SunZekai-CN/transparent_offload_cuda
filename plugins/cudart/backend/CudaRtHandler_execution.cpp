@@ -162,6 +162,7 @@ char* kernel_name_parameter(const char* s) {
 			ret[i] = '$';
 	}
 	ret[parameters.size()] = '\0';
+  printf("func demangle full: %s\n", name);
 	return ret;
 }
 }
