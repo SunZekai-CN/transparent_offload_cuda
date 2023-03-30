@@ -60,6 +60,8 @@ function(gvirtus_add_backend)
             ${ARGV})
     target_link_libraries(${PROJECT_NAME} ${LIBLOG4CPLUS} gvirtus-common gvirtus-communicators)
     target_link_libraries(${PROJECT_NAME} lz4)
+    target_link_libraries(${PROJECT_NAME} dl)
+    target_link_libraries(${PROJECT_NAME} iberty)
     install(TARGETS ${PROJECT_NAME}
             LIBRARY DESTINATION ${GVIRTUS_HOME}/lib)
 endfunction()
