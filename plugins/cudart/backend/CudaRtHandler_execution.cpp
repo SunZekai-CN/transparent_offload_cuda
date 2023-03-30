@@ -178,7 +178,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
 
-    printf("kernel name parameter: %s\n",kernel_name_parameter(deviceFunc));
+    printf("kernel name parameter: %s\n",kernel_name_parameter(deviceFunc.c_str()));
     printf("success\n");
     
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
