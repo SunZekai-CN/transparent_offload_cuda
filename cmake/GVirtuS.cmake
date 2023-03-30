@@ -56,6 +56,7 @@ function(gvirtus_add_backend)
     if(NOT "${PROJECT_NAME}" STREQUAL "gvirtus-plugin-${wrapped_library}")
         message(FATAL_ERROR "This project should be named gvirtus-plugin-${wrapped_library}")
     endif()
+    include_directories(/usr/include/libiberty/)
     add_library(${PROJECT_NAME} SHARED
             ${ARGV})
     target_link_libraries(${PROJECT_NAME} ${LIBLOG4CPLUS} gvirtus-common gvirtus-communicators)
