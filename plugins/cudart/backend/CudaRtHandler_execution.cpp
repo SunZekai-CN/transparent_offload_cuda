@@ -29,7 +29,6 @@
 #include "cuda_runtime_compat.h"
 #endif
 
-#include "demangle.h"
 using namespace std;
 
 CUDA_ROUTINE_HANDLER(ConfigureCall) {
@@ -91,6 +90,8 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
 }
 
 namespace A{
+#include "demangle.h"
+
 char* kernel_name_parameter(const char* s) {
 	auto name = cplus_demangle(s, DMGL_PARAMS | DMGL_AUTO);
 	auto cur = name;
