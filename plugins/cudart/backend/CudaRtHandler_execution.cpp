@@ -30,7 +30,7 @@
 #endif
 
 #include "demangle.h"
-
+using namespace std;
 
 CUDA_ROUTINE_HANDLER(ConfigureCall) {
   /* cudaError_t cudaConfigureCall(dim3 gridDim, dim3 blockDim,
@@ -90,6 +90,7 @@ CUDA_ROUTINE_HANDLER(FuncSetCacheConfig) {
   }
 }
 
+namespace A{
 char* kernel_name_parameter(const char* s) {
 	auto name = cplus_demangle(s, DMGL_PARAMS | DMGL_AUTO);
 	auto cur = name;
@@ -162,7 +163,7 @@ char* kernel_name_parameter(const char* s) {
 	ret[parameters.size()] = '\0';
 	return ret;
 }
-
+}
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
     printf("entering lauchkernel\n");
@@ -178,7 +179,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
 
-    printf("kernel name parameter: %s\n",kernel_name_parameter(deviceFunc.c_str()));
+    printf("kernel name parameter: %s\n",A::kernel_name_parameter(deviceFunc.c_str()));
     printf("success\n");
     
     printf("cudaLaunchKernel - hostFunc:%x\n",func);
