@@ -106,7 +106,7 @@ char* kernel_name_parameter(const char* s) {
 				if (matching_stack.back() == '<') {
 					matching_stack.pop_back();
 				} else {
-					log_err("error!!");
+					printf("error!!");
 				}
 				break;
 			case '(': 
@@ -120,13 +120,13 @@ char* kernel_name_parameter(const char* s) {
 				if (matching_stack.back() == '(') {
 					matching_stack.pop_back();
 				} else {
-					log_err("error!!");
+					printf("error!!");
 				}
 				if (matching_stack.size() == 0) {
 					auto s = std::string(last_name, cur - last_name);
 					if (s == "anonymous namespace") break;
 					parameters.push_back(s);
-					log_info("parameter index-%d: %s",  par_cnt++, s.c_str());
+					printf("parameter index-%d: %s",  par_cnt++, s.c_str());
 					// std::cout << "par ending here: " << cur << "\n";
 				}
 				break;
@@ -137,7 +137,7 @@ char* kernel_name_parameter(const char* s) {
 					last_name = cur + 1;
 					if (s == "anonymous namespace") break;
 					parameters.push_back(s);
-					log_info("parameter index-%d: %s",  par_cnt++, s.c_str());
+					printf("parameter index-%d: %s",  par_cnt++, s.c_str());
 				}
 				break;
 			case ' ':
