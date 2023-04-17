@@ -220,7 +220,7 @@ extern "C" __host__ cudaError_t cudaLaunchKernel ( const void* func, dim3 gridDi
     // for (int i=0;i<infoFunction.params.size();i++) {
     //     printf("%d: %x -> %x\n",i,args[i],*(reinterpret_cast<unsigned int *>(args[i])));
     // }
-    printf("cudalauchkernel finish\n");
+    // printf("cudalauchkernel finish\n");
     //CudaRtFrontend::hexdump(pArgs,argsSize);
     // CudaRtFrontend::AddHostPointerForArguments<byte>(pArgs, argsSize);
     CudaRtFrontend::AddHostPointerForArguments(args_copy, total_parameter_sizes);
