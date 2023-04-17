@@ -129,7 +129,7 @@ void Frontend::Init(Communicator *c) {
 }
 
 Frontend::~Frontend() {
-  printf("iam ~fronted\n");
+  // printf("iam ~fronted\n");
   if (mpFrontends != NULL) {
     pid_t tid = syscall(SYS_gettid);  // getting frontend's tid
     auto env = getenv("GVIRTUS_DUMP_STATS");
@@ -171,7 +171,7 @@ Frontend *Frontend::GetFrontend(Communicator *c) {
 }
 
 void Frontend::Execute(const char *routine, const Buffer *input_buffer) {
-  printf("iam execute: %s\n",routine);
+  // printf("iam execute: %s\n",routine);
   if (input_buffer == nullptr) input_buffer = mpInputBuffer.get();
   pid_t tid = syscall(SYS_gettid);
   if (mpFrontends->find(tid) != mpFrontends->end()) {
