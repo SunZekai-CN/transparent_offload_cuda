@@ -109,17 +109,17 @@ FatBinary::FatBinary(void* ptr) {
 		}
 	}
 	else if (*(int*)cubin_ptr == __cudaFatMAGIC2) {
-		printf("Found new fat binary format!");
+		// printf("Found new fat binary format!");
 		__cudaFatCudaBinary2* binary = (__cudaFatCudaBinary2*) cubin_ptr;
 		__cudaFatCudaBinary2Header* header =
 			(__cudaFatCudaBinary2Header*) binary->fatbinData;
 		
-		printf(" binary size is: %llu bytes\n",header->length);
+		// printf(" binary size is: %llu bytes\n",header->length);
 				
 		char* base = (char*)(header + 1);
 		long long unsigned int offset = 0;
 		__cudaFatCudaBinary2EntryRec* entry = (__cudaFatCudaBinary2EntryRec*)(base);
-		printf("binary flag: %llu, uncompress size: %llu\n",entry->flags,entry->uncompressedBinarySize);
+		// printf("binary flag: %llu, uncompress size: %llu\n",entry->flags,entry->uncompressedBinarySize);
 
 		while (offset < header->length) {
 			_name = (char*)entry + entry->name;
@@ -128,7 +128,7 @@ FatBinary::FatBinary(void* ptr) {
 					_ptx  = (char*)entry + entry->binary;
 					if(entry->flags & COMPRESSED_PTX)
 					{
-						printf("compressed ptx\n");
+						// printf("compressed ptx\n");
 						_cubin = 0;
 						_ptx = 0;
 						return;
@@ -146,9 +146,9 @@ FatBinary::FatBinary(void* ptr) {
 						::memset(compressed_input_clean, 0, compressed_size + 32);
 						::memcpy(compressed_input_clean, compressed_input, compressed_size);
 						auto r = ::LZ4_decompress_safe((const char*)compressed_input_clean, (char*)uncompressed_output, compressed_size, uncompressed_size);
-						if (r != compressed_size && -r < (compressed_size  - 32)) {
-							printf("error in decompressing fatbin: %ld != %ld ", uncompressed_size, compressed_size);
-						} 
+						// if (r != compressed_size && -r < (compressed_size  - 32)) {
+						// 	printf("error in decompressing fatbin: %ld != %ld ", uncompressed_size, compressed_size);
+						// } 
 						/*
 						else {
 							printf("same in decompressing fatbin: " << r << " == " << uncompressed_size << " " << compressed_size);
@@ -167,24 +167,24 @@ FatBinary::FatBinary(void* ptr) {
 		}
 
 	}
-	else {
-		printf( "unknown fat binary magic number\n");
-			// << std::hex << *(int*)cubin_ptr);		
-	}
+	// else {
+	// 	printf( "unknown fat binary magic number\n");
+	// 		// << std::hex << *(int*)cubin_ptr);		
+	// }
 	
-	if (!_ptx) {
-		printf("registered, contains NO PTX\n");
-	}
-	else {
-		printf("registered, contains PTX\n");	
-	}
+	// if (!_ptx) {
+	// 	printf("registered, contains NO PTX\n");
+	// }
+	// else {
+	// 	printf("registered, contains PTX\n");	
+	// }
 
-	if (!_cubin) {
-		printf("registered, contains NO CUBIN\n");
-	}
-	else {
-		printf("registered, contains CUBIN\n");	
-	}
+	// if (!_cubin) {
+	// 	printf("registered, contains NO CUBIN\n");
+	// }
+	// else {
+	// 	printf("registered, contains CUBIN\n");	
+	// }
 }
 
 #include "cuda.h"
