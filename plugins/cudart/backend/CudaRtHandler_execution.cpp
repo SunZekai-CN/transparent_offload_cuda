@@ -299,7 +299,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     // }
     // else printf("success in this kernel\n");
 
-    LOG4CPLUS_DEBUG(logger, "LaunchKernel: success");
+    // LOG4CPLUS_DEBUG(logger, "LaunchKernel: success");
     // printf("cudalauchkernel finish\n");
 
   return std::make_shared<Result>(exit_code);

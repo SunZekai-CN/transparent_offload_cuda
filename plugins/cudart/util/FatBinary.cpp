@@ -832,7 +832,7 @@ int FatBinary::parse() {
 fail_symbol:
 fail_cubin_func_type:
 fail_malloc_func:
-	printf("error in parsing");
+	// printf("error in parsing");
 
 	return ret;
 }
