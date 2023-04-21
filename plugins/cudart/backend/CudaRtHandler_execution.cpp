@@ -108,28 +108,28 @@ char* kernel_name_parameter(const char* s) {
 				if (matching_stack.back() == '<') {
 					matching_stack.pop_back();
 				} else {
-					// printf("error!!");
+					printf("error!!");
 				}
 				break;
 			case '(': 
 				matching_stack.push_back('(');
 				if (matching_stack.size() == 1) {
-					// std::cout << "par starting here: " << cur << "\n";
+					std::cout << "par starting here: " << cur << "\n";
 					last_name = cur + 1;
 				}
 				break;
 			case ')':
 				if (matching_stack.back() == '(') {
 					matching_stack.pop_back();
-				// } else {
-					// printf("error!!");
+				} else {
+					printf("error!!");
 				}
 				if (matching_stack.size() == 0) {
 					auto s = std::string(last_name, cur - last_name);
 					if (s == "anonymous namespace") break;
 					parameters.push_back(s);
-					// printf("parameter index-%d: %s\n",  par_cnt++, s.c_str());
-					// std::cout << "par ending here: " << cur << "\n";
+					printf("parameter index-%d: %s\n",  par_cnt++, s.c_str());
+					std::cout << "par ending here: " << cur << "\n";
 				}
 				break;
 			case ',':
@@ -139,7 +139,7 @@ char* kernel_name_parameter(const char* s) {
 					last_name = cur + 1;
 					if (s == "anonymous namespace") break;
 					parameters.push_back(s);
-					// printf("parameter index-%d: %s\n",  par_cnt++, s.c_str());
+					printf("parameter index-%d: %s\n",  par_cnt++, s.c_str());
 				}
 				break;
 			case ' ':
@@ -162,7 +162,7 @@ char* kernel_name_parameter(const char* s) {
 			ret[i] = '$';
 	}
 	ret[parameters.size()] = '\0';
-  // printf("func demangle full: %s\n", name);
+  printf("func demangle full: %s\n", name);
 	return ret;
 }
 static unsigned long __devptr_start = 0;
@@ -207,31 +207,31 @@ static inline bool isDevOffset(unsigned long offset) {
 }
 CUDA_ROUTINE_HANDLER(LaunchKernel) {
     Logger logger = Logger::getInstance(LOG4CPLUS_TEXT("LaunchKernel"));
-    // printf("entering lauchkernel\n");
+    printf("entering lauchkernel\n");
 
-    // auto last_code = cudaDeviceSynchronize();
-    // if (last_code != cudaSuccess) {
-    //     printf("error in previous kernel\n");
-    //     printf("failed: %s\n",cudaGetErrorString(last_code));
-    // }
-    // else printf("success in previous kernel\n");
+    auto last_code = cudaDeviceSynchronize();
+    if (last_code != cudaSuccess) {
+        printf("error in previous kernel\n");
+        printf("failed: %s\n",cudaGetErrorString(last_code));
+    }
+    else printf("success in previous kernel\n");
 
     void *func = input_buffer->GetFromMarshal<void *>();
     std::string deviceFunc=pThis->getDeviceFunc(const_cast<void *>(func));
     NvInfoFunction infoFunction = pThis->getInfoFunc(deviceFunc);
 
-    // printf("success\n");
+    printf("success\n");
     
-    // printf("cudaLaunchKernel - hostFunc:%x\n",func);
-    // printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
-    // printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
+    printf("cudaLaunchKernel - hostFunc:%x\n",func);
+    printf("cudaLaunchKernel - deviceFunc:%s\n", deviceFunc.c_str());
+    printf("cudaLaunchKernel - parameters:%d\n",infoFunction.params.size());
      
-    // size_t argsSize=0;
-    // for (NvInfoKParam infoKParam:infoFunction.params) {
-    //     // printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
-    //     //       infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
-    //     argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
-    // }
+    size_t argsSize=0;
+    for (NvInfoKParam infoKParam:infoFunction.params) {
+        // printf("index:%d align:%x ordinal:%d offset:%d a:%x size:%d %d b:%x\n",  infoKParam.index, infoKParam.index, infoKParam.ordinal,
+        //       infoKParam.offset, infoKParam.a, (infoKParam.size & 0xf8) >> 2, infoKParam.size & 0x07, infoKParam.b);
+        argsSize = argsSize + ((infoKParam.size & 0xf8) >> 2);
+    }
     dim3 gridDim = input_buffer->Get<dim3>();
     dim3 blockDim = input_buffer->Get<dim3>();
 
@@ -246,20 +246,20 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
                     n_par ++;
                 }
     auto par_types = A::kernel_name_parameter(deviceFunc.c_str());
-    // printf("kernel name parameter: %s\n",par_types);
+    printf("kernel name parameter: %s\n",par_types);
 
     for (int i = 0;i < parameter_len;i++) {
         args[i] = reinterpret_cast<void *>((byte *)args_buf + total_offset);
-        // printf("total offset: %d; length: %d\n",total_offset,parameters[i]);
+        printf("total offset: %d; length: %d\n",total_offset,parameters[i]);
         total_offset += parameters[i];
         if (par_types[i] == '*') {
             auto val_ptr = (unsigned long*)(args[i]);
             auto orig_val = *val_ptr;
             A::devOffsetToPtr((void**)args[i]);
-            // printf("transform %d (%lx -> %lx)", i, orig_val, *val_ptr);
+            printf("transform %d (%lx -> %lx)", i, orig_val, *val_ptr);
         } else if (par_types[i] == 'L') {
             // lambda function
-            // printf("transform lambda %d", i);
+            printf("transform lambda %d", i);
             auto lambda_pars = (unsigned long*)(args[i]);
             for (int j = 0;j < parameters[i] / sizeof(void*);j++) {
                 if (A::isDevOffset(lambda_pars[j])) {
@@ -267,7 +267,7 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
                 }
             }
         } else {
-            // printf("not transform %d %d", i, parameters[i]);
+            printf("not transform %d %d", i, parameters[i]);
         }
     }
 
@@ -293,14 +293,14 @@ CUDA_ROUTINE_HANDLER(LaunchKernel) {
     // }
     cudaError_t exit_code = cudaLaunchKernel(func,gridDim,blockDim,args,sharedMem,stream);
 
-    // if (exit_code != cudaSuccess) {
-    //     printf("error in this kernel\n");
-    //     printf("failed: %s\n",cudaGetErrorString(exit_code));
-    // }
-    // else printf("success in this kernel\n");
+    if (exit_code != cudaSuccess) {
+        printf("error in this kernel\n");
+        printf("failed: %s\n",cudaGetErrorString(exit_code));
+    }
+    else printf("success in this kernel\n");
 
-    // LOG4CPLUS_DEBUG(logger, "LaunchKernel: success");
-    // printf("cudalauchkernel finish\n");
+    LOG4CPLUS_DEBUG(logger, "LaunchKernel: success");
+    printf("cudalauchkernel finish\n");
 
   return std::make_shared<Result>(exit_code);
 }
